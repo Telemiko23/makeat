@@ -29,3 +29,5 @@
   color: "2f6b4f"
 - name: agent/legal
   color: "2f6b4f"
+- name: agent/tech-lead
+  color: "2f6b4f"

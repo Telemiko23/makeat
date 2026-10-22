@@ -19,6 +19,11 @@ docs/               Plan, architecture, decisions, release stories
 ## Team roles
 Work is done by roles defined in `.claude/agents/`. Before working, pick the role that owns the task and follow its definition. A task touching several areas has one lead role; the others review.
 
+## Reviews and merging
+- Liran does not approve PRs by hand. The `tech-lead` role reviews every PR and decides: merge, request changes, or escalate to Liran.
+- Escalate (do not merge) anything that changes product scope, spends money, touches production or payments, carries legal/privacy risk, or publishes outside the project.
+- Nothing merges with red CI, a conflict, or an open blocking finding.
+
 ## Contribution tracking (required)
 - Every commit ends with a role trailer, e.g. `Agent-Role: mobile-dev` (several allowed, one per line), in the same final block as any other trailers (no blank line between them), or git will not read it.
 - Every issue and PR carries a matching label `agent/<role>`.
