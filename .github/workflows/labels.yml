@@ -1,0 +1,24 @@
+name: Sync labels
+on:
+  push:
+    branches: [main]
+    paths: [.github/labels.yml]
+  workflow_dispatch:
+permissions:
+  contents: read
+  issues: write
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Create or update role labels
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          # Each entry is "- name: <name>" followed by "  color: <hex>"; quotes and comments are stripped.
+          sed -E 's/#.*//; s/["'\'']//g; s/[[:space:]]+$//' .github/labels.yml \
+            | awk '/name:/ {n=$NF} /color:/ {print n, $NF}' \
+            | while read -r name color; do
+                gh label create "$name" --color "$color" --force --repo "$GITHUB_REPOSITORY"
+              done
