@@ -19,6 +19,10 @@ docs/               Plan, architecture, decisions, release stories
 ## Team roles
 Work is done by roles defined in `.claude/agents/`. Before working, pick the role that owns the task and follow its definition. A task touching several areas has one lead role; the others review.
 
+## Architecture
+- `tech-lead` owns the architecture. Structural decisions live in `docs/decisions/` as numbered records; read the accepted ones before designing anything.
+- A change that departs from an accepted record needs a new record first.
+
 ## Reviews and merging
 - Liran does not approve PRs by hand. The `tech-lead` role reviews every PR and decides: merge, request changes, or escalate to Liran.
 - Escalate (do not merge) anything that changes product scope, spends money, touches production or payments, carries legal/privacy risk, or publishes outside the project.
