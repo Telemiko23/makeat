@@ -10,6 +10,7 @@ Expo (SDK 58) + React Native + TypeScript, Expo Router, i18next. Hebrew-first, R
 On first launch the app sets native RTL; layout is also forced RTL in code, so it renders correctly either way.
 
 ## Checks
+- `npm run lint`
 - `npm run typecheck`
 - `npx expo export --platform android` (bundles the app)
 - `npm run build:web && npm run test:e2e` (Playwright end-to-end, phone size, light and dark)

@@ -7,14 +7,13 @@ import { useTheme } from '../theme/useTheme';
 
 export default function Onboarding() {
   const { t } = useTranslation();
-  const { c, rtl } = useTheme();
-  const align = { textAlign: rtl ? 'right' : 'left', writingDirection: rtl ? 'rtl' : 'ltr' } as const;
+  const { c, text: align } = useTheme();
 
   return (
     <SafeAreaView style={styles.safe}>
       <Text style={[styles.title, { color: c.text }, align]}>{t('onboarding.title')}</Text>
       <Text style={[styles.body, { color: c.muted }, align]}>{t('onboarding.body')}</Text>
-      <Pressable accessibilityRole="button" onPress={() => router.back()} style={[styles.back, { borderColor: c.accent }]}>
+      <Pressable accessibilityRole="button" onPress={() => (router.canGoBack() ? router.back() : router.replace('/'))} style={[styles.back, { borderColor: c.accent }]}>
         <Text style={{ color: c.accent, fontSize: fontSize.body, fontWeight: '700' }}>{t('onboarding.back')}</Text>
       </Pressable>
     </SafeAreaView>

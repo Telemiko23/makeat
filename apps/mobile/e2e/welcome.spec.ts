@@ -62,9 +62,11 @@ test.describe('Welcome screen', () => {
   });
 });
 
-test('deep link to onboarding works on a fresh load', async ({ page }) => {
+test('deep link to onboarding works on a fresh load, and back goes home', async ({ page }) => {
   await page.goto('/onboarding');
   await expect(page.getByText('השאלון בדרך')).toBeVisible();
+  await page.getByRole('button', { name: 'חזרה' }).click();
+  await expect(page.getByText('מתכננים, משווים, חוסכים.')).toBeVisible();
 });
 
 test('dark mode uses a dark background', async ({ page }, testInfo) => {

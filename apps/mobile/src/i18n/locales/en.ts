@@ -1,6 +1,7 @@
 import type { Strings } from './he';
 
 export const en: Strings = {
+  brand: 'Makeat',
   welcome: {
     tagline: 'Plan, compare, save.',
     intro: 'Tell us who lives at home and what you eat, and we will build your meal plan, shopping list and the best-value basket.',

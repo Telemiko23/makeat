@@ -9,13 +9,12 @@ const STEPS = ['plan', 'compare', 'cook'] as const;
 
 export default function Welcome() {
   const { t } = useTranslation();
-  const { c, rtl } = useTheme();
-  const align = { textAlign: rtl ? 'right' : 'left', writingDirection: rtl ? 'rtl' : 'ltr' } as const;
+  const { c, text: align } = useTheme();
 
   return (
     <SafeAreaView style={styles.safe}>
       <ScrollView contentContainerStyle={styles.content}>
-        <Text style={[styles.brand, { color: c.accent }, align]}>Makeat</Text>
+        <Text style={[styles.brand, { color: c.accent }, align]}>{t('brand')}</Text>
         <Text style={[styles.tagline, { color: c.text }, align]}>{t('welcome.tagline')}</Text>
         <Text style={[styles.body, { color: c.muted }, align]}>{t('welcome.intro')}</Text>
 
