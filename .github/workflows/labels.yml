@@ -5,6 +5,7 @@ on:
     paths: [.github/labels.yml]
   workflow_dispatch:
 permissions:
+  contents: read
   issues: write
 jobs:
   sync:
@@ -15,6 +16,9 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          grep -oP '(?<=name: ).*' .github/labels.yml | while read -r name; do
-            gh label create "$name" --color 2f6b4f --force --repo "$GITHUB_REPOSITORY"
-          done
+          # Each entry is "- name: <name>" followed by "  color: <hex>"; quotes and comments are stripped.
+          sed -E 's/#.*//; s/["'\'']//g; s/[[:space:]]+$//' .github/labels.yml \
+            | awk '/name:/ {n=$NF} /color:/ {print n, $NF}' \
+            | while read -r name color; do
+                gh label create "$name" --color "$color" --force --repo "$GITHUB_REPOSITORY"
+              done
