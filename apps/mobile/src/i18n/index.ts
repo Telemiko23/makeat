@@ -1,3 +1,8 @@
+// Hermes may lack Intl.PluralRules, which i18next plurals need. The polyfill
+// installs itself only when missing; locale data registers only with it.
+import '@formatjs/intl-pluralrules/polyfill.js';
+import '@formatjs/intl-pluralrules/locale-data/en.js';
+import '@formatjs/intl-pluralrules/locale-data/he.js';
 import { createInstance } from 'i18next';
 import { initReactI18next } from 'react-i18next';
 import { I18nManager } from 'react-native';

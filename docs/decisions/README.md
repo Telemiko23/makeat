@@ -10,4 +10,7 @@ Owned by `tech-lead`. Read the accepted records before designing anything. New d
 | [0004](0004-layout-direction.md) | Layout direction (RTL/LTR) | accepted |
 | [0005](0005-internal-android-builds.md) | Internal Android builds | accepted |
 | [0006](0006-enforce-merge-commits.md) | Enforce merge commits in repository settings | proposed |
-| [0008](0008-brand-fonts.md) | Brand fonts bundled in the app | accepted |
+| [0007](0007-household-profile-on-device.md) | Household profile stays on the device | accepted |
+| [0008](0008-quote-basis-follows-shopping-mode.md) | Quote basis follows how the household shops | accepted |
+| [0009](0009-debug-signing-through-alpha.md) | Debug-signed builds through the internal alpha | accepted |
+| [0010](0010-brand-fonts.md) | Brand fonts bundled in the app | accepted |

@@ -46,8 +46,8 @@ test.describe('Welcome screen', () => {
     const start = page.getByRole('button', { name: 'בואו נתחיל' });
     await expect(start).toBeVisible();
     await start.click();
-    await expect(page).toHaveURL(/\/onboarding$/);
-    await expect(page.getByText('השאלון בדרך')).toBeVisible();
+    await expect(page).toHaveURL(/\/onboarding\/household$/);
+    await expect(page.getByText('מי גר בבית?')).toBeVisible();
   });
 
   test('back from onboarding returns to welcome', async ({ page }) => {
@@ -67,7 +67,8 @@ test.describe('Welcome screen', () => {
 
 test('deep link to onboarding works on a fresh load, and back goes home', async ({ page }) => {
   await page.goto('/onboarding');
-  await expect(page.getByText('השאלון בדרך')).toBeVisible();
+  await expect(page).toHaveURL(/\/onboarding\/household$/);
+  await expect(page.getByText('מי גר בבית?')).toBeVisible();
   await page.getByRole('button', { name: 'חזרה' }).click();
   await expect(page.getByText('מתכננים, משווים, חוסכים.')).toBeVisible();
 });

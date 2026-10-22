@@ -1,7 +1,10 @@
 import { router } from 'expo-router';
 import { useTranslation } from 'react-i18next';
-import { Image, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { Image, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { Button, Card, H2, P } from '../components/ui';
+import { weeklyPortions } from '../domain/portions';
+import { useHousehold } from '../state/household';
 import { fontFamily, fontSize, lineHeight, radius, spacing } from '../theme/tokens';
 import { useTheme } from '../theme/useTheme';
 
@@ -14,6 +17,13 @@ const LOGO = {
 export default function Welcome() {
   const { t } = useTranslation();
   const { c, scheme, text: align } = useTheme();
+  const { ready, saved, edit } = useHousehold();
+
+  const onPress = () => {
+    if (!saved) return router.push('/onboarding/household');
+    edit();
+    router.push('/onboarding/summary');
+  };
 
   return (
     <SafeAreaView style={styles.safe}>
@@ -39,13 +49,18 @@ export default function Welcome() {
           ))}
         </View>
 
-        <Pressable
-          accessibilityRole="button"
-          onPress={() => router.push('/onboarding')}
-          style={({ pressed }) => [styles.cta, { backgroundColor: c.accent, opacity: pressed ? 0.85 : 1 }]}
-        >
-          <Text style={[styles.ctaText, { color: c.onAccent }]}>{t('welcome.start')}</Text>
-        </Pressable>
+        {saved ? (
+          <Card>
+            <H2>{t('welcome.profileTitle')}</H2>
+            <P>{t('welcome.profileMembers', { count: saved.members.length })}</P>
+            <P muted>{t('welcome.profilePortions', { total: weeklyPortions(saved).total })}</P>
+          </Card>
+        ) : null}
+
+        {/* Disabled until the saved profile has loaded, so the right flow opens. */}
+        <View style={styles.cta}>
+          <Button disabled={!ready} label={t(saved ? 'welcome.editProfile' : 'welcome.start')} onPress={onPress} />
+        </View>
         <Text style={[styles.caption, { color: c.muted }]}>{t('welcome.freeMonth')}</Text>
       </ScrollView>
     </SafeAreaView>
@@ -71,7 +86,6 @@ const styles = StyleSheet.create({
   badge: { width: 28, height: 28, borderRadius: radius.pill, alignItems: 'center', justifyContent: 'center' },
   badgeText: { fontFamily: fontFamily.display },
   stepText: { flex: 1, fontFamily: fontFamily.body, fontSize: fontSize.body },
-  cta: { marginTop: spacing.lg, paddingVertical: spacing.md, borderRadius: radius.md, alignItems: 'center' },
-  ctaText: { fontFamily: fontFamily.display, fontSize: fontSize.subtitle },
+  cta: { marginTop: spacing.lg },
   caption: { fontFamily: fontFamily.body, fontSize: fontSize.caption, textAlign: 'center' },
 });

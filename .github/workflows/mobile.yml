@@ -21,6 +21,7 @@ jobs:
       - run: npm ci
       - run: npm run lint
       - run: npm run typecheck
+      - run: npm test
       - run: npx expo export --platform android --output-dir /tmp/export
   e2e:
     # Playwright 1.56 (pinned to match the local sandbox browser) does not support Ubuntu 26.04.

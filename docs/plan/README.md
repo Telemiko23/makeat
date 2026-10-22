@@ -8,7 +8,7 @@ The full team and architecture plan is published at https://claude.ai/artifact/L
 | Name | Makeat |
 | Stack | Expo + React Native + TypeScript; Supabase (Postgres, auth, storage); Python price ingestion |
 | Pricing | First month free, then a symbolic monthly price with a discounted annual plan |
-| Default quote | Online order with home delivery, delivery fee included |
+| Quote basis | Follows the household's answer: online order with delivery fee included, in-store shelf prices, or both |
 | Price freshness | Hourly pulls, re-price before checkout, update time shown on every quote |
 | Recipes | Own recipes adapted from broad research, own photos, no paid creators |
 | Loyalty clubs | Asked in onboarding; club promos only for members |

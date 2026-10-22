@@ -1,4 +1,4 @@
-# 0008. Brand fonts bundled in the app
+# 0010. Brand fonts bundled in the app
 
 - Status: accepted
 - Date: 2026-10-22
