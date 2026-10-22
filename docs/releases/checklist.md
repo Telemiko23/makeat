@@ -18,6 +18,7 @@ Owned by `qa`. Every item is green, or the exception is approved by Liran, befor
 ## Accessibility and privacy
 - [ ] Touch targets, contrast and screen-reader labels on changed screens (Israeli Standard 5568)
 - [ ] No sensitive data (allergies, children) in logs or analytics events
+- [ ] From v0.2: APK signed with the project keystore, not the debug key (ADR 0009)
 
 ## Release docs
 - [ ] `CONTRIBUTIONS-<version>.md` generated
