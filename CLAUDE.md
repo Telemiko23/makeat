@@ -36,7 +36,7 @@ Work is done by roles defined in `.claude/agents/`. Before working, pick the rol
 ## Product rules that code must never break
 - Allergen and kashrut filtering is deterministic code. An LLM may suggest recipes or substitutions, but its output always passes the hard rules before the user sees it.
 - Recipes are our own adaptations in our own words, with our own photos. Never copy recipe text or photos from another source as-is.
-- Prices: show the last-update time on every quote, and re-price the basket right before checkout. Default quote is online delivery, delivery fee included.
+- Prices: show the last-update time on every quote, and re-price the basket right before checkout. Quotes follow how the user shops (asked in onboarding): online quotes include the delivery fee, in-store quotes use shelf prices with no fee.
 - Loyalty-club promos apply only if the user said they are a member.
 - Collect the minimum personal data. Allergies and children's data are sensitive.
 - Baby-feeding content requires dietitian sign-off before release.
