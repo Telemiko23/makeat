@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(gh api -X PUT repos/Telemiko23/makeat/pulls/*/merge *)",
+      "Bash(gh api repos/Telemiko23/makeat/issues/*/comments *)"
+    ]
+  }
+}
