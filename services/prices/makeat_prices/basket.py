@@ -49,7 +49,7 @@ class Quote:
     delivery_fee: Decimal | None = None
     below_min_order: bool = False
     total: Decimal = Decimal("0")
-    data_as_of: datetime | None = None
+    data_as_of: datetime | None = None  # file publication time, else newest price change
 
 
 def _money(value: Decimal) -> Decimal:
@@ -106,7 +106,7 @@ def quote(
             for code in promo.items:
                 by_item.setdefault(code, []).append(promo)
 
-    result = Quote(chain_id=prices.chain_id, store_id=prices.store_id, data_as_of=prices.latest_update)
+    result = Quote(chain_id=prices.chain_id, store_id=prices.store_id, data_as_of=prices.published_at or prices.latest_update)
     for line in lines:
         item = prices.items.get(line.item_code)
         if item is None:

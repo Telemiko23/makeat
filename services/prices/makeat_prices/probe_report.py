@@ -20,7 +20,7 @@ from pathlib import Path
 from zoneinfo import ZoneInfo
 
 from .basket import Line, quote
-from .feeds import load_xml, parse_prices, parse_promotions
+from .feeds import file_timestamp, load_xml, parse_prices, parse_promotions
 
 ISRAEL = ZoneInfo("Asia/Jerusalem")
 
@@ -57,7 +57,7 @@ def ftp_listing(user: str) -> list[str]:
     ftp = FTP_TLS("url.retail.publishedprices.co.il", user, "", timeout=120)
     ftp.trust_server_pasv_ipv4_address = True
     try:
-        return [name for name, facts in ftp.mlsd(facts=["type"]) if facts.get("type") == "file"]
+        return ftp.nlst()  # the server rejects MLSD
     finally:
         ftp.close()
 
@@ -90,6 +90,7 @@ def main(raw: Path) -> int:
             lower = f.name.lower()
             if lower.startswith("pricefull"):
                 pf = parse_prices(load_xml(f.read_bytes()))
+                pf.published_at = file_timestamp(f.name)
                 prices[pf.store_id] = (f.name, pf)
             elif lower.startswith("promofull"):
                 root = load_xml(f.read_bytes())
@@ -98,7 +99,8 @@ def main(raw: Path) -> int:
         for store_id, (name, pf) in sorted(prices.items()):
             print(
                 f"PriceFull store {store_id} ({name}): {len(pf.items)} items, "
-                f"{sum(p.is_weighted for p in pf.items.values())} weighted, newest price change {pf.latest_update}"
+                f"{sum(p.is_weighted for p in pf.items.values())} weighted, published {pf.published_at} "
+                f"({now - pf.published_at if pf.published_at else '?'} ago), newest price change {pf.latest_update}"
             )
         for store_id, (name, ps) in sorted(promos.items()):
             active = [p for p in ps if p.active_at(now)]

@@ -121,6 +121,7 @@ class PriceFile:
     chain_id: str | None
     store_id: str | None
     items: dict[str, Price] = field(default_factory=dict)
+    published_at: datetime | None = None  # from the file name; the body has no timestamp
 
     @property
     def latest_update(self) -> datetime | None:
@@ -166,6 +167,15 @@ def parse_club_codes(values: list[str]) -> frozenset[str]:
         else:
             codes.update(re.findall(r"(?<!\d)(\d)\s*=", value))
     return frozenset(codes or {CLUB_EVERYONE})
+
+
+def file_timestamp(file_name: str) -> datetime | None:
+    """Publication time encoded in a feed file name, Israel local time:
+    'PriceFull7290103152017-001-032-20261022-080014.gz' or 'pricefull7290058140886-039-202607150513.xml'."""
+    m = re.search(r"-(\d{8})-?(\d{4}(?:\d{2})?)(?=\D*$|[-.])", file_name)
+    if not m:
+        return None
+    return _datetime(m.group(1) + m.group(2).ljust(6, "0"))
 
 
 def parse_stores(root: ET.Element) -> list[Store]:
