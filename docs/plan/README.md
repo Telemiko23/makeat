@@ -15,6 +15,8 @@ The full team and architecture plan is published at https://claude.ai/artifact/L
 | Legal | No outside lawyer for now; `legal` role flags risks to Liran |
 | Store accounts | None until closed beta; Google Play first, Apple later |
 | Language | Chat with Liran in Hebrew; everything in the repo in English |
+| Reviews | `tech-lead` role reviews and merges PRs; Liran sets direction and escalations only |
+| QA tooling | Playwright for end-to-end UI tests (web build), Maestro for native Android checks |
 
 ## First price-validation targets
 Liran's own chains: Rami Levy (Petah Tikva), Osher Ad (Kiryat Ono), Haviv (Givat Shmuel, check whether it publishes feeds).
