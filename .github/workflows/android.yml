@@ -1,23 +1,33 @@
 name: Android APK
 on:
+  # On PRs, build only when something that affects the native build changes;
+  # JavaScript-only changes are covered by the Mobile workflow.
   pull_request:
-    paths: [apps/mobile/**, .github/workflows/android.yml]
+    paths:
+      - apps/mobile/app.json
+      - apps/mobile/package.json
+      - apps/mobile/package-lock.json
+      - apps/mobile/assets/**
+      - .github/workflows/android.yml
   push:
     branches: [main]
-    paths: [apps/mobile/**, .github/workflows/android.yml]
+    paths: [apps/mobile/**, packages/**, .github/workflows/android.yml]
   workflow_dispatch:
 concurrency:
   group: android-${{ github.ref }}
-  cancel-in-progress: true
+  # Never cancel a main build mid-publish; superseded PR builds can go.
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 permissions:
-  contents: write
+  contents: read
 jobs:
-  apk:
+  build:
     runs-on: ubuntu-24.04
     timeout-minutes: 60
     defaults:
       run:
         working-directory: apps/mobile
+    outputs:
+      sha: ${{ steps.apk.outputs.sha }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -33,30 +43,45 @@ jobs:
       - run: npm ci
       - name: Generate native Android project
         run: npx expo prebuild --platform android --no-install
-      - name: Build release APK (arm64, signed with the debug key for internal testing)
+      - name: Build release APK (arm64, debug-signed for internal testing)
         working-directory: apps/mobile/android
         run: ./gradlew assembleRelease -PreactNativeArchitectures=arm64-v8a --no-daemon
       - name: Name the APK
         id: apk
+        env:
+          SHA: ${{ github.event.pull_request.head.sha || github.sha }}
         run: |
-          short=$(git rev-parse --short HEAD)
-          version=$(node -p "require('./app.json').expo.version")
-          name="makeat-${version}-${short}.apk"
-          cp android/app/build/outputs/apk/release/app-release.apk "$name"
-          echo "name=$name" >> "$GITHUB_OUTPUT"
+          echo "sha=$SHA" >> "$GITHUB_OUTPUT"
+          cp android/app/build/outputs/apk/release/app-release.apk makeat-android.apk
       - uses: actions/upload-artifact@v4
         with:
-          name: makeat-apk
-          path: apps/mobile/${{ steps.apk.outputs.name }}
+          name: makeat-android-${{ steps.apk.outputs.sha }}
+          path: apps/mobile/makeat-android.apk
           retention-days: 14
-      - name: Publish as the latest internal build
-        if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
+
+  publish:
+    needs: build
+    if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: makeat-android-${{ needs.build.outputs.sha }}
+      - name: Update the rolling android-latest pre-release
         env:
           GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+          SHA: ${{ needs.build.outputs.sha }}
         run: |
-          gh release delete android-latest --yes --cleanup-tag || true
-          gh release create android-latest "${{ steps.apk.outputs.name }}" \
-            --prerelease \
-            --target "$GITHUB_SHA" \
-            --title "Makeat Android (internal build)" \
-            --notes "Latest build of main ($GITHUB_SHA). Internal testing only; signed with a debug key. Install on Android by opening the .apk on the phone."
+          notes="Latest build of main (${SHA}). Internal testing only, debug-signed. Open the .apk on an Android phone to install."
+          if gh release view android-latest > /dev/null 2>&1; then
+            # Replace the asset in place and move the tag, so the link never 404s.
+            gh release upload android-latest makeat-android.apk --clobber
+            gh api -X PATCH "repos/${GH_REPO}/git/refs/tags/android-latest" -f sha="$SHA" -F force=true > /dev/null
+            gh release edit android-latest --notes "$notes"
+          else
+            gh release create android-latest makeat-android.apk --prerelease --target "$SHA" \
+              --title "Makeat Android (internal build)" --notes "$notes"
+          fi

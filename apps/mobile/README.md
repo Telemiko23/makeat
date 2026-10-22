@@ -3,7 +3,7 @@
 Expo (SDK 58) + React Native + TypeScript, Expo Router, i18next. Hebrew-first, RTL.
 
 ## Install on Android (no account needed)
-Every merge to main publishes an APK to the `android-latest` pre-release:
+Every merge to main that changes the app publishes an APK to the `android-latest` pre-release:
 https://github.com/Telemiko23/makeat/releases/tag/android-latest
 Open it on the phone, download the `.apk`, and allow installing from the browser when asked.
 
