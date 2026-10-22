@@ -23,7 +23,8 @@ jobs:
       - run: npm run typecheck
       - run: npx expo export --platform android --output-dir /tmp/export
   e2e:
-    runs-on: ubuntu-latest
+    # Playwright 1.56 (pinned to match the local sandbox browser) does not support Ubuntu 26.04.
+    runs-on: ubuntu-24.04
     defaults:
       run:
         working-directory: apps/mobile
