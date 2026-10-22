@@ -26,6 +26,7 @@ Test device: Samsung Galaxy S24 (Android).
 - **Phase 0 (~2 weeks):** validate price feeds with 2 chains; recipe schema + first 20 recipes; brand direction and design system; repo, roles, routines.
 - **v0.1 internal alpha:** full journey end to end on Liran's phone.
 - **v0.2 closed beta:** 30-50 households; measure real savings.
+  - Rate cooked recipes and save favorites to cook again ([draft spec](../specs/recipe-ratings-and-favorites.md)).
 - **v1.0:** Hebrew launch.
 - **v1.5:** Arabic, Russian; pantry and expiry; baby track.
 - **v2.0:** English; butchers and fish via partners; in-app ordering.
