@@ -2,6 +2,10 @@ import { router } from 'expo-router';
 import { useTranslation } from 'react-i18next';
 import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { Card, H2, P } from '../components/ui';
+import { weeklyPortions } from '../domain/portions';
+import { counted } from '../i18n';
+import { useHousehold } from '../state/household';
 import { fontSize, radius, spacing } from '../theme/tokens';
 import { useTheme } from '../theme/useTheme';
 
@@ -10,6 +14,8 @@ const STEPS = ['plan', 'compare', 'cook'] as const;
 export default function Welcome() {
   const { t } = useTranslation();
   const { c, text: align } = useTheme();
+  const { ready, household, completed } = useHousehold();
+  const profile = ready && completed;
 
   return (
     <SafeAreaView style={styles.safe}>
@@ -29,12 +35,20 @@ export default function Welcome() {
           ))}
         </View>
 
+        {profile ? (
+          <Card>
+            <H2>{t('welcome.profileTitle')}</H2>
+            <P>{counted(t, 'welcome.profileMembers', household.members.length)}</P>
+            <P muted>{t('welcome.profilePortions', { total: weeklyPortions(household).total })}</P>
+          </Card>
+        ) : null}
+
         <Pressable
           accessibilityRole="button"
-          onPress={() => router.push('/onboarding')}
+          onPress={() => router.push(profile ? '/onboarding/summary' : '/onboarding/household')}
           style={({ pressed }) => [styles.cta, { backgroundColor: c.accent, opacity: pressed ? 0.85 : 1 }]}
         >
-          <Text style={[styles.ctaText, { color: c.onAccent }]}>{t('welcome.start')}</Text>
+          <Text style={[styles.ctaText, { color: c.onAccent }]}>{t(profile ? 'welcome.editProfile' : 'welcome.start')}</Text>
         </Pressable>
         <Text style={[styles.caption, { color: c.muted }]}>{t('welcome.freeMonth')}</Text>
       </ScrollView>

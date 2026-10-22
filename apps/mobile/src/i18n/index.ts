@@ -1,4 +1,4 @@
-import { createInstance } from 'i18next';
+import { createInstance, type TFunction } from 'i18next';
 import { initReactI18next } from 'react-i18next';
 import { I18nManager } from 'react-native';
 import { en } from './locales/en';
@@ -27,5 +27,14 @@ i18n.use(initReactI18next).init({
 // `direction` so the very first launch is already correct.
 I18nManager.allowRTL(true);
 I18nManager.forceRTL(isRTL(DEFAULT_LANGUAGE));
+
+/**
+ * Picks a counted form from a `{ one, two, many }` group. Chosen explicitly
+ * rather than via i18next plurals, which need Intl.PluralRules at runtime.
+ */
+export function counted(t: TFunction, key: string, n: number): string {
+  const form = n === 1 ? 'one' : n === 2 ? 'two' : 'many';
+  return t(`${key}.${form}`, { n });
+}
 
 export default i18n;
