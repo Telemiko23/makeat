@@ -127,3 +127,83 @@ export function stepError(h: Household, step: StepId): string | null {
       return null;
   }
 }
+
+const oneOf = <T extends string>(allowed: readonly T[], v: unknown, fallback: T): T =>
+  allowed.includes(v as T) ? (v as T) : fallback;
+const subsetOf = <T extends string>(allowed: readonly T[], v: unknown, fallback: T[]): T[] =>
+  Array.isArray(v) ? allowed.filter((a) => v.includes(a)) : fallback;
+const intIn = (v: unknown, min: number, max: number, fallback: number): number =>
+  typeof v === 'number' && Number.isFinite(v) ? Math.min(max, Math.max(min, Math.round(v))) : fallback;
+const obj = (v: unknown): Record<string, unknown> => (v && typeof v === 'object' && !Array.isArray(v) ? (v as Record<string, unknown>) : {});
+
+function normalizeMember(v: unknown, index: number): Member | null {
+  const m = obj(v);
+  const id = typeof m.id === 'string' && m.id ? m.id : `m${index}`;
+  switch (m.kind) {
+    case 'adult':
+      return { id, kind: 'adult' };
+    case 'child':
+      return { id, kind: 'child', age: intIn(m.age, 1, 17, 5) };
+    case 'baby':
+      return { id, kind: 'baby', months: intIn(m.months, 6, 12, 8), stage: oneOf(['purees', 'soft', 'finger'], m.stage, 'soft') };
+    default:
+      return null;
+  }
+}
+
+/**
+ * Rebuilds a household from stored data field by field: unknown values are
+ * dropped, numbers are clamped, and missing fields (including nested ones added
+ * in later versions) take their defaults.
+ */
+export function normalizeHousehold(raw: unknown): Household {
+  const d = emptyHousehold();
+  const h = obj(raw);
+  const meals = obj(h.mealsAtHome);
+  const festive = obj(h.festive);
+  const bool = (v: unknown, fallback: boolean) => (typeof v === 'boolean' ? v : fallback);
+  const members = Array.isArray(h.members)
+    ? h.members.map(normalizeMember).filter((m): m is Member => m !== null).slice(0, MAX_MEMBERS)
+    : d.members;
+  const ids = new Set<string>();
+  const uniqueMembers = members.map((m, i) => {
+    const id = ids.has(m.id) ? `${m.id}-${i}` : m.id;
+    ids.add(id);
+    return { ...m, id };
+  });
+  const chains = subsetOf(CHAINS, h.chains, d.chains);
+  const diets = subsetOf(DIETS, h.diets, d.diets);
+  return {
+    members: uniqueMembers,
+    cookingDays: subsetOf(DAYS, h.cookingDays, d.cookingDays),
+    mealsAtHome: {
+      weekday: subsetOf(MEALS, meals.weekday, d.mealsAtHome.weekday),
+      weekend: subsetOf(MEALS, meals.weekend, d.mealsAtHome.weekend),
+    },
+    lunchboxesPerWeekday: intIn(h.lunchboxesPerWeekday, 0, MAX_LUNCHBOXES, d.lunchboxesPerWeekday),
+    festive: {
+      fridayDinner: bool(festive.fridayDinner, d.festive.fridayDinner),
+      shabbatLunch: bool(festive.shabbatLunch, d.festive.shabbatLunch),
+      holidays: bool(festive.holidays, d.festive.holidays),
+    },
+    kashrut: oneOf(KASHRUT, h.kashrut, d.kashrut),
+    diets: diets.includes('vegan') && !diets.includes('vegetarian') ? ['vegetarian', 'vegan'] : diets,
+    allergens: subsetOf(ALLERGENS, h.allergens, d.allergens),
+    dislikes: Array.isArray(h.dislikes)
+      ? h.dislikes.reduce<string[]>((list, x) => (typeof x === 'string' ? addDislike(list, x) : list), [])
+      : d.dislikes,
+    appliances: subsetOf(APPLIANCES, h.appliances, d.appliances),
+    skill: oneOf(SKILLS, h.skill, d.skill),
+    chains,
+    loyaltyClubs: subsetOf(CHAINS, h.loyaltyClubs, d.loyaltyClubs).filter((c) => chains.includes(c)),
+  };
+}
+
+/** The first step whose answers are incomplete, with its error key. */
+export function firstProblem(h: Household): { step: StepId; error: string } | null {
+  for (const step of STEPS) {
+    const error = stepError(h, step);
+    if (error) return { step, error };
+  }
+  return null;
+}

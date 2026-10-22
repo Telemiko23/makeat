@@ -22,9 +22,8 @@ import {
   type Household,
   type Member,
 } from '../domain/household';
-import { counted } from '../i18n';
 import { spacing } from '../theme/tokens';
-import { memberNames } from './labels';
+import { babyAge, childAge, memberNames } from './labels';
 
 type StepProps = { household: Household; update: (fn: (h: Household) => Household) => void };
 
@@ -44,7 +43,7 @@ export function HouseholdStep({ household, update }: StepProps) {
   const names = memberNames(household.members, t);
   const full = household.members.length >= MAX_MEMBERS;
   const add = (m: NewMember) =>
-    update((h) => (h.members.length >= MAX_MEMBERS ? h : { ...h, members: [...h.members, { ...m, id: newId() } as Member] }));
+    update((h) => (h.members.length >= MAX_MEMBERS ? h : { ...h, members: [...h.members, { ...m, id: newId() }] }));
 
   return (
     <>
@@ -68,10 +67,10 @@ export function HouseholdStep({ household, update }: StepProps) {
                 value={m.age}
                 min={1}
                 max={17}
-                format={(n) => counted(t, 'onboarding.household.ageValue', n)}
+                format={(n) => childAge(t, n)}
                 decLabel={t('common.decrease')}
                 incLabel={t('common.increase')}
-                onChange={(age) => update((h) => replaceMember(h, m.id, (x) => ({ ...x, age }) as Member))}
+                onChange={(age) => update((h) => replaceMember(h, m.id, (x) => (x.kind === 'child' ? { ...x, age } : x)))}
               />
             ) : null}
             {m.kind === 'baby' ? (
@@ -81,10 +80,10 @@ export function HouseholdStep({ household, update }: StepProps) {
                   value={m.months}
                   min={6}
                   max={12}
-                  format={(n) => t('onboarding.household.monthsValue', { n })}
+                  format={(n) => babyAge(t, n)}
                   decLabel={t('common.decrease')}
                   incLabel={t('common.increase')}
-                  onChange={(months) => update((h) => replaceMember(h, m.id, (x) => ({ ...x, months }) as Member))}
+                  onChange={(months) => update((h) => replaceMember(h, m.id, (x) => (x.kind === 'baby' ? { ...x, months } : x)))}
                 />
                 <P muted>{t('onboarding.household.stage')}</P>
                 <Chips>
@@ -94,7 +93,7 @@ export function HouseholdStep({ household, update }: StepProps) {
                       single
                       label={t(`onboarding.household.stages.${stage}`)}
                       selected={m.stage === stage}
-                      onPress={() => update((h) => replaceMember(h, m.id, (x) => ({ ...x, stage }) as Member))}
+                      onPress={() => update((h) => replaceMember(h, m.id, (x) => (x.kind === 'baby' ? { ...x, stage } : x)))}
                     />
                   ))}
                 </Chips>
@@ -105,12 +104,12 @@ export function HouseholdStep({ household, update }: StepProps) {
       </View>
       <Section title={t('onboarding.household.addTitle')} hint={full ? t('onboarding.household.full') : undefined}>
         <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: spacing.sm }}>
-          <Button kind="secondary" disabled={full} label={`+ ${t('onboarding.household.addAdult')}`} onPress={() => add({ kind: 'adult' })} />
-          <Button kind="secondary" disabled={full} label={`+ ${t('onboarding.household.addChild')}`} onPress={() => add({ kind: 'child', age: 5 })} />
+          <Button kind="secondary" disabled={full} label={t('common.addItem', { name: t('onboarding.household.addAdult') })} onPress={() => add({ kind: 'adult' })} />
+          <Button kind="secondary" disabled={full} label={t('common.addItem', { name: t('onboarding.household.addChild') })} onPress={() => add({ kind: 'child', age: 5 })} />
           <Button
             kind="secondary"
             disabled={full}
-            label={`+ ${t('onboarding.household.addBaby')}`}
+            label={t('common.addItem', { name: t('onboarding.household.addBaby') })}
             onPress={() => add({ kind: 'baby', months: 8, stage: 'soft' })}
           />
         </View>

@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { addDislike, emptyHousehold, setChains, stepError, toggle, toggleDiet, type Household } from './household';
+import { addDislike, emptyHousehold, firstProblem, normalizeHousehold, setChains, stepError, toggle, toggleDiet, type Household } from './household';
 import { portionFactor, weeklyPortions } from './portions';
 
 const withMembers = (members: Household['members'], patch: Partial<Household> = {}): Household => ({
@@ -80,5 +80,58 @@ describe('portions', () => {
 
   it('is zero for an empty household with no lunchboxes', () => {
     expect(weeklyPortions(withMembers([], { lunchboxesPerWeekday: 0 })).total).toBe(0);
+  });
+});
+
+describe('normalizeHousehold', () => {
+  it('returns defaults for garbage', () => {
+    expect(normalizeHousehold(null)).toEqual(emptyHousehold());
+    expect(normalizeHousehold({ members: null, festive: 3 })).toEqual(emptyHousehold());
+  });
+
+  it('keeps valid data unchanged', () => {
+    const h = withMembers([{ id: 'a', kind: 'adult' }, { id: 'b', kind: 'baby', months: 7, stage: 'purees' }], {
+      allergens: ['sesame'],
+      chains: ['ramiLevy'],
+      loyaltyClubs: ['ramiLevy'],
+      dislikes: ['כוסברה'],
+    });
+    expect(normalizeHousehold(JSON.parse(JSON.stringify(h)))).toEqual(h);
+  });
+
+  it('fills nested fields missing from an older profile', () => {
+    const h = normalizeHousehold({ mealsAtHome: { weekday: ['lunch'] }, festive: { holidays: true } });
+    expect(h.mealsAtHome).toEqual({ weekday: ['lunch'], weekend: ['lunch', 'dinner'] });
+    expect(h.festive).toEqual({ fridayDinner: true, shabbatLunch: false, holidays: true });
+  });
+
+  it('drops unknown ids, invalid members and clubs of unselected chains', () => {
+    const h = normalizeHousehold({
+      members: [{ kind: 'alien' }, { id: 'c', kind: 'child', age: 40 }, 'x'],
+      chains: ['ramiLevy', 'gone'],
+      loyaltyClubs: ['shufersal', 'ramiLevy'],
+      allergens: ['sesame', 'kryptonite'],
+      kashrut: 'strict',
+    });
+    expect(h.members).toEqual([{ id: 'c', kind: 'child', age: 17 }]);
+    expect(h.chains).toEqual(['ramiLevy']);
+    expect(h.loyaltyClubs).toEqual(['ramiLevy']);
+    expect(h.allergens).toEqual(['sesame']);
+    expect(h.kashrut).toBe('none');
+  });
+
+  it('makes member ids unique and caps the household', () => {
+    const many = Array.from({ length: 20 }, () => ({ id: 'same', kind: 'adult' }));
+    const h = normalizeHousehold({ members: many });
+    expect(h.members).toHaveLength(12);
+    expect(new Set(h.members.map((m) => m.id)).size).toBe(12);
+  });
+});
+
+describe('firstProblem', () => {
+  it('names the first incomplete step', () => {
+    expect(firstProblem(emptyHousehold())).toEqual({ step: 'household', error: 'errors.needAdult' });
+    expect(firstProblem(withMembers([{ id: 'a', kind: 'adult' }]))).toEqual({ step: 'shopping', error: 'errors.needChain' });
+    expect(firstProblem(withMembers([{ id: 'a', kind: 'adult' }], { chains: ['victory'] }))).toBeNull();
   });
 });

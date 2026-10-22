@@ -1,5 +1,4 @@
 import type { TFunction } from 'i18next';
-import { counted } from '../i18n';
 import type { Member } from '../domain/household';
 
 /** "Child", or "Child 2" when there is more than one member of that kind. */
@@ -15,14 +14,22 @@ export function memberNames(members: readonly Member[], t: TFunction): string[] 
   });
 }
 
-/** Short description of a member's age, e.g. "5 years" or "8 months". */
-export function memberAge(m: Member, t: TFunction): string | null {
-  if (m.kind === 'child') return counted(t, 'onboarding.household.ageValue', m.age);
-  if (m.kind === 'baby') return t('onboarding.household.monthsValue', { n: m.months });
-  return null;
+export const childAge = (t: TFunction, years: number) => t('onboarding.household.ageValue', { count: years });
+export const babyAge = (t: TFunction, months: number) => t('onboarding.household.monthsValue', { n: months });
+
+/** "Child 2: 5 years" or "Baby: 8 months, soft food"; just the name for adults. */
+export function memberLine(m: Member, name: string, t: TFunction): string {
+  if (m.kind === 'adult') return name;
+  const details =
+    m.kind === 'child' ? childAge(t, m.age) : joinList(t, [babyAge(t, m.months), t(`onboarding.household.stages.${m.stage}`)]);
+  return t('onboarding.summary.member', { name, details });
 }
+
+export const joinList = (t: TFunction, items: readonly string[]) => items.join(t('format.listSeparator'));
 
 /** Joins translated items, or returns "None" for an empty list. */
 export function listOf(t: TFunction, group: string, items: readonly string[]): string {
-  return items.length ? items.map((i) => t(`${group}.${i}`)).join(', ') : t('common.none');
+  return items.length ? joinList(t, items.map((i) => t(`${group}.${i}`))) : t('common.none');
 }
+
+export const labelValue = (t: TFunction, label: string, value: string) => t('format.labelValue', { label, value });

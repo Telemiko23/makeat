@@ -3,26 +3,26 @@ import { useState, type ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
 import { View } from 'react-native';
 import { Button, Card, ErrorText, H1, H2, P, Screen } from '../../components/ui';
-import { STEPS, stepError, type StepId } from '../../domain/household';
+import { firstProblem, type StepId } from '../../domain/household';
 import { weeklyPortions } from '../../domain/portions';
-import { counted } from '../../i18n';
-import { listOf, memberAge, memberNames } from '../../onboarding/labels';
+import { joinList, labelValue, listOf, memberLine, memberNames } from '../../onboarding/labels';
 import { useHousehold } from '../../state/household';
 
 export default function Summary() {
   const { t } = useTranslation();
-  const { ready, household: h, complete } = useHousehold();
-  const [error, setError] = useState<string | null>(null);
+  const { ready, draft: h, save } = useHousehold();
+  const [attempted, setAttempted] = useState(false);
   if (!ready) return null;
+
+  // Recomputed on every render, so a fixed problem clears on return from editing.
+  const error = attempted ? (firstProblem(h)?.error ?? null) : null;
 
   const portions = weeklyPortions(h);
   const names = memberNames(h.members, t);
   const festive = (['fridayDinner', 'shabbatLunch', 'holidays'] as const).filter((k) => h.festive[k]);
 
-  const save = () => {
-    const problem = STEPS.map((s) => stepError(h, s)).find((e) => e);
-    if (problem) return setError(problem);
-    complete();
+  const onSave = () => {
+    if (save()) return setAttempted(true);
     router.dismissTo('/');
   };
 
@@ -31,7 +31,7 @@ export default function Summary() {
       footer={
         <>
           {error ? <ErrorText>{t(error)}</ErrorText> : null}
-          <Button label={t('onboarding.summary.save')} onPress={save} />
+          <Button label={t('onboarding.summary.save')} onPress={onSave} />
           <Button kind="link" label={t('common.back')} onPress={() => (router.canGoBack() ? router.back() : router.replace('/onboarding/shopping'))} />
         </>
       }
@@ -42,15 +42,13 @@ export default function Summary() {
       <Card>
         <H2>{t('onboarding.summary.portions', { total: portions.total })}</H2>
         <P muted>{t('onboarding.summary.portionsDetail', { homeMeals: portions.homeMeals, lunchboxes: portions.lunchboxes })}</P>
-        {portions.babies ? <P muted>{counted(t, 'onboarding.summary.babies', portions.babies)}</P> : null}
+        {portions.babies ? <P muted>{t('onboarding.summary.babies', { count: portions.babies })}</P> : null}
       </Card>
 
       <Block step="household">
-        {h.members.map((m, i) => {
-          const age = memberAge(m, t);
-          const stage = m.kind === 'baby' ? `, ${t(`onboarding.household.stages.${m.stage}`)}` : '';
-          return <P key={m.id}>{age ? `${names[i]}: ${age}${stage}` : names[i]}</P>;
-        })}
+        {h.members.map((m, i) => (
+          <P key={m.id}>{memberLine(m, names[i], t)}</P>
+        ))}
       </Block>
 
       <Block step="week">
@@ -65,7 +63,7 @@ export default function Summary() {
         <Line label={t('onboarding.food.kashrut')} value={t(`kashrut.${h.kashrut}`)} />
         <Line label={t('onboarding.food.diets')} value={listOf(t, 'diets', h.diets)} />
         <Line label={t('onboarding.food.allergens')} value={listOf(t, 'allergens', h.allergens)} />
-        <Line label={t('onboarding.summary.dislikes')} value={h.dislikes.length ? h.dislikes.join(', ') : t('common.none')} />
+        <Line label={t('onboarding.summary.dislikes')} value={h.dislikes.length ? joinList(t, h.dislikes) : t('common.none')} />
       </Block>
 
       <Block step="kitchen">
@@ -91,7 +89,7 @@ function Block({ step, children }: { step: StepId; children: ReactNode }) {
         <Button
           kind="link"
           label={t('common.edit')}
-          accessibilityLabel={`${t('common.edit')}: ${title}`}
+          accessibilityLabel={labelValue(t, t('common.edit'), title)}
           onPress={() => router.push({ pathname: '/onboarding/[step]', params: { step, from: 'summary' } })}
         />
       </View>
@@ -101,5 +99,6 @@ function Block({ step, children }: { step: StepId; children: ReactNode }) {
 }
 
 function Line({ label, value }: { label: string; value: string }) {
-  return <P>{`${label}: ${value}`}</P>;
+  const { t } = useTranslation();
+  return <P>{labelValue(t, label, value)}</P>;
 }

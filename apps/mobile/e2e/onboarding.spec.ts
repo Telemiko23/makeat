@@ -240,3 +240,53 @@ test('no step overflows horizontally at phone width', async ({ page }) => {
     expect(overflow, step).toBeLessThanOrEqual(0);
   }
 });
+
+test('leaving an edit without saving keeps the saved profile', async ({ page }) => {
+  await fillToSummary(page);
+  await page.getByRole('button', { name: 'שמירה' }).click();
+  await expect(page.getByText('3 נפשות')).toBeVisible();
+
+  await page.getByRole('button', { name: 'עריכת הפרופיל' }).click();
+  await page.getByRole('button', { name: 'עריכה: מי גר בבית?' }).click();
+  await page.getByRole('button', { name: 'הסרת מבוגר' }).click();
+  // Leave without saving: browser back to the summary, then the summary's back link.
+  await page.goBack();
+  await expect(page).toHaveURL(/\/onboarding\/summary$/);
+  await page.getByRole('button', { name: 'חזרה' }).last().click();
+  await expect(page.getByText('3 נפשות')).toBeVisible();
+
+  await page.reload();
+  await expect(page.getByText('3 נפשות')).toBeVisible();
+  // Editing again starts from the saved profile, not the abandoned draft.
+  await page.getByRole('button', { name: 'עריכת הפרופיל' }).click();
+  await expect(page.getByText('מבוגר', { exact: true })).toBeVisible();
+});
+
+test('a fixed problem clears from the summary', async ({ page }) => {
+  await page.goto('/onboarding/summary');
+  await page.getByRole('button', { name: 'שמירה' }).click();
+  await expect(page.getByRole('alert')).toHaveText('הוסיפו לפחות מבוגר אחד.');
+  await page.getByRole('button', { name: 'עריכה: מי גר בבית?' }).click();
+  await page.getByRole('button', { name: '+ מבוגר' }).click();
+  await page.getByRole('button', { name: 'חזרה לסיכום' }).click();
+  await expect(page).toHaveURL(/\/onboarding\/summary$/);
+  // The next problem (no chain) replaces it.
+  await expect(page.getByRole('alert')).toHaveText('בחרו לפחות רשת אחת.');
+});
+
+test('a stored profile with unknown values still loads', async ({ page }) => {
+  await page.goto('/');
+  await page.evaluate(() =>
+    localStorage.setItem(
+      'makeat.household.v1',
+      JSON.stringify({
+        version: 1,
+        saved: { members: [{ id: 'a', kind: 'adult' }, { kind: 'alien' }], chains: ['ramiLevy', 'closedChain'], mealsAtHome: { weekday: ['dinner'] } },
+      }),
+    ),
+  );
+  await page.reload();
+  await expect(page.getByText('נפש אחת')).toBeVisible();
+  await page.getByRole('button', { name: 'עריכת הפרופיל' }).click();
+  await expect(page.getByText('רמי לוי', { exact: true })).toBeVisible();
+});

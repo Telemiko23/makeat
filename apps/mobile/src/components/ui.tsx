@@ -1,4 +1,5 @@
 import type { ReactNode } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Pressable, ScrollView, StyleSheet, Text, TextInput, View, type TextInputProps } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { fontSize, radius, spacing } from '../theme/tokens';
@@ -113,10 +114,11 @@ export function Chip({
         { borderColor: selected ? c.accent : c.line, backgroundColor: selected ? c.accent : c.surface },
       ]}
     >
-      <Text style={{ color: selected ? c.onAccent : c.text, fontSize: fontSize.body, fontWeight: selected ? '700' : '400' }}>
-        {selected && !single ? '✓ ' : ''}
-        {label}
-      </Text>
+      <View style={styles.chipRow}>
+        {/* Icons, not text: the state is announced through aria-checked. */}
+        {selected && !single ? <Text aria-hidden style={{ color: c.onAccent, fontSize: fontSize.body }}>✓</Text> : null}
+        <Text style={{ color: selected ? c.onAccent : c.text, fontSize: fontSize.body, fontWeight: selected ? '700' : '400' }}>{label}</Text>
+      </View>
     </Pressable>
   );
 }
@@ -131,7 +133,10 @@ export function RemovableTag({ label, removeLabel, onRemove }: { label: string; 
       onPress={onRemove}
       style={[styles.chip, { borderColor: c.line, backgroundColor: c.surface }]}
     >
-      <Text style={{ color: c.text, fontSize: fontSize.body }}>{label} ✕</Text>
+      <View style={styles.chipRow}>
+        <Text style={{ color: c.text, fontSize: fontSize.body }}>{label}</Text>
+        <Text aria-hidden style={{ color: c.muted, fontSize: fontSize.body }}>✕</Text>
+      </View>
     </Pressable>
   );
 }
@@ -156,8 +161,9 @@ export function Counter({
   incLabel: string;
 }) {
   const { c, text } = useTheme();
+  const { t } = useTranslation();
   return (
-    <View style={styles.counter} accessibilityLabel={`${label}: ${format(value)}`}>
+    <View style={styles.counter} accessibilityLabel={t('format.labelValue', { label, value: format(value) })}>
       <Text style={[styles.counterLabel, { color: c.text }, text]}>{label}</Text>
       <View style={styles.counterControls}>
         <Stepper sign="−" label={`${decLabel} ${label}`} disabled={value <= min} onPress={() => onChange(value - 1)} />
@@ -242,6 +248,7 @@ const styles = StyleSheet.create({
   buttonText: { fontSize: fontSize.subtitle, fontWeight: '700' },
   link: { paddingVertical: spacing.sm, alignSelf: 'flex-start', minHeight: 48, justifyContent: 'center' },
   linkText: { fontSize: fontSize.body, fontWeight: '700' },
+  chipRow: { flexDirection: 'row', alignItems: 'center', gap: spacing.xs },
   chips: { flexDirection: 'row', flexWrap: 'wrap', gap: spacing.sm },
   chip: { paddingVertical: spacing.sm, paddingHorizontal: spacing.md, borderRadius: radius.pill, borderWidth: 1.5, minHeight: 48, justifyContent: 'center' },
   counter: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: spacing.md },

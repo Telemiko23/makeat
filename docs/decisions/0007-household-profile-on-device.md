@@ -9,8 +9,9 @@
 Onboarding collects the household profile: members with children's ages and baby feeding stages, allergies, kashrut, diet, dislikes, appliances, chains and loyalty clubs. CLAUDE.md marks allergies and children's data as sensitive and asks for the minimum personal data. There are no user accounts yet, and nothing on a server needs the profile before the planner and the price quotes exist.
 
 ## Decision
-- The profile is stored only on the device, in AsyncStorage under `makeat.household.v1`, as `{ version, household, completed }`. It is never sent anywhere.
-- Loading fills fields added in later versions from the defaults. A changed meaning of an existing field gets a new `version` and a migration.
+- The profile is stored only on the device, in AsyncStorage under `makeat.household.v1`, as `{ version, saved, draft }`. It is never sent anywhere.
+- `saved` is the confirmed profile the app plans with; the questionnaire edits `draft`, and only Save copies a complete draft into `saved`. Leaving an edit half-way never breaks the saved profile.
+- Loading rebuilds every field through `normalizeHousehold`: unknown values are dropped, numbers clamped, and missing fields (nested ones included) take their defaults. A changed meaning of an existing field gets a new `version` and a migration.
 - The profile has no names: members are "adult", "child" or "baby" with an age.
 - Syncing the profile to Supabase (0001) needs its own record first, covering consent, what is synced, row-level security and deletion.
 

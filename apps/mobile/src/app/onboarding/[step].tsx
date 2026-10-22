@@ -19,7 +19,7 @@ const isStep = (s: unknown): s is StepId => typeof s === 'string' && (STEPS as r
 export default function OnboardingStep() {
   const { step, from } = useLocalSearchParams<{ step: string; from?: string }>();
   const { t } = useTranslation();
-  const { ready, household, update } = useHousehold();
+  const { ready, draft: household, update } = useHousehold();
   const [attempted, setAttempted] = useState(false);
 
   if (!isStep(step)) return <Redirect href="/onboarding/household" />;
