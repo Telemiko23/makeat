@@ -1,0 +1,55 @@
+name: Prices
+on:
+  pull_request:
+    paths: [services/prices/**, .github/workflows/prices.yml]
+  push:
+    branches: [main]
+    paths: [services/prices/**, .github/workflows/prices.yml]
+  # Daily check that Liran's chains still publish and parse (09:00 Israel time).
+  schedule:
+    - cron: "0 6 * * *"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  test:
+    runs-on: ubuntu-24.04
+    defaults:
+      run:
+        working-directory: services/prices
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install -e ".[dev]"
+      - run: pytest -q
+
+  # Pulls live feeds for Liran's stores. Network-dependent, so it never runs on PRs or gates a merge.
+  probe:
+    if: github.event_name != 'pull_request'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    defaults:
+      run:
+        working-directory: services/prices
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install -e ".[fetch]"
+      - name: Rami Levy (Petah Tikva)
+        continue-on-error: true
+        run: python -m makeat_prices.fetch --chain RAMI_LEVY --match פתח --match 'פ"ת' --match 'גבעת שמואל' --out /tmp/raw
+      - name: Osher Ad (Kiryat Ono)
+        continue-on-error: true
+        run: python -m makeat_prices.fetch --chain OSHER_AD --match אונו --match 'גבעת שמואל' --match פתח --out /tmp/raw
+      - name: Report
+        run: python -m makeat_prices.probe_report /tmp/raw
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: price-feeds-${{ github.sha }}
+          path: /tmp/raw
+          retention-days: 7

@@ -1,0 +1,26 @@
+{
+  "_note": "Online delivery terms per chain. Not in the law feeds; checked by hand. null means unknown, not zero.",
+  "RAMI_LEVY": {
+    "online": true,
+    "online_store_id": "39",
+    "fee": "35.90",
+    "min_order": null,
+    "free_over": null,
+    "checked_on": "2026-10-22",
+    "sources": [
+      "https://www.rami-levy.co.il/he/orders-and-deliveries",
+      "https://www.calcalist.co.il/shopping/article/rjhb1h7nfe"
+    ],
+    "notes": "Fee raised from 29.90 to 35.90 in May 2026; free-delivery threshold cancelled. Minimum order not published on the page we read."
+  },
+  "OSHER_AD": {
+    "online": null,
+    "online_store_id": null,
+    "fee": null,
+    "min_order": null,
+    "free_over": null,
+    "checked_on": "2026-10-22",
+    "sources": ["https://pickpackage.com/he/%D7%93%D7%9E%D7%99-%D7%9E%D7%A9%D7%9C%D7%95%D7%97-%D7%91%D7%A8%D7%A9%D7%AA%D7%95%D7%AA-%D7%91%D7%99%D7%A9%D7%A8%D7%90%D7%9C/"],
+    "notes": "No online store in the chain's Stores file (all 24 stores are StoreType 1) and a Sept 2026 survey found no online delivery service. To confirm with Liran."
+  }
+}
