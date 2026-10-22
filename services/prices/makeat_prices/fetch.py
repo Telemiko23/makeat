@@ -39,7 +39,7 @@ def file_kind(name: str) -> str | None:
 
 def file_store(name: str) -> str | None:
     """Store id in a feed file name: '...-001-032-2026...' or '...-039-2026...'."""
-    m = re.search(r"-(\d{3})-\d{8}", name)
+    m = re.search(r"-(\d{3,4})-\d{8}", name)
     return m.group(1).lstrip("0") or "0" if m else None
 
 
@@ -65,8 +65,11 @@ def is_online(store) -> bool:
     return store.store_type in ONLINE_STORE_TYPES or any(h in text for h in ONLINE_NAME_HINTS)
 
 
-def pick_stores(stores, matches: list[str]):
-    return [s for s in stores if is_online(s) or any(m in f"{s.city or ''} {s.name} {s.address or ''}" for m in matches)]
+def pick_stores(stores, matches: list[str], max_stores: int):
+    """Every online store, then up to `max_stores` physical stores that match."""
+    online = [s for s in stores if is_online(s)]
+    local = [s for s in stores if not is_online(s) and any(m in f"{s.city or ''} {s.name} {s.address or ''}" for m in matches)]
+    return online + local[:max_stores]
 
 
 class Cerberus:
@@ -101,7 +104,7 @@ def run(chain: str, out: Path, matches: list[str], max_stores: int) -> int:
         (out / "stores.json").write_text(
             json.dumps([s.__dict__ for s in stores], ensure_ascii=False, indent=1), encoding="utf-8"
         )
-        picked = pick_stores(stores, matches)[:max_stores]
+        picked = pick_stores(stores, matches, max_stores)
         print(f"{chain}: {len(server.names)} files, {len(stores)} stores, picked "
               f"{[(s.store_id, s.name, s.city) for s in picked]}")
         for s in picked:
@@ -125,7 +128,7 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--chain", required=True, choices=sorted(CERBERUS_USERS))
     parser.add_argument("--match", action="append", default=[], help="substring of city/name/address")
     parser.add_argument("--out", type=Path, required=True)
-    parser.add_argument("--max-stores", type=int, default=8)
+    parser.add_argument("--max-stores", type=int, default=8, help="physical stores; online stores are always added")
     args = parser.parse_args(argv)
     return run(args.chain, args.out / args.chain, args.match, args.max_stores)
 

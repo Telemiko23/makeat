@@ -5,39 +5,36 @@ from __future__ import annotations
 from pathlib import Path
 
 from .feeds import PriceFile, Promotion, file_timestamp, load_xml, parse_prices, parse_promotions
-from .fetch import file_kind, file_store
+from .fetch import file_kind, file_store, newest, updates_after
 
 
-def _files(folder: Path, kind: str, store_id: str) -> list[Path]:
-    found = [p for p in folder.iterdir() if file_kind(p.name) == kind and file_store(p.name) == store_id]
-    return sorted((p for p in found if file_timestamp(p.name)), key=lambda p: file_timestamp(p.name))
+def _current(folder: Path, full: str, delta: str, store_id: str) -> list[Path]:
+    """The newest `full` file for the store followed by the `delta` files after it."""
+    names = [p.name for p in folder.iterdir()]
+    base = newest(names, full, store_id)
+    if base is None:
+        return []
+    return [folder / base] + [folder / n for n in updates_after(names, delta, store_id, file_timestamp(base))]
 
 
 def store_prices(folder: Path, store_id: str) -> PriceFile | None:
-    fulls = _files(folder, "pricefull", store_id)
-    if not fulls:
+    files = _current(folder, "pricefull", "price", store_id)
+    if not files:
         return None
-    result = parse_prices(load_xml(fulls[-1].read_bytes()))
-    result.published_at = file_timestamp(fulls[-1].name)
-    for update in _files(folder, "price", store_id):
-        stamp = file_timestamp(update.name)
-        if stamp > result.published_at:
-            result.items.update(parse_prices(load_xml(update.read_bytes())).items)
-            result.published_at = stamp
+    result = parse_prices(load_xml(files[0].read_bytes()))
+    for update in files[1:]:
+        result.items.update(parse_prices(load_xml(update.read_bytes())).items)
+    result.published_at = file_timestamp(files[-1].name)
     return result
 
 
 def store_promotions(folder: Path, store_id: str) -> list[Promotion]:
-    fulls = _files(folder, "promofull", store_id)
-    if not fulls:
-        return []
-    since = file_timestamp(fulls[-1].name)
-    by_id = {p.promotion_id: p for p in parse_promotions(load_xml(fulls[-1].read_bytes()))}
-    for update in _files(folder, "promo", store_id):
-        if file_timestamp(update.name) > since:
-            by_id.update({p.promotion_id: p for p in parse_promotions(load_xml(update.read_bytes()))})
+    by_id: dict[str, Promotion] = {}
+    for f in _current(folder, "promofull", "promo", store_id):
+        by_id.update({p.promotion_id: p for p in parse_promotions(load_xml(f.read_bytes()))})
     return list(by_id.values())
 
 
 def store_ids(folder: Path) -> list[str]:
-    return sorted({file_store(p.name) for p in folder.iterdir() if file_kind(p.name) == "pricefull"}, key=int)
+    ids = {file_store(p.name) for p in folder.iterdir() if file_kind(p.name) == "pricefull"}
+    return sorted((i for i in ids if i), key=int)

@@ -159,13 +159,14 @@ class Promotion:
 
 def parse_club_codes(values: list[str]) -> frozenset[str]:
     """ClubId is '0' in most files, but Rami Levy writes expressions such as
-    '((1=club|1=credit club))&(3=vouchers)'. Keep every law code mentioned."""
+    '((1=club|1=credit club))&(3=vouchers)'. Keep every law code mentioned.
+    A value we cannot read counts as 'other' (3), so it is never assumed open."""
     codes = set()
     for value in values:
         if re.fullmatch(r"\s*\d\s*", value):
             codes.add(value.strip())
         else:
-            codes.update(re.findall(r"(?<!\d)(\d)\s*=", value))
+            codes.update(re.findall(r"(?<!\d)(\d)\s*=", value) or {CLUB_OTHER})
     return frozenset(codes or {CLUB_EVERYONE})
 
 

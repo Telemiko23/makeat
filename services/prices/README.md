@@ -12,6 +12,7 @@ Owner: `price-data`.
 | `makeat_prices/basket.py` | Quote a basket at one store: promotions, club rules, delivery fee, data timestamp. |
 | `makeat_prices/fetch.py` | Download a chain's store list, the newest full files for chosen stores, and the hourly updates after them (FTP-TLS). |
 | `makeat_prices/snapshot.py` | Rebuild a store's current prices and promotions: newest full file plus later updates. |
+| `makeat_prices/delivery.py` | Online delivery fee and minimum order per chain, from `data/delivery.json` (kept by hand). |
 | `makeat_prices/probe_report.py` | Print what the chains publish: freshness, publishing rhythm, sample basket, produce candidates. |
 
 ## Run
@@ -27,7 +28,8 @@ python -m makeat_prices.probe_report /tmp/raw
 
 Live downloads need a host that can reach `url.retail.publishedprices.co.il`
 (FTP over TLS). GitHub-hosted runners can; the Claude cloud sandbox cannot.
-The `Prices` workflow runs the probe on every push that touches this folder.
+The `Prices` workflow runs the probe daily at 09:00 Israel time, on pushes to
+`main` that touch this folder, and on demand; it never runs on PRs.
 
 ## Quote rules
 
@@ -37,6 +39,9 @@ The `Prices` workflow runs the probe on every push that touches this folder.
   also needs a payment card or other condition (codes 2, 3) is never assumed.
 - `DiscountedPrice` is the price of `MinQty` units together. Only units of the
   same item count toward `MinQty`; mixed-item deals are not credited yet.
+  Units beyond `MaxQty` pay shelf price. Only `RewardType` 1 and 3 (checked
+  against real shelf prices) are credited.
+- A `ClubId` value we cannot read is treated as "other", never as open to all.
 - Every quote carries `data_as_of`, the newest price change in the file.
 
 Findings from the first live probe: [docs/specs/price-feeds-probe.md](../../docs/specs/price-feeds-probe.md).

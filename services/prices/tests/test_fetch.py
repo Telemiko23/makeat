@@ -33,3 +33,17 @@ def test_updates_after_full_file_only_for_that_store():
         "Price7290103152017-001-032-20261022-150014.gz",
         "Price7290103152017-001-032-20261022-190002.gz",
     ]
+
+
+def test_online_stores_are_never_cut_by_the_store_cap():
+    from makeat_prices.feeds import Store
+    from makeat_prices.fetch import pick_stores
+
+    stores = [Store("c", str(i), f"פתח תקווה {i}", None, "7900", "1") for i in range(10)]
+    stores.append(Store("c", "39", "מרלוג אינטרנט", None, "6100", "2"))
+    picked = pick_stores(stores, ["פתח"], max_stores=3)
+    assert [s.store_id for s in picked] == ["39", "0", "1", "2"]
+
+
+def test_four_digit_store_ids():
+    assert file_store("PriceFull7290000000000-001-1032-20261022-080014.gz") == "1032"

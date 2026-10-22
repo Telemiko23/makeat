@@ -19,6 +19,7 @@ from pathlib import Path
 from zoneinfo import ZoneInfo
 
 from .basket import Line, quote
+from .delivery import delivery_terms, online_store_id
 from .snapshot import store_ids, store_prices, store_promotions
 
 ISRAEL = ZoneInfo("Asia/Jerusalem")
@@ -59,7 +60,11 @@ def main(raw: Path) -> int:
         for store_id in store_ids(chain_dir):
             prices[store_id] = store_prices(chain_dir, store_id)
             promos[store_id] = store_promotions(chain_dir, store_id)
+        online, terms = online_store_id(chain), delivery_terms(chain)
 
+        for store_id, pf in [(k, v) for k, v in prices.items() if v is None]:
+            print(f"prices store {store_id}: no readable full file")
+        prices = {k: v for k, v in prices.items() if v is not None}
         for store_id, pf in sorted(prices.items(), key=lambda kv: int(kv[0])):
             print(
                 f"prices store {store_id}: {len(pf.items)} items, "
@@ -80,11 +85,13 @@ def main(raw: Path) -> int:
         lines = [Line(code, Decimal(qty)) for code, qty, _ in SAMPLE_BASKET]
         for store_id, pf in sorted(prices.items(), key=lambda kv: int(kv[0])):
             ps = promos.get(store_id, [])
-            plain = quote(pf, ps, lines, at=now)
-            member = quote(pf, ps, lines, at=now, club_member=True)
-            totals[f"{chain}:{store_id}"] = [str(plain.items_total), str(member.items_total)]
+            delivery = terms if store_id == online else None
+            plain = quote(pf, ps, lines, at=now, delivery=delivery)
+            member = quote(pf, ps, lines, at=now, club_member=True, delivery=delivery)
+            totals[f"{chain}:{store_id}"] = [str(plain.total), str(member.total)]
             print(
-                f"store {store_id}: {plain.items_total} (club member {member.items_total}); "
+                f"store {store_id}: items {plain.items_total}, delivery {plain.delivery_fee}, total {plain.total} "
+                f"(club member {member.total}); below min order {plain.below_min_order}; "
                 f"missing {plain.missing}; data as of {plain.data_as_of}"
             )
             for ln in plain.lines:
@@ -102,7 +109,7 @@ def main(raw: Path) -> int:
                 shown = [f"{p.item_code}|{p.name}|{p.price}{'/kg' if p.is_weighted else ''}" for p in hits[:4]]
                 print(f"  store {store_id} {label}: {shown}")
 
-    print("\n===== basket totals [everyone, club member] =====")
+    print("\n===== basket totals incl. delivery for online stores [everyone, club member] =====")
     print(json.dumps(totals, indent=1))
     print("\n===== gov.il chain list =====")
     gov_il_chains()
@@ -111,9 +118,9 @@ def main(raw: Path) -> int:
 
 def gov_il_chains() -> None:
     """Print the chain list from the Ministry of Economy's price-transparency page."""
-    from il_supermarket_scarper.utils.connection import _fetch_gov_il_content_api
-
     try:
+        from il_supermarket_scarper.utils.connection import _fetch_gov_il_content_api
+
         data = _fetch_gov_il_content_api("cpfta_prices_regulations")
     except Exception as error:  # noqa: BLE001 - report and carry on
         print(f"gov.il page failed: {error}")

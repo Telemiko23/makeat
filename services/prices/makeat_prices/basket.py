@@ -69,23 +69,28 @@ def promotion_applies(promo: Promotion, at: datetime, club_member: bool) -> bool
     return promo.club_codes <= allowed
 
 
+# RewardType values whose DiscountedPrice / DiscountRate we have checked against
+# shelf prices in real files. Others (e.g. buy X get Y) are not credited yet.
+KNOWN_REWARD_TYPES = {None, "1", "3"}
+
+
 def promo_line_total(terms: PromoTerms, shelf_price: Decimal, quantity: Decimal) -> Decimal | None:
     """Line total under a promotion, or None when it does not lower this line.
 
     Only quantities of this one item count toward MinQty; mixing different items
-    of the same promotion is not credited yet.
+    of the same promotion is not credited yet. Units beyond MaxQty pay shelf price.
     """
+    if terms.reward_type not in KNOWN_REWARD_TYPES:
+        return None
     min_qty = terms.min_qty or Decimal("1")
     if quantity < min_qty:
         return None
+    eligible = min(quantity, terms.max_qty) if terms.max_qty else quantity
     if terms.discounted_price is not None and terms.discounted_price > 0:
-        bundles = int(quantity // min_qty)
-        if terms.max_qty:
-            bundles = min(bundles, int(terms.max_qty // min_qty))
-        rest = quantity - bundles * min_qty
-        total = bundles * terms.discounted_price + rest * shelf_price
+        bundles = int(eligible // min_qty)
+        total = bundles * terms.discounted_price + (quantity - bundles * min_qty) * shelf_price
     elif terms.discount_rate is not None and 0 < terms.discount_rate < 100:
-        total = quantity * shelf_price * (1 - terms.discount_rate / 100)
+        total = eligible * shelf_price * (1 - terms.discount_rate / 100) + (quantity - eligible) * shelf_price
     else:
         return None
     return total if total < quantity * shelf_price else None

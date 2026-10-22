@@ -62,3 +62,7 @@ def test_file_timestamp_from_name():
     assert file_timestamp("pricefull7290058140886-039-202607150513.xml") == datetime(2026, 7, 15, 5, 13)
     assert file_timestamp("Stores7290058140886-000-20261020-050500.xml") == datetime(2026, 10, 20, 5, 5)
     assert file_timestamp("prices.xml") is None
+
+
+def test_unreadable_club_value_is_never_open_to_everyone():
+    assert parse_club_codes(["מועדון"]) == {"3"}

@@ -71,3 +71,31 @@ def test_publication_time_wins_over_newest_price_change():
     prices = parse_prices(load_xml((FIXTURES / "osherad_pricefull.xml").read_bytes()))
     prices.published_at = datetime(2026, 10, 22, 8, 0, 14)
     assert quote(prices, [], [], at=NOW).data_as_of == datetime(2026, 10, 22, 8, 0, 14)
+
+
+def _terms(**kw):
+    from makeat_prices.feeds import PromoTerms
+
+    base = dict(min_qty=None, max_qty=None, discounted_price=None, discount_rate=None, reward_type="1")
+    base.update(kw)
+    return PromoTerms(**base)
+
+
+def test_percent_discount_stops_at_max_qty():
+    from makeat_prices.basket import promo_line_total
+
+    total = promo_line_total(_terms(discount_rate=Decimal("20"), max_qty=Decimal(2)), Decimal("10"), Decimal(6))
+    assert total == Decimal("56")  # 2 x 8 + 4 x 10
+
+
+def test_bundle_price_stops_at_max_qty():
+    from makeat_prices.basket import promo_line_total
+
+    terms = _terms(min_qty=Decimal(2), discounted_price=Decimal("15"), max_qty=Decimal(2))
+    assert promo_line_total(terms, Decimal("10"), Decimal(5)) == Decimal("45")  # 15 + 3 x 10
+
+
+def test_unknown_reward_type_is_not_credited():
+    from makeat_prices.basket import promo_line_total
+
+    assert promo_line_total(_terms(reward_type="10", discounted_price=Decimal("1")), Decimal("10"), Decimal(1)) is None
