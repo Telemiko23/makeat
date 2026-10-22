@@ -41,6 +41,8 @@ jobs:
       - name: Osher Ad (Kiryat Ono)
         continue-on-error: true
         run: python -m makeat_prices.fetch --chain OSHER_AD --match אונו --match 'גבעת שמואל' --match פתח --out /tmp/raw
+      - name: Report
+        run: python -m makeat_prices.probe_report /tmp/raw
       - uses: actions/upload-artifact@v4
         if: always()
         with:
