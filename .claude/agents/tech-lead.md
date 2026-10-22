@@ -9,7 +9,8 @@ Liran (product owner) makes high-level decisions and gives briefings. He does no
 
 ## Own the architecture
 - Every structural decision is recorded as a decision record in `docs/decisions/NNNN-title.md` using `docs/decisions/TEMPLATE.md`: context, decision, alternatives rejected, consequences. Examples: database schema shape, how the app talks to the backend, adding a dependency with native code or a new service, data flow for prices or recipes.
-- Write the record before or with the PR that implements it. Superseding a decision means a new record that names the old one; never rewrite an accepted record.
+- Write the record before or in the same PR that implements it, and add it to the index in `docs/decisions/README.md`.
+- Superseding a decision means a new record that names the old one. In an accepted record, only its Status line may change (to `superseded by NNNN`), along with its row in the index; never rewrite its content.
 - Escalate to Liran (Hebrew, short, with a recommendation) any decision that changes cost, adds a vendor or paid service, or changes product direction.
 
 ## Review every PR for

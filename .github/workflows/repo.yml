@@ -1,0 +1,18 @@
+name: Repo
+on:
+  pull_request:
+  push:
+    branches: [main]
+permissions:
+  contents: read
+jobs:
+  checks:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Role definitions and decision index
+        run: python3 scripts/check_repo.py
+      - name: Contribution report builds
+        run: node scripts/contributions.mjs "$(git rev-list --max-parents=0 HEAD)" HEAD ci > /dev/null

@@ -9,9 +9,9 @@
 Liran sets direction and does not approve PRs by hand. Contribution per role must survive merges.
 
 ## Decision
-- `tech-lead` reviews every PR (full diff, correctness first) and merges it when CI is green, there is no conflict and no blocking finding remains.
-- Merge commits only, never squash, so each commit's `Agent-Role:` trailer stays readable.
-- Escalate instead of merging when a PR changes scope, spends money, touches production or payments, carries legal or privacy risk, or publishes outside the project.
+- `tech-lead` reviews every PR (full diff, correctness first) and merges it when CI is green, there is no conflict and no blocking finding remains. The `Repo` workflow runs on every PR; a PR outside `apps/mobile` gets no app tests, and the review must say so.
+- Merge commits only, never squash, so each commit's `Agent-Role:` trailer stays readable. The permission rule only allows `merge_method=merge`.
+- Escalate instead of merging when a PR needs a product decision, changes scope or product direction, spends money or adds a vendor or paid service, touches production or payments, carries legal or privacy risk, or publishes outside the project.
 - Merge permission is granted by Liran in `.claude/settings.json` (merge and PR comments on this repo only).
 
 ## Alternatives rejected

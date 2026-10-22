@@ -21,7 +21,7 @@ Work is done by roles defined in `.claude/agents/`. Before working, pick the rol
 
 ## Architecture
 - `tech-lead` owns the architecture. Structural decisions live in `docs/decisions/` as numbered records; read the accepted ones before designing anything.
-- A change that departs from an accepted record needs a new record first.
+- A change that departs from an accepted record needs a new record, written before or in the same PR.
 
 ## Reviews and merging
 - Liran does not approve PRs by hand. The `tech-lead` role reviews every PR and decides: merge, request changes, or escalate to Liran.

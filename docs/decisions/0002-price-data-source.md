@@ -9,7 +9,7 @@
 Quotes must be the freshest in the market and cover the full basket for online delivery.
 
 ## Decision
-- Source: the per-store price, promo and store files that chains must publish under the Food Price Transparency law. No scraping of chain websites.
+- Source: the per-store price, promo and store files that chains must publish under the Food Price Transparency law. No scraping of chain shopping websites. Downloading the files from the chains' official transparency portals, including with tools such as `il-supermarket-scraper`, is not scraping in this sense.
 - Ingestion: a Python service in `services/prices`, hourly, idempotent, monitored for stale feeds and price jumps. Evaluate the MIT-licensed `il-supermarket-scraper` before writing our own.
 - Delivery fees and minimum order: not in the files; collected per chain and area and stored separately.
 - Every quote stores its data timestamp; the basket is re-priced right before checkout.
