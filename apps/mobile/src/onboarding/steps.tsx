@@ -13,6 +13,7 @@ import {
   MAX_LUNCHBOXES,
   MAX_MEMBERS,
   MEALS,
+  SHOPPING_MODES,
   SKILLS,
   addDislike,
   setChains,
@@ -259,7 +260,14 @@ export function ShoppingStep({ household: h, update }: StepProps) {
   const { t } = useTranslation();
   return (
     <>
-      <Section title={t('onboarding.shopping.chains')} hint={t('onboarding.shopping.chainsHint')}>
+      <Section title={t('onboarding.shopping.mode')} hint={h.shoppingMode ? t(`onboarding.shopping.modeHints.${h.shoppingMode}`) : undefined}>
+        <Chips>
+          {SHOPPING_MODES.map((m) => (
+            <Chip key={m} single label={t(`onboarding.shopping.modes.${m}`)} selected={h.shoppingMode === m} onPress={() => update((x) => ({ ...x, shoppingMode: m }))} />
+          ))}
+        </Chips>
+      </Section>
+      <Section title={t('onboarding.shopping.chains')}>
         <Chips>
           {CHAINS.map((c) => (
             <Chip key={c} label={t(`chains.${c}`)} selected={h.chains.includes(c)} onPress={() => update((x) => setChains(x, toggle(x.chains, c)))} />

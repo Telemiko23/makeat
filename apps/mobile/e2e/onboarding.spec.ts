@@ -37,6 +37,7 @@ async function fillToSummary(page: Page) {
   await next(page);
 
   await expect(page.getByText('איפה קונים?')).toBeVisible();
+  await radio(page, 'בסניף').click();
   await box(page, 'רמי לוי').click();
   await box(page, 'אושר עד').click();
   await box(page, 'מועדון רמי לוי').click();
@@ -156,6 +157,13 @@ test('loyalty clubs follow the selected chains', async ({ page }) => {
   await page.goto('/onboarding/shopping');
   await expect(page.getByText('בחרו רשת כדי לסמן מועדון.')).toBeVisible();
   await next(page);
+  await expect(page.getByRole('alert')).toHaveText('בחרו איך אתם קונים.');
+  await radio(page, 'בהזמנה אונליין').click();
+  await expect(page.getByText('נשווה את הסל המלא כולל דמי משלוח.')).toBeVisible();
+  await radio(page, 'בסניף').click();
+  await expect(page.getByText('נשווה לפי מחירי המדף בסניף, בלי משלוח.')).toBeVisible();
+  await expect(radio(page, 'בהזמנה אונליין')).not.toBeChecked();
+  await next(page);
   await expect(page.getByRole('alert')).toHaveText('בחרו לפחות רשת אחת.');
 
   await box(page, 'שופרסל').click();
@@ -193,6 +201,7 @@ test('summary shows the answers and weekly portions', async ({ page }) => {
   await expect(page.getByText('לא אוהבים: כוסברה')).toBeVisible();
   await expect(page.getByText('רמי לוי, אושר עד')).toBeVisible();
   await expect(page.getByText('מועדונים: רמי לוי')).toBeVisible();
+  await expect(page.getByText('קנייה: בסניף')).toBeVisible();
 });
 
 test('editing from the summary returns to the summary', async ({ page }) => {
@@ -270,8 +279,8 @@ test('a fixed problem clears from the summary', async ({ page }) => {
   await page.getByRole('button', { name: '+ מבוגר' }).click();
   await page.getByRole('button', { name: 'חזרה לסיכום' }).click();
   await expect(page).toHaveURL(/\/onboarding\/summary$/);
-  // The next problem (no chain) replaces it.
-  await expect(page.getByRole('alert')).toHaveText('בחרו לפחות רשת אחת.');
+  // The next problem (shopping mode) replaces it.
+  await expect(page.getByRole('alert')).toHaveText('בחרו איך אתם קונים.');
 });
 
 test('a stored profile with unknown values still loads', async ({ page }) => {
@@ -281,7 +290,7 @@ test('a stored profile with unknown values still loads', async ({ page }) => {
       'makeat.household.v1',
       JSON.stringify({
         version: 1,
-        saved: { members: [{ id: 'a', kind: 'adult' }, { kind: 'alien' }], chains: ['ramiLevy', 'closedChain'], mealsAtHome: { weekday: ['dinner'] } },
+        saved: { members: [{ id: 'a', kind: 'adult' }, { kind: 'alien' }], shoppingMode: 'store', chains: ['ramiLevy', 'closedChain'], mealsAtHome: { weekday: ['dinner'] } },
       }),
     ),
   );

@@ -42,6 +42,10 @@ export const CHAINS = [
 ] as const;
 export type Chain = (typeof CHAINS)[number];
 
+/** How the household buys groceries; decides how baskets are quoted. */
+export const SHOPPING_MODES = ['online', 'store', 'both'] as const;
+export type ShoppingMode = (typeof SHOPPING_MODES)[number];
+
 export type Household = {
   members: Member[];
   cookingDays: Day[];
@@ -56,6 +60,8 @@ export type Household = {
   dislikes: string[];
   appliances: Appliance[];
   skill: Skill;
+  /** Online quotes include the delivery fee; in-store quotes use shelf prices. Unset until answered. */
+  shoppingMode: ShoppingMode | null;
   chains: Chain[];
   /** Chains whose loyalty club the household belongs to (subset of `chains`). */
   loyaltyClubs: Chain[];
@@ -73,6 +79,7 @@ export const emptyHousehold = (): Household => ({
   dislikes: [],
   appliances: ['oven', 'stovetop'],
   skill: 'home',
+  shoppingMode: null,
   chains: [],
   loyaltyClubs: [],
 });
@@ -122,6 +129,7 @@ export function stepError(h: Household, step: StepId): string | null {
     case 'kitchen':
       return h.appliances.length === 0 ? 'errors.needAppliance' : null;
     case 'shopping':
+      if (!h.shoppingMode) return 'errors.needShoppingMode';
       return h.chains.length === 0 ? 'errors.needChain' : null;
     default:
       return null;
@@ -194,6 +202,7 @@ export function normalizeHousehold(raw: unknown): Household {
       : d.dislikes,
     appliances: subsetOf(APPLIANCES, h.appliances, d.appliances),
     skill: oneOf(SKILLS, h.skill, d.skill),
+    shoppingMode: SHOPPING_MODES.includes(h.shoppingMode as ShoppingMode) ? (h.shoppingMode as ShoppingMode) : null,
     chains,
     loyaltyClubs: subsetOf(CHAINS, h.loyaltyClubs, d.loyaltyClubs).filter((c) => chains.includes(c)),
   };

@@ -72,6 +72,7 @@ export default function Summary() {
       </Block>
 
       <Block step="shopping">
+        <Line label={t('onboarding.summary.mode')} value={h.shoppingMode ? t(`onboarding.shopping.modes.${h.shoppingMode}`) : t('common.none')} />
         <P>{listOf(t, 'chains', h.chains)}</P>
         <Line label={t('onboarding.summary.clubs')} value={listOf(t, 'chains', h.loyaltyClubs)} />
       </Block>

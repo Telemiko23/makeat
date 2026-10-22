@@ -48,10 +48,11 @@ describe('stepError', () => {
     expect(stepError(none, 'week')).toBe('errors.needMeal');
     expect(stepError({ ...none, lunchboxesPerWeekday: 1 }, 'week')).toBeNull();
   });
-  it('kitchen needs an appliance; shopping needs a chain', () => {
+  it('kitchen needs an appliance; shopping needs a mode and a chain', () => {
     expect(stepError(withMembers([], { appliances: [] }), 'kitchen')).toBe('errors.needAppliance');
-    expect(stepError(withMembers([]), 'shopping')).toBe('errors.needChain');
-    expect(stepError(withMembers([], { chains: ['ramiLevy'] }), 'shopping')).toBeNull();
+    expect(stepError(withMembers([]), 'shopping')).toBe('errors.needShoppingMode');
+    expect(stepError(withMembers([], { shoppingMode: 'store' }), 'shopping')).toBe('errors.needChain');
+    expect(stepError(withMembers([], { shoppingMode: 'store', chains: ['ramiLevy'] }), 'shopping')).toBeNull();
   });
   it('food has no blocking rule', () => expect(stepError(withMembers([]), 'food')).toBeNull());
 });
@@ -92,6 +93,7 @@ describe('normalizeHousehold', () => {
   it('keeps valid data unchanged', () => {
     const h = withMembers([{ id: 'a', kind: 'adult' }, { id: 'b', kind: 'baby', months: 7, stage: 'purees' }], {
       allergens: ['sesame'],
+      shoppingMode: 'both',
       chains: ['ramiLevy'],
       loyaltyClubs: ['ramiLevy'],
       dislikes: ['כוסברה'],
@@ -112,12 +114,14 @@ describe('normalizeHousehold', () => {
       loyaltyClubs: ['shufersal', 'ramiLevy'],
       allergens: ['sesame', 'kryptonite'],
       kashrut: 'strict',
+      shoppingMode: 'drone',
     });
     expect(h.members).toEqual([{ id: 'c', kind: 'child', age: 17 }]);
     expect(h.chains).toEqual(['ramiLevy']);
     expect(h.loyaltyClubs).toEqual(['ramiLevy']);
     expect(h.allergens).toEqual(['sesame']);
     expect(h.kashrut).toBe('none');
+    expect(h.shoppingMode).toBeNull();
   });
 
   it('makes member ids unique and caps the household', () => {
@@ -131,7 +135,8 @@ describe('normalizeHousehold', () => {
 describe('firstProblem', () => {
   it('names the first incomplete step', () => {
     expect(firstProblem(emptyHousehold())).toEqual({ step: 'household', error: 'errors.needAdult' });
-    expect(firstProblem(withMembers([{ id: 'a', kind: 'adult' }]))).toEqual({ step: 'shopping', error: 'errors.needChain' });
-    expect(firstProblem(withMembers([{ id: 'a', kind: 'adult' }], { chains: ['victory'] }))).toBeNull();
+    expect(firstProblem(withMembers([{ id: 'a', kind: 'adult' }]))).toEqual({ step: 'shopping', error: 'errors.needShoppingMode' });
+    expect(firstProblem(withMembers([{ id: 'a', kind: 'adult' }], { shoppingMode: 'store' }))).toEqual({ step: 'shopping', error: 'errors.needChain' });
+    expect(firstProblem(withMembers([{ id: 'a', kind: 'adult' }], { shoppingMode: 'store', chains: ['victory'] }))).toBeNull();
   });
 });
