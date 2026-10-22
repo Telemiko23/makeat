@@ -18,7 +18,7 @@ decisions = root / "docs/decisions"
 index = (decisions / "README.md").read_text()
 for f in sorted(decisions.glob("[0-9][0-9][0-9][0-9]-*.md")):
     status = re.search(r"^- Status:\s*(.+)$", f.read_text(), re.M)
-    row = re.search(rf"^\|.*\({re.escape(f.name)}\).*\|\s*([^|]+?)\s*\|\s*$", index, re.M)
+    row = re.search(rf"^\|\s*\[\d{{4}}\]\({re.escape(f.name)}\)\s*\|.*\|\s*([^|]+?)\s*\|\s*$", index, re.M)
     if not status:
         errors.append(f"{f.relative_to(root)}: missing '- Status:' line")
     elif not row:

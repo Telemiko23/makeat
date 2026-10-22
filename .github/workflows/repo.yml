@@ -15,4 +15,4 @@ jobs:
       - name: Role definitions and decision index
         run: python3 scripts/check_repo.py
       - name: Contribution report builds
-        run: node scripts/contributions.mjs "$(git rev-list --max-parents=0 HEAD)" HEAD ci > /dev/null
+        run: node scripts/contributions.mjs "$(git rev-list --max-parents=0 HEAD | tail -1)" HEAD ci > /dev/null

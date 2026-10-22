@@ -1,0 +1,87 @@
+name: Android APK
+on:
+  # On PRs, build only when something that affects the native build changes;
+  # JavaScript-only changes are covered by the Mobile workflow.
+  pull_request:
+    paths:
+      - apps/mobile/app.json
+      - apps/mobile/package.json
+      - apps/mobile/package-lock.json
+      - apps/mobile/assets/**
+      - .github/workflows/android.yml
+  push:
+    branches: [main]
+    paths: [apps/mobile/**, packages/**, .github/workflows/android.yml]
+  workflow_dispatch:
+concurrency:
+  group: android-${{ github.ref }}
+  # Never cancel a main build mid-publish; superseded PR builds can go.
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+permissions:
+  contents: read
+jobs:
+  build:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 60
+    defaults:
+      run:
+        working-directory: apps/mobile
+    outputs:
+      sha: ${{ steps.apk.outputs.sha }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: apps/mobile/package-lock.json
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 17
+      - uses: gradle/actions/setup-gradle@v4
+      - run: npm ci
+      - name: Generate native Android project
+        run: npx expo prebuild --platform android --no-install
+      - name: Build release APK (arm64, debug-signed for internal testing)
+        working-directory: apps/mobile/android
+        run: ./gradlew assembleRelease -PreactNativeArchitectures=arm64-v8a --no-daemon
+      - name: Name the APK
+        id: apk
+        env:
+          SHA: ${{ github.event.pull_request.head.sha || github.sha }}
+        run: |
+          echo "sha=$SHA" >> "$GITHUB_OUTPUT"
+          cp android/app/build/outputs/apk/release/app-release.apk makeat-android.apk
+      - uses: actions/upload-artifact@v4
+        with:
+          name: makeat-android-${{ steps.apk.outputs.sha }}
+          path: apps/mobile/makeat-android.apk
+          retention-days: 14
+
+  publish:
+    needs: build
+    if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: makeat-android-${{ needs.build.outputs.sha }}
+      - name: Update the rolling android-latest pre-release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+          SHA: ${{ needs.build.outputs.sha }}
+        run: |
+          notes="Latest build of main (${SHA}). Internal testing only, debug-signed. Open the .apk on an Android phone to install."
+          if gh release view android-latest > /dev/null 2>&1; then
+            # Replace the asset in place and move the tag, so the link never 404s.
+            gh release upload android-latest makeat-android.apk --clobber
+            gh api -X PATCH "repos/${GH_REPO}/git/refs/tags/android-latest" -f sha="$SHA" -F force=true > /dev/null
+            gh release edit android-latest --notes "$notes"
+          else
+            gh release create android-latest makeat-android.apk --prerelease --target "$SHA" \
+              --title "Makeat Android (internal build)" --notes "$notes"
+          fi

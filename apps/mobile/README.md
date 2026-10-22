@@ -2,7 +2,12 @@
 
 Expo (SDK 58) + React Native + TypeScript, Expo Router, i18next. Hebrew-first, RTL.
 
-## Run on your phone (no store account needed)
+## Install on Android (no account needed)
+Every merge to main that changes the app publishes an APK to the `android-latest` pre-release:
+https://github.com/Telemiko23/makeat/releases/tag/android-latest
+Open it on the phone, download the `.apk`, and allow installing from the browser when asked.
+
+## Run on your phone with a dev server
 1. Install **Expo Go** from Google Play on the phone.
 2. On a computer: `cd apps/mobile && npm install && npx expo start --tunnel`.
 3. Scan the QR code with Expo Go.
