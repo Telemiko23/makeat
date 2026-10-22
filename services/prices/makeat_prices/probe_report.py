@@ -2,10 +2,10 @@
 
     python -m makeat_prices.probe_report /tmp/raw
 
-Prints, per chain: how fresh each file is, how often the chain publishes (from
-the FTP listing), a sample-basket quote per store with and without the loyalty
-club, and candidates for fresh produce, which has no shared barcode. Ends with
-the Ministry of Economy's list of publishing chains.
+Prints, per chain and store: how fresh the data is, active promotions by club
+rule, a sample-basket quote with and without the loyalty club, and candidates
+for fresh produce, which has no shared barcode. Ends with the Ministry of
+Economy's list of chains that must publish.
 """
 from __future__ import annotations
 
@@ -15,12 +15,11 @@ import sys
 from collections import Counter
 from datetime import datetime
 from decimal import Decimal
-from ftplib import FTP_TLS
 from pathlib import Path
 from zoneinfo import ZoneInfo
 
 from .basket import Line, quote
-from .feeds import file_timestamp, load_xml, parse_prices, parse_promotions
+from .snapshot import store_ids, store_prices, store_promotions
 
 ISRAEL = ZoneInfo("Asia/Jerusalem")
 
@@ -49,35 +48,6 @@ FRESH = {
     "chicken breast": "חזה עוף",
 }
 
-FTP_USERS = {"RAMI_LEVY": "RamiLevi", "OSHER_AD": "osherad"}
-
-
-def ftp_listing(user: str) -> list[str]:
-    """Every file name the chain has on the Cerberus FTP."""
-    ftp = FTP_TLS("url.retail.publishedprices.co.il", user, "", timeout=120)
-    ftp.trust_server_pasv_ipv4_address = True
-    try:
-        return ftp.nlst()  # the server rejects MLSD
-    finally:
-        ftp.close()
-
-
-def publishing_rhythm(user: str, store_ids: list[str]) -> None:
-    try:
-        files = ftp_listing(user)
-    except Exception as error:  # noqa: BLE001 - report and carry on
-        print(f"FTP listing failed: {error}")
-        return
-    print(f"FTP: {len(files)} files")
-    for store_id in store_ids:
-        mine = sorted(n for n in files if re.search(rf"-0*{int(store_id)}-\d{{8}}", n))
-        kinds = Counter(re.match(r"[A-Za-z]+", n).group(0).lower() for n in mine)
-        print(f"  store {store_id}: {dict(kinds)}")
-        for kind in sorted(kinds):
-            of_kind = [n for n in mine if n.lower().startswith(kind)]
-            print(f"    {kind}: last {of_kind[-6:]}")
-
-
 def main(raw: Path) -> int:
     now = datetime.now(ISRAEL).replace(tzinfo=None)
     print(f"Report time (Israel): {now:%Y-%m-%d %H:%M}")
@@ -86,39 +56,30 @@ def main(raw: Path) -> int:
         chain = chain_dir.name
         print(f"\n===== {chain} =====")
         prices, promos = {}, {}
-        for f in sorted(chain_dir.glob("*.xml")):
-            lower = f.name.lower()
-            if lower.startswith("pricefull"):
-                pf = parse_prices(load_xml(f.read_bytes()))
-                pf.published_at = file_timestamp(f.name)
-                prices[pf.store_id] = (f.name, pf)
-            elif lower.startswith("promofull"):
-                root = load_xml(f.read_bytes())
-                promos[parse_prices(root).store_id] = (f.name, parse_promotions(root))
+        for store_id in store_ids(chain_dir):
+            prices[store_id] = store_prices(chain_dir, store_id)
+            promos[store_id] = store_promotions(chain_dir, store_id)
 
-        for store_id, (name, pf) in sorted(prices.items()):
+        for store_id, pf in sorted(prices.items(), key=lambda kv: int(kv[0])):
             print(
-                f"PriceFull store {store_id} ({name}): {len(pf.items)} items, "
+                f"prices store {store_id}: {len(pf.items)} items, "
                 f"{sum(p.is_weighted for p in pf.items.values())} weighted, published {pf.published_at} "
                 f"({now - pf.published_at if pf.published_at else '?'} ago), newest price change {pf.latest_update}"
             )
-        for store_id, (name, ps) in sorted(promos.items()):
+        for store_id, ps in sorted(promos.items(), key=lambda kv: int(kv[0])):
             active = [p for p in ps if p.active_at(now)]
             print(
-                f"PromoFull store {store_id} ({name}): {len(ps)} promos, {len(active)} active now; "
+                f"promotions store {store_id}: {len(ps)} promos, {len(active)} active now; "
                 f"club codes {dict(Counter(''.join(sorted(p.club_codes)) for p in active))}; "
                 f"coupons {sum(p.is_coupon for p in active)}; min spend {sum(bool(p.min_purchase_amount) for p in active)}"
             )
             for p in [p for p in active if "1" in p.club_codes][:5]:
                 print(f"  club promo {p.promotion_id} codes {sorted(p.club_codes)}: {p.description} ({len(p.items)} items)")
 
-        if chain in FTP_USERS:
-            publishing_rhythm(FTP_USERS[chain], sorted(prices))
-
         print(f"--- sample basket ({len(SAMPLE_BASKET)} lines) ---")
         lines = [Line(code, Decimal(qty)) for code, qty, _ in SAMPLE_BASKET]
-        for store_id, (_, pf) in sorted(prices.items()):
-            ps = promos.get(store_id, (None, []))[1]
+        for store_id, pf in sorted(prices.items(), key=lambda kv: int(kv[0])):
+            ps = promos.get(store_id, [])
             plain = quote(pf, ps, lines, at=now)
             member = quote(pf, ps, lines, at=now, club_member=True)
             totals[f"{chain}:{store_id}"] = [str(plain.items_total), str(member.items_total)]
@@ -134,7 +95,7 @@ def main(raw: Path) -> int:
                     print(f"    club-only saving on {ln.item_code}: {ln.promotion_text} -> {ln.total}")
 
         print("--- fresh produce candidates (no shared barcode) ---")
-        for store_id, (_, pf) in sorted(prices.items()):
+        for store_id, pf in sorted(prices.items(), key=lambda kv: int(kv[0])):
             for label, word in FRESH.items():
                 hits = [p for p in pf.items.values() if p.name.startswith(word) or (word in p.name and p.is_weighted)]
                 hits.sort(key=lambda p: (not p.is_weighted, len(p.item_code), p.name))

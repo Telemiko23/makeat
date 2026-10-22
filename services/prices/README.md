@@ -10,7 +10,8 @@ Owner: `price-data`.
 |---|---|
 | `makeat_prices/feeds.py` | Parse Stores, PriceFull and PromoFull files (plain, gzip or zip; UTF-8 or UTF-16). |
 | `makeat_prices/basket.py` | Quote a basket at one store: promotions, club rules, delivery fee, data timestamp. |
-| `makeat_prices/fetch.py` | Download a chain's store list and the latest full files for chosen stores, with `il-supermarket-scraper`. |
+| `makeat_prices/fetch.py` | Download a chain's store list, the newest full files for chosen stores, and the hourly updates after them (FTP-TLS). |
+| `makeat_prices/snapshot.py` | Rebuild a store's current prices and promotions: newest full file plus later updates. |
 | `makeat_prices/probe_report.py` | Print what the chains publish: freshness, publishing rhythm, sample basket, produce candidates. |
 
 ## Run
@@ -19,7 +20,7 @@ Owner: `price-data`.
 pip install -e ".[dev]"     # parser and basket only
 pytest -q
 
-pip install -e ".[fetch]"   # adds il-supermarket-scraper for live downloads
+pip install -e ".[fetch]"   # il-supermarket-scraper, used by the report for the gov.il chain list
 python -m makeat_prices.fetch --chain OSHER_AD --match אונו --out /tmp/raw
 python -m makeat_prices.probe_report /tmp/raw
 ```
