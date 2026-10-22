@@ -12,6 +12,7 @@ On first launch the app sets native RTL; layout is also forced RTL in code, so i
 ## Checks
 - `npm run typecheck`
 - `npx expo export --platform android` (bundles the app)
+- `npm run build:web && npm run test:e2e` (Playwright end-to-end, phone size, light and dark)
 
 ## Structure
 - `src/app/` routes (every file is a screen)
