@@ -16,7 +16,8 @@ _Released <date>. Reading time: about 3 minutes._
 |---|---|
 | <role> | <one line> |
 
-Full numbers: `CONTRIBUTIONS-<version>.md`.
+Full numbers: [CONTRIBUTIONS-<version>.md](CONTRIBUTIONS-<version>.md), generated with
+`node scripts/contributions.mjs <previous-tag> <version> <version> > docs/releases/CONTRIBUTIONS-<version>.md`.
 
 ## What we learned
 - <Insight from testing, data or users>

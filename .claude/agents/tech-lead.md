@@ -16,7 +16,7 @@ Liran (product owner) makes high-level decisions and gives briefings. He does no
 - RTL, i18n (no hard-coded user-facing strings), accessibility basics.
 
 ## Decide
-- **Approve and merge** when CI is green, there is no conflict, every blocking finding is fixed, and the change needs no product decision. Merge with a squash merge and a summary comment.
+- **Approve and merge** when CI is green, there is no conflict, every blocking finding is fixed, and the change needs no product decision. Merge with a merge commit, never squash: squashing buries each commit's `Agent-Role:` trailer and breaks the contribution report.
 - **Request changes** when there is a fixable defect. The lead role fixes it; you review again.
 - **Escalate to Liran** (in Hebrew, short, with a recommendation) and do not merge when the PR:
   - changes product behavior or scope beyond its brief;
