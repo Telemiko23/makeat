@@ -1,0 +1,62 @@
+name: Android APK
+on:
+  pull_request:
+    paths: [apps/mobile/**, .github/workflows/android.yml]
+  push:
+    branches: [main]
+    paths: [apps/mobile/**, .github/workflows/android.yml]
+  workflow_dispatch:
+concurrency:
+  group: android-${{ github.ref }}
+  cancel-in-progress: true
+permissions:
+  contents: write
+jobs:
+  apk:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 60
+    defaults:
+      run:
+        working-directory: apps/mobile
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: apps/mobile/package-lock.json
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 17
+      - uses: gradle/actions/setup-gradle@v4
+      - run: npm ci
+      - name: Generate native Android project
+        run: npx expo prebuild --platform android --no-install
+      - name: Build release APK (arm64, signed with the debug key for internal testing)
+        working-directory: apps/mobile/android
+        run: ./gradlew assembleRelease -PreactNativeArchitectures=arm64-v8a --no-daemon
+      - name: Name the APK
+        id: apk
+        run: |
+          short=$(git rev-parse --short HEAD)
+          version=$(node -p "require('./app.json').expo.version")
+          name="makeat-${version}-${short}.apk"
+          cp android/app/build/outputs/apk/release/app-release.apk "$name"
+          echo "name=$name" >> "$GITHUB_OUTPUT"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: makeat-apk
+          path: apps/mobile/${{ steps.apk.outputs.name }}
+          retention-days: 14
+      - name: Publish as the latest internal build
+        if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release delete android-latest --yes --cleanup-tag || true
+          gh release create android-latest "${{ steps.apk.outputs.name }}" \
+            --prerelease \
+            --target "$GITHUB_SHA" \
+            --title "Makeat Android (internal build)" \
+            --notes "Latest build of main ($GITHUB_SHA). Internal testing only; signed with a debug key. Install on Android by opening the .apk on the phone."
