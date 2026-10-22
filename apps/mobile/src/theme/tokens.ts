@@ -1,35 +1,36 @@
-// Design tokens: the only source of colors, spacing, radii and type sizes in the app.
-// Brand direction A ("Fresh market"); see docs/brand/README.md. Screens never use raw values.
+// Design tokens: the only source of colors, spacing, radii, type sizes and fonts in the app.
+// Brand: "Bitten coin" logo, Pomegranate & Navy palette, Fredoka + Rubik; see docs/brand/README.md.
+// Screens never use raw values.
 export const colors = {
   light: {
-    background: '#FAF7F0', // cream ground
+    background: '#FFF8F2', // blush ground
     surface: '#FFFFFF',
-    text: '#1C2A21',
-    muted: '#4F6156', // secondary text, 6:1 on background
-    accent: '#2E7D4F', // herb green: primary actions, brand
+    text: '#14213D', // navy
+    muted: '#4A5470', // secondary text, 7:1 on background
+    accent: '#D61F4A', // pomegranate: primary actions, brand
     onAccent: '#FFFFFF',
-    line: '#E3E0D6',
-    saving: '#C23B22', // tomato: money saved, best basket
-    onSaving: '#FFFFFF',
-    highlight: '#F2C14E', // lemon: freshness tags, light emphasis
-    onHighlight: '#1C2A21',
-    danger: '#B3261E', // errors and allergen warnings
+    line: '#F3D9CF',
+    saving: '#FFB703', // saffron: money saved, best basket
+    onSaving: '#14213D',
+    highlight: '#E4E8F2', // freshness tags, light emphasis
+    onHighlight: '#14213D',
+    danger: '#A3141F', // errors and allergen warnings; always with an icon and text
     onDanger: '#FFFFFF',
   },
   dark: {
-    background: '#101712',
-    surface: '#18221B',
-    text: '#E7EEE8',
-    muted: '#A3B3A8',
-    accent: '#6FCF97',
-    onAccent: '#0E1A12',
-    line: '#2A372E',
-    saving: '#FF8A70',
-    onSaving: '#1A0E0A',
-    highlight: '#F2C14E',
-    onHighlight: '#1C2A21',
-    danger: '#F2B8B5',
-    onDanger: '#410E0B',
+    background: '#0F1626',
+    surface: '#18213A',
+    text: '#F4EFEA',
+    muted: '#A9B1C7',
+    accent: '#FF5C7F',
+    onAccent: '#14213D',
+    line: '#2A3552',
+    saving: '#FFB703',
+    onSaving: '#14213D',
+    highlight: '#2A3552',
+    onHighlight: '#F4EFEA',
+    danger: '#FF8A80',
+    onDanger: '#3B0A0A',
   },
 } as const;
 
@@ -39,5 +40,14 @@ export const spacing = { xs: 4, sm: 8, md: 16, lg: 24, xl: 32, xxl: 48 } as cons
 export const radius = { sm: 8, md: 14, lg: 20, pill: 999 } as const;
 export const fontSize = { caption: 14, body: 17, subtitle: 20, heading: 26, title: 32 } as const;
 export const lineHeight = { caption: 20, body: 26, subtitle: 28, heading: 34, title: 40 } as const;
+// Font family names as registered by useBrandFonts (src/theme/fonts.ts).
+// Fredoka: headings and buttons (Hebrew + Latin). Rubik: body text, prices and lists (all four scripts).
+export const fontFamily = {
+  display: 'Fredoka_600SemiBold',
+  displayMedium: 'Fredoka_500Medium',
+  body: 'Rubik_400Regular',
+  bodyMedium: 'Rubik_500Medium',
+  bodyBold: 'Rubik_700Bold',
+} as const;
 // Minimum touch target (dp), per Android and iOS guidance.
 export const touchTarget = 48;

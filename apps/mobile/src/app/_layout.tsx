@@ -2,10 +2,13 @@ import '../i18n';
 import { Stack } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import { View } from 'react-native';
+import { useBrandFonts } from '../theme/fonts';
 import { useTheme } from '../theme/useTheme';
 
 export default function RootLayout() {
   const { c, rtl } = useTheme();
+  const fontsReady = useBrandFonts();
+  if (!fontsReady) return <View style={{ flex: 1, backgroundColor: c.background }} />;
   return (
     <View style={{ flex: 1, direction: rtl ? 'rtl' : 'ltr', backgroundColor: c.background }}>
       <StatusBar style="auto" />
