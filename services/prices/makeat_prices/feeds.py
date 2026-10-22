@@ -8,6 +8,7 @@ from __future__ import annotations
 
 import gzip
 import io
+import re
 import zipfile
 from dataclasses import dataclass, field
 from datetime import datetime
@@ -128,24 +129,43 @@ class PriceFile:
 
 
 @dataclass(frozen=True)
+class PromoTerms:
+    """What one item gets under a promotion. DiscountedPrice is the price of
+    MinQty units together ("2 for 20" is MinQty 2, DiscountedPrice 20)."""
+
+    min_qty: Decimal | None
+    max_qty: Decimal | None
+    discounted_price: Decimal | None
+    discount_rate: Decimal | None
+    reward_type: str | None
+
+
+@dataclass(frozen=True)
 class Promotion:
     promotion_id: str
     description: str
     starts_at: datetime | None
     ends_at: datetime | None
-    reward_type: str | None
-    min_qty: Decimal | None
-    max_qty: Decimal | None
-    discounted_price: Decimal | None
-    discount_rate: Decimal | None
     min_purchase_amount: Decimal | None
-    club_ids: frozenset[str]
+    club_codes: frozenset[str]  # law ClubId codes: 0 everyone, 1 club, 2 credit card, 3 other
     is_coupon: bool
-    item_codes: frozenset[str]
+    items: dict[str, PromoTerms]
     gift_codes: frozenset[str]
 
     def active_at(self, at: datetime) -> bool:
         return (self.starts_at is None or self.starts_at <= at) and (self.ends_at is None or at <= self.ends_at)
+
+
+def parse_club_codes(values: list[str]) -> frozenset[str]:
+    """ClubId is '0' in most files, but Rami Levy writes expressions such as
+    '((1=club|1=credit club))&(3=vouchers)'. Keep every law code mentioned."""
+    codes = set()
+    for value in values:
+        if re.fullmatch(r"\s*\d\s*", value):
+            codes.add(value.strip())
+        else:
+            codes.update(re.findall(r"(?<!\d)(\d)\s*=", value))
+    return frozenset(codes or {CLUB_EVERYONE})
 
 
 def parse_stores(root: ET.Element) -> list[Store]:
@@ -187,9 +207,30 @@ def parse_prices(root: ET.Element) -> PriceFile:
             unit_of_measure=_child_text(el, "UnitQty", "UnitOfMeasure"),
             quantity=_decimal(_child_text(el, "Quantity")),
             is_weighted=_child_text(el, "bIsWeighted", "BisWeighted") == "1",
-            updated_at=_datetime(_child_text(el, "PriceUpdateDate")),
+            updated_at=_datetime(_child_text(el, "PriceUpdateTime", "PriceUpdateDate")),
         )
     return result
+
+
+def _terms(el: ET.Element, fallback: ET.Element) -> PromoTerms:
+    def pick(*names):
+        return _child_text(el, *names) or _child_text(fallback, *names)
+
+    return PromoTerms(
+        min_qty=_decimal(pick("MinQty")),
+        max_qty=_decimal(pick("MaxQty")),
+        discounted_price=_decimal(pick("DiscountedPrice")),
+        discount_rate=_decimal(pick("DiscountRate")),
+        reward_type=pick("RewardType"),
+    )
+
+
+def _promo_time(el: ET.Element, edge: str) -> datetime | None:
+    """PromotionStartDateTime in newer files; PromotionStartDate + PromotionStartHour in older ones."""
+    combined = _child_text(el, f"Promotion{edge}DateTime")
+    if combined:
+        return _datetime(combined)
+    return _join_date_hour(_child_text(el, f"Promotion{edge}Date"), _child_text(el, f"Promotion{edge}Hour"))
 
 
 def parse_promotions(root: ET.Element) -> list[Promotion]:
@@ -198,27 +239,26 @@ def parse_promotions(root: ET.Element) -> list[Promotion]:
         promo_id = _child_text(el, "PromotionId", "PromotionID")
         if promo_id is None:
             continue
-        items, gifts = set(), set()
-        for item in _iter(el, "item"):
+        items, gifts = {}, set()
+        for item in (*_iter(el, "item"), *_iter(el, "promotionitem")):
             code = _child_text(item, "ItemCode")
-            if code:
-                (gifts if _child_text(item, "IsGiftItem") == "1" else items).add(code)
-        clubs = {(c.text or "").strip() for c in _iter(el, "clubid") if (c.text or "").strip()}
+            if not code:
+                continue
+            if _child_text(item, "IsGiftItem") == "1":
+                gifts.add(code)
+            else:
+                items[code] = _terms(item, el)
+        min_purchase = [_decimal(m.text) for m in el.iter() if _tag(m) in ("minpurchaseamnt", "minpurchaseamount")]
         promos.append(
             Promotion(
                 promotion_id=promo_id,
                 description=_child_text(el, "PromotionDescription") or "",
-                starts_at=_join_date_hour(_child_text(el, "PromotionStartDate"), _child_text(el, "PromotionStartHour")),
-                ends_at=_join_date_hour(_child_text(el, "PromotionEndDate"), _child_text(el, "PromotionEndHour")),
-                reward_type=_child_text(el, "RewardType"),
-                min_qty=_decimal(_child_text(el, "MinQty")),
-                max_qty=_decimal(_child_text(el, "MaxQty")),
-                discounted_price=_decimal(_child_text(el, "DiscountedPrice")),
-                discount_rate=_decimal(_child_text(el, "DiscountRate")),
-                min_purchase_amount=_decimal(_child_text(el, "MinPurchaseAmnt", "MinPurchaseAmount")),
-                club_ids=frozenset(clubs or {CLUB_EVERYONE}),
+                starts_at=_promo_time(el, "Start"),
+                ends_at=_promo_time(el, "End"),
+                min_purchase_amount=max((m for m in min_purchase if m), default=None),
+                club_codes=parse_club_codes([(c.text or "") for c in _iter(el, "clubid") if (c.text or "").strip()]),
                 is_coupon=_child_text(el, "AdditionalIsCoupon") == "1",
-                item_codes=frozenset(items),
+                items=items,
                 gift_codes=frozenset(gifts),
             )
         )
