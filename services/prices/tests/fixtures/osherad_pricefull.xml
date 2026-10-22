@@ -1,0 +1,64 @@
+﻿<Root>
+  <ChainID>7290103152017</ChainID>
+  <SubChainID>001</SubChainID>
+  <StoreID>032</StoreID>
+  <BikoretNo>6</BikoretNo>
+  <Items>
+    <Item>
+      <PriceUpdateTime>2026-06-14T06:18:07.000</PriceUpdateTime>
+      <ItemCode>7290119386383</ItemCode>
+      <LastSaleDateTime>2026-10-22T00:38:49.000</LastSaleDateTime>
+      <ItemType>1</ItemType>
+      <ItemName>בפלות XL בטעם שוקולד</ItemName>
+      <ManufactureName>עלית</ManufactureName>
+      <ManufactureCountry>ישראל</ManufactureCountry>
+      <ManufactureItemDescription>בפלות XL בטעם שוקולד</ManufactureItemDescription>
+      <UnitQty>גרם</UnitQty>
+      <Quantity>800.00</Quantity>
+      <UnitOfMeasure>100 גרם</UnitOfMeasure>
+      <bIsWeighted>0</bIsWeighted>
+      <QtyInPackage>לא ידוע</QtyInPackage>
+      <ItemPrice>19.90</ItemPrice>
+      <UnitOfMeasurePrice>2.49</UnitOfMeasurePrice>
+      <AllowDiscount>1</AllowDiscount>
+      <ItemStatus/>
+    </Item>
+    <Item>
+      <PriceUpdateTime>2026-10-20T15:56:23.000</PriceUpdateTime>
+      <ItemCode>7290004131074</ItemCode>
+      <ItemType>1</ItemType>
+      <ItemName>חלב 3% תנובה 1 ליטר</ItemName>
+      <ManufactureName>תנובה מרכז שיתופי לש</ManufactureName>
+      <UnitQty>ליטר</UnitQty>
+      <Quantity>1.00</Quantity>
+      <UnitOfMeasure>100 מיליליטר</UnitOfMeasure>
+      <bIsWeighted>0</bIsWeighted>
+      <ItemPrice>7.20</ItemPrice>
+      <UnitOfMeasurePrice>0.72</UnitOfMeasurePrice>
+      <AllowDiscount>1</AllowDiscount>
+      <ItemStatus/>
+    </Item>
+    <Item>
+      <PriceUpdateTime>2026-10-21T07:00:00.000</PriceUpdateTime>
+      <ItemCode>7290003222797</ItemCode>
+      <ItemType>1</ItemType>
+      <ItemName>פיתות כוסמין 1/10 מכבים</ItemName>
+      <ManufactureName>מכבים</ManufactureName>
+      <bIsWeighted>0</bIsWeighted>
+      <ItemPrice>12.90</ItemPrice>
+      <ItemStatus/>
+    </Item>
+    <Item>
+      <PriceUpdateTime>2026-10-22T06:30:00.000</PriceUpdateTime>
+      <ItemCode>230</ItemCode>
+      <ItemType>0</ItemType>
+      <ItemName>עגבניה</ItemName>
+      <ManufactureName>לא ידוע</ManufactureName>
+      <UnitQty>קילוגרם</UnitQty>
+      <Quantity>1.00</Quantity>
+      <bIsWeighted>1</bIsWeighted>
+      <ItemPrice>6.90</ItemPrice>
+      <ItemStatus/>
+    </Item>
+  </Items>
+</Root>
