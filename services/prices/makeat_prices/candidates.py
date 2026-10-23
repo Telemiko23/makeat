@@ -19,7 +19,7 @@ from pathlib import Path
 from .feeds import Price
 from .snapshot import store_ids, store_prices
 
-PER_STORE = 6
+PER_STORE = 8
 # Words in ingredient names that shelf names rarely repeat.
 NOISE = {"טרי", "טרייה", "טריים", "שן", "לבן", "מתוקה", "מתוק", "קצוץ", "קצוצה"}
 
@@ -43,12 +43,24 @@ def terms(name_he: str) -> list[str]:
 
 
 def matches(items: dict[str, Price], name_he: str) -> list[Price]:
+    """Items named like the ingredient: the name starts with its first word and
+    contains the others. Shelf names put the product first ("בצל יבש",
+    "שמן זית כתית"), which keeps out "פתיתים עם בצל". Falls back to any item
+    containing every word when nothing starts that way."""
     want = terms(name_he)
-    found = [p for p in items.values() if all(t in normalize(p.name) for t in want)]
+    names = {code: normalize(p.name) for code, p in items.items()}
+    found = [p for code, p in items.items() if names[code].startswith(want[0]) and all(t in names[code] for t in want[1:])]
+    if not found:
+        found = [p for code, p in items.items() if all(t in names[code] for t in want)]
     if not found and len(want) > 1:
         # Shelf names often drop the qualifiers ("canned", "for cooking"); fall back to the main word.
-        found = [p for p in items.values() if want[0] in normalize(p.name)]
-    return sorted(found, key=lambda p: (p.unit_price if p.unit_price is not None else p.price, p.price))
+        found = [p for code, p in items.items() if names[code].startswith(want[0])]
+
+    def per_unit(p: Price):
+        return p.price / p.quantity if p.quantity else p.price
+
+    # Weighed produce first, then the cheapest per unit of size.
+    return sorted(found, key=lambda p: (not p.is_weighted, per_unit(p), p.price))
 
 
 def describe(p: Price) -> str:
