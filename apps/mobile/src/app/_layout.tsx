@@ -5,6 +5,7 @@ import { useEffect } from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { View } from 'react-native';
 import { HouseholdProvider } from '../state/household';
+import { PlanProvider } from '../state/plan';
 import { useBrandFonts } from '../theme/fonts';
 import { useTheme } from '../theme/useTheme';
 
@@ -20,12 +21,14 @@ export default function RootLayout() {
   }, [fontsReady]);
   return (
     <HouseholdProvider>
+      <PlanProvider>
       <View style={{ flex: 1, direction: rtl ? 'rtl' : 'ltr', backgroundColor: c.background }}>
         <StatusBar style="auto" />
         {fontsReady ? (
           <Stack screenOptions={{ headerShown: false, contentStyle: { backgroundColor: c.background } }} />
         ) : null}
       </View>
+      </PlanProvider>
     </HouseholdProvider>
   );
 }

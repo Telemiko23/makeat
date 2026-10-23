@@ -1,11 +1,11 @@
 // Household profile collected in onboarding. Stored on the device only.
 
 // Vocabularies shared with recipe filtering, so profile ids and recipe rules can never drift.
-import { ALLERGENS, APPLIANCES, DIETS, KASHRUT, MEALS, SKILLS } from '../../../../packages/shared/src/vocab';
-import type { Allergen, Appliance, Diet, Kashrut, Meal, Skill } from '../../../../packages/shared/src/vocab';
+import { ALLERGENS, APPLIANCES, DAYS, DIETS, KASHRUT, MEALS, SKILLS, WEEKEND } from '../../../../packages/shared/src/vocab';
+import type { Allergen, Appliance, Day, Diet, Kashrut, Meal, Skill } from '../../../../packages/shared/src/vocab';
 
-export { ALLERGENS, APPLIANCES, DIETS, KASHRUT, MEALS, SKILLS };
-export type { Allergen, Appliance, Diet, Kashrut, Meal, Skill };
+export { ALLERGENS, APPLIANCES, DAYS, DIETS, KASHRUT, MEALS, SKILLS, WEEKEND };
+export type { Allergen, Appliance, Day, Diet, Kashrut, Meal, Skill };
 
 export type MemberKind = 'adult' | 'child' | 'baby';
 export type BabyStage = 'purees' | 'soft' | 'finger';
@@ -14,10 +14,6 @@ export type Member =
   | { id: string; kind: 'adult' }
   | { id: string; kind: 'child'; age: number } // years, 1-17
   | { id: string; kind: 'baby'; months: number; stage: BabyStage }; // 6-12 months
-
-export const DAYS = ['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat'] as const;
-export type Day = (typeof DAYS)[number];
-export const WEEKEND: readonly Day[] = ['fri', 'sat'];
 
 export const CHAINS = [
   'shufersal', 'ramiLevy', 'osherAd', 'victory', 'yochananof',

@@ -1,6 +1,7 @@
 import { readdirSync, readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { describe, expect, it } from 'vitest';
+import { RECIPES } from '../content';
 import { catalogOf, recipeClass } from './derive';
 import type { Ingredient, Recipe } from './types';
 import { validateCatalog, validateRecipe } from './validate';
@@ -17,6 +18,10 @@ describe('content', () => {
   it('ingredient catalog is valid', () => expect(validateCatalog(ingredients)).toEqual([]));
 
   it('has recipes', () => expect(recipes.length).toBeGreaterThanOrEqual(20));
+
+  it('the bundled index lists every recipe file', () => {
+    expect(RECIPES.map((r) => r.id).sort()).toEqual(recipes.map(({ recipe }) => recipe.id).sort());
+  });
 
   it.each(recipes)('$file is valid and named after its id', ({ file, recipe }) => {
     expect(file).toBe(`${recipe.id}.json`);

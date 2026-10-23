@@ -13,6 +13,11 @@ export const APPLIANCES = [
 ] as const;
 export type Appliance = (typeof APPLIANCES)[number];
 
+export const DAYS = ['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat'] as const;
+export type Day = (typeof DAYS)[number];
+/** Friday and Saturday; the Israeli weekend. */
+export const WEEKEND: readonly Day[] = ['fri', 'sat'];
+
 export const MEALS = ['breakfast', 'lunch', 'dinner'] as const;
 export type Meal = (typeof MEALS)[number];
 

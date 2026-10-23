@@ -19,8 +19,7 @@ export default function Welcome() {
   const { c, scheme, text: align } = useTheme();
   const { ready, saved, edit } = useHousehold();
 
-  const onPress = () => {
-    if (!saved) return router.push('/onboarding/household');
+  const editProfile = () => {
     edit();
     router.push('/onboarding/summary');
   };
@@ -60,7 +59,14 @@ export default function Welcome() {
 
         {/* Disabled until the saved profile has loaded, so the right flow opens. */}
         <View style={styles.cta}>
-          <Button disabled={!ready} label={t(saved ? 'welcome.editProfile' : 'welcome.start')} onPress={onPress} />
+          {saved ? (
+            <>
+              <Button label={t('welcome.myPlan')} onPress={() => router.push('/plan')} />
+              <Button kind="link" label={t('welcome.editProfile')} onPress={editProfile} />
+            </>
+          ) : (
+            <Button disabled={!ready} label={t('welcome.start')} onPress={() => router.push('/onboarding/household')} />
+          )}
         </View>
         <Text style={[styles.caption, { color: c.muted }]}>{t('welcome.freeMonth')}</Text>
       </ScrollView>
@@ -87,6 +93,6 @@ const styles = StyleSheet.create({
   badge: { width: 28, height: 28, borderRadius: radius.pill, alignItems: 'center', justifyContent: 'center' },
   badgeText: { fontFamily: fontFamily.display },
   stepText: { flex: 1, fontFamily: fontFamily.body, fontSize: fontSize.body },
-  cta: { marginTop: spacing.lg },
+  cta: { marginTop: spacing.lg, gap: spacing.sm },
   caption: { fontFamily: fontFamily.body, fontSize: fontSize.caption, textAlign: 'center' },
 });
