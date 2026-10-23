@@ -1,18 +1,22 @@
 import { router } from 'expo-router';
 import { useTranslation } from 'react-i18next';
-import { ScrollView, StyleSheet, Text, View } from 'react-native';
+import { Image, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Button, Card, H2, P } from '../components/ui';
 import { weeklyPortions } from '../domain/portions';
 import { useHousehold } from '../state/household';
-import { fontSize, radius, spacing } from '../theme/tokens';
+import { fontFamily, fontSize, lineHeight, radius, spacing } from '../theme/tokens';
 import { useTheme } from '../theme/useTheme';
 
 const STEPS = ['plan', 'compare', 'cook'] as const;
+const LOGO = {
+  light: require('../../assets/brand/lockup-light.png'),
+  dark: require('../../assets/brand/lockup-dark.png'),
+};
 
 export default function Welcome() {
   const { t } = useTranslation();
-  const { c, text: align } = useTheme();
+  const { c, scheme, text: align } = useTheme();
   const { ready, saved, edit } = useHousehold();
 
   const onPress = () => {
@@ -24,7 +28,14 @@ export default function Welcome() {
   return (
     <SafeAreaView style={styles.safe}>
       <ScrollView contentContainerStyle={styles.content}>
-        <Text style={[styles.brand, { color: c.accent }, align]}>{t('brand')}</Text>
+        <Image
+          accessible
+          source={LOGO[scheme]}
+          accessibilityRole="image"
+          accessibilityLabel={t('brand')}
+          style={styles.logo}
+          resizeMode="contain"
+        />
         <Text style={[styles.tagline, { color: c.text }, align]}>{t('welcome.tagline')}</Text>
         <Text style={[styles.body, { color: c.muted }, align]}>{t('welcome.intro')}</Text>
 
@@ -60,9 +71,10 @@ export default function Welcome() {
 const styles = StyleSheet.create({
   safe: { flex: 1 },
   content: { padding: spacing.lg, gap: spacing.md },
-  brand: { fontSize: fontSize.title, fontWeight: '800', marginTop: spacing.xl },
-  tagline: { fontSize: fontSize.subtitle, fontWeight: '700' },
-  body: { fontSize: fontSize.body, lineHeight: 26 },
+  // Lockup artwork is 498x120 (3x); shown at 40dp high. alignSelf start = right in RTL.
+  logo: { width: 166, height: 40, alignSelf: 'flex-start', marginTop: spacing.xl },
+  tagline: { fontFamily: fontFamily.display, fontSize: fontSize.heading, lineHeight: lineHeight.heading },
+  body: { fontFamily: fontFamily.body, fontSize: fontSize.body, lineHeight: lineHeight.body },
   steps: { gap: spacing.sm, marginTop: spacing.sm },
   step: {
     flexDirection: 'row',
@@ -73,8 +85,8 @@ const styles = StyleSheet.create({
     borderWidth: StyleSheet.hairlineWidth,
   },
   badge: { width: 28, height: 28, borderRadius: radius.pill, alignItems: 'center', justifyContent: 'center' },
-  badgeText: { fontWeight: '700' },
-  stepText: { flex: 1, fontSize: fontSize.body },
+  badgeText: { fontFamily: fontFamily.display },
+  stepText: { flex: 1, fontFamily: fontFamily.body, fontSize: fontSize.body },
   cta: { marginTop: spacing.lg },
-  caption: { fontSize: fontSize.caption, textAlign: 'center' },
+  caption: { fontFamily: fontFamily.body, fontSize: fontSize.caption, textAlign: 'center' },
 });
