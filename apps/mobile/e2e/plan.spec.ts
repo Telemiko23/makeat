@@ -36,7 +36,7 @@ const titles = (page: Page) =>
   page.getByRole('button').evaluateAll((els) =>
     els
       .map((e) => (e.getAttribute('aria-label') ?? e.textContent ?? '').trim())
-      .filter((n) => n && !/^(החלפ|חזרה|תפריט חדש|עריכת)/.test(n)),
+      .filter((n) => n && !/^(החלפ|חזרה|תפריט חדש|עריכת|רשימת קניות)/.test(n)),
   );
 
 test('builds a week from the profile: one card per meal and lunchbox', async ({ page }) => {

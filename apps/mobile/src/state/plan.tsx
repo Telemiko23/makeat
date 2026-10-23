@@ -6,6 +6,7 @@ import { GATE } from '../config';
 import type { Household } from '../domain/household';
 import { portionFactor } from '../domain/portions';
 import { useHousehold } from './household';
+import { useStorageWriter } from './storage';
 
 // The week plan stays on the device with the profile (ADR 0007).
 const STORAGE_KEY = 'makeat.plan.v1';
@@ -65,12 +66,7 @@ export function PlanProvider({ children }: { children: ReactNode }) {
   // planner does not read (chains, clubs, shopping mode) keep the plan.
   const basedOn = useMemo(() => (input ? String(seedOf(JSON.stringify(input))) : ''), [input]);
 
-  // Writes run one after another, so a slow write never lands after a newer one.
-  const queue = useRef<Promise<unknown>>(Promise.resolve());
-  const write = useCallback((data: Stored) => {
-    const json = JSON.stringify(data);
-    queue.current = queue.current.then(() => AsyncStorage.setItem(STORAGE_KEY, json)).catch(() => undefined);
-  }, []);
+  const { write } = useStorageWriter(STORAGE_KEY);
 
   useEffect(() => {
     AsyncStorage.getItem(STORAGE_KEY)

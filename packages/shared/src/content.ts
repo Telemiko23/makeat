@@ -48,3 +48,4 @@ export const RECIPES = [
   zucchiniFritters,
 ] as Recipe[];
 export const CATALOG = catalogOf(INGREDIENTS);
+export const RECIPES_BY_ID: ReadonlyMap<string, Recipe> = new Map(RECIPES.map((r) => [r.id, r]));

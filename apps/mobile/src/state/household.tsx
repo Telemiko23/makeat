@@ -1,5 +1,6 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState, type ReactNode } from 'react';
+import { useStorageWriter } from './storage';
 import { emptyHousehold, firstProblem, normalizeHousehold, type Household } from '../domain/household';
 
 // The profile stays on the device (ADR 0007). Allergies and children's ages are
@@ -48,17 +49,8 @@ export function HouseholdProvider({ children }: { children: ReactNode }) {
   const [ready, setReady] = useState(false);
   const [state, setState] = useState<Stored>(initial);
   const stateRef = useRef(state);
-  const lastWritten = useRef<string | null>(null);
   const timer = useRef<ReturnType<typeof setTimeout> | null>(null);
-  // Writes run one after another, so a slow write never lands after a newer one.
-  const queue = useRef<Promise<unknown>>(Promise.resolve());
-
-  const write = useCallback((s: Stored) => {
-    const json = JSON.stringify(s);
-    if (json === lastWritten.current) return;
-    lastWritten.current = json;
-    queue.current = queue.current.then(() => AsyncStorage.setItem(STORAGE_KEY, json)).catch(() => undefined);
-  }, []);
+  const { write, onDisk } = useStorageWriter(STORAGE_KEY);
 
   useEffect(() => {
     AsyncStorage.getItem(STORAGE_KEY)
@@ -66,13 +58,13 @@ export function HouseholdProvider({ children }: { children: ReactNode }) {
         const stored = parse(raw);
         if (stored) {
           // Already on disk: no need to write it straight back.
-          lastWritten.current = JSON.stringify(stored);
+          onDisk(stored);
           setState(stored);
         }
       })
       .catch(() => undefined)
       .finally(() => setReady(true));
-  }, []);
+  }, [onDisk]);
 
   useEffect(() => {
     stateRef.current = state;

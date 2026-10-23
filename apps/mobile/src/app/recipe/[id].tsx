@@ -56,7 +56,7 @@ export default function RecipeScreen() {
         {recipe.ingredients.map((ri) => {
           const ing = CATALOG.get(ri.id);
           const name = ing ? local(ing.name, lang) : ri.id;
-          const label = ri.optional ? `${name} (${t('recipe.optional')})` : name;
+          const label = ri.optional ? t('recipe.optionalItem', { name }) : name;
           return <P key={ri.id}>{labelValue(t, label, amount(t, ri.qty * scale, ri.unit))}</P>;
         })}
       </View>
