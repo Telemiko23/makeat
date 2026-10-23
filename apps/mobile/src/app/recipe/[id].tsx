@@ -2,19 +2,18 @@ import { router, useLocalSearchParams } from 'expo-router';
 import { useTranslation } from 'react-i18next';
 import { View } from 'react-native';
 import { Button, Card, H1, H2, P, Screen } from '../../components/ui';
-import { CATALOG, RECIPES } from '../../../../../packages/shared/src/content';
+import { CATALOG } from '../../../../../packages/shared/src/content';
 import { recipeAllergens, recipeClass } from '../../../../../packages/shared/src/recipes/derive';
-import { GATE } from '../../config';
-import { scaleFor } from '../../../../../packages/shared/src/plan/plan';
-import { amount, local } from '../../plan/format';
+import { local } from '../../plan/format';
+import { IngredientList } from '../../plan/IngredientList';
+import { portionsParam, visibleRecipe } from '../../plan/recipes';
 import { joinList, labelValue } from '../../onboarding/labels';
 import { spacing } from '../../theme/tokens';
 
 export default function RecipeScreen() {
   const { id, portions: raw } = useLocalSearchParams<{ id: string; portions?: string }>();
   const { t, i18n } = useTranslation();
-  // Drafts open only in builds that show them, even from a deep link.
-  const recipe = RECIPES.find((r) => r.id === id && (r.status === 'reviewed' || GATE.includeDrafts));
+  const recipe = visibleRecipe(id);
   const back = <Button kind="link" label={t('common.back')} onPress={() => (router.canGoBack() ? router.back() : router.replace('/plan'))} />;
 
   if (!recipe) {
@@ -25,14 +24,22 @@ export default function RecipeScreen() {
     );
   }
 
-  const asked = Number(raw);
-  const portions = Number.isFinite(asked) && asked > 0 ? asked : recipe.servings;
-  const scale = scaleFor(recipe, portions);
+  const portions = portionsParam(raw, recipe);
   const allergens = recipeAllergens(recipe, CATALOG);
   const lang = i18n.language;
 
   return (
-    <Screen footer={back}>
+    <Screen
+      footer={
+        <>
+          <Button
+            label={t('cook.start')}
+            onPress={() => router.push({ pathname: '/cook/[id]', params: { id: recipe.id, portions: String(portions) } })}
+          />
+          {back}
+        </>
+      }
+    >
       <H1>{local(recipe.title, lang)}</H1>
       <P muted>{local(recipe.summary, lang)}</P>
       <P muted>
@@ -52,13 +59,7 @@ export default function RecipeScreen() {
 
       <View style={{ gap: spacing.sm }}>
         <H2>{t('recipe.ingredients')}</H2>
-        <P muted>{t('recipe.forPortions', { count: portions })}</P>
-        {recipe.ingredients.map((ri) => {
-          const ing = CATALOG.get(ri.id);
-          const name = ing ? local(ing.name, lang) : ri.id;
-          const label = ri.optional ? t('recipe.optionalItem', { name }) : name;
-          return <P key={ri.id}>{labelValue(t, label, amount(t, ri.qty * scale, ri.unit))}</P>;
-        })}
+        <IngredientList recipe={recipe} portions={portions} />
       </View>
 
       <View style={{ gap: spacing.sm }}>
