@@ -6,6 +6,7 @@ import { Button, Card, ErrorText, H1, H2, P, Screen } from '../../components/ui'
 import { firstProblem, type StepId } from '../../domain/household';
 import { weeklyPortions } from '../../domain/portions';
 import { joinList, labelValue, listOf, memberLine, memberNames } from '../../onboarding/labels';
+import { goBackOr } from '../../navigation';
 import { useHousehold } from '../../state/household';
 
 export default function Summary() {
@@ -32,7 +33,7 @@ export default function Summary() {
         <>
           {error ? <ErrorText>{t(error)}</ErrorText> : null}
           <Button label={t('onboarding.summary.save')} onPress={onSave} />
-          <Button kind="link" label={t('common.back')} onPress={() => (router.canGoBack() ? router.back() : router.replace('/onboarding/shopping'))} />
+          <Button kind="link" label={t('common.back')} onPress={() => goBackOr('/onboarding/shopping')} />
         </>
       }
     >

@@ -1,4 +1,3 @@
-import { router } from 'expo-router';
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { View } from 'react-native';
@@ -8,6 +7,7 @@ import type { ShoppingItem } from '../../../../packages/shared/src/plan/shopping
 import { joinList, labelValue } from '../onboarding/labels';
 import { buyAmount, local } from '../plan/format';
 import { useShopping } from '../state/shopping';
+import { goBackOr } from '../navigation';
 import { spacing } from '../theme/tokens';
 
 export default function Shopping() {
@@ -25,7 +25,7 @@ export default function Shopping() {
   );
 
   if (!ready) return null;
-  const back = <Button kind="link" label={t('common.back')} onPress={() => (router.canGoBack() ? router.back() : router.replace('/plan'))} />;
+  const back = <Button kind="link" label={t('common.back')} onPress={() => goBackOr('/plan')} />;
 
   if (!items.length) {
     return (

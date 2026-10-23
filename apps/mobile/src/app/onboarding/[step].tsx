@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { Button, ErrorText, H1, P, Progress, Screen } from '../../components/ui';
 import { STEPS, stepError, type Household, type StepId } from '../../domain/household';
 import { FoodStep, HouseholdStep, KitchenStep, ShoppingStep, WeekStep } from '../../onboarding/steps';
+import { goBackOr } from '../../navigation';
 import { useHousehold } from '../../state/household';
 
 const BODIES: Record<StepId, ComponentType<{ household: Household; update: (fn: (h: Household) => Household) => void }>> = {
@@ -30,7 +31,7 @@ export default function OnboardingStep() {
   const error = attempted ? stepError(household, step) : null;
   const Body = BODIES[step];
 
-  const toSummary = () => (router.canGoBack() ? router.back() : router.replace('/onboarding/summary'));
+  const toSummary = () => goBackOr('/onboarding/summary');
 
   const next = () => {
     if (stepError(household, step)) {

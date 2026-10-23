@@ -7,6 +7,7 @@ import { DAYS } from '../../../../packages/shared/src/vocab';
 import { SHOW_DRAFT_RECIPES } from '../config';
 import { local } from '../plan/format';
 import { usePlan } from '../state/plan';
+import { goBackOr } from '../navigation';
 import { spacing } from '../theme/tokens';
 
 export default function Plan() {
@@ -29,7 +30,7 @@ export default function Plan() {
         <>
           <Button label={t('plan.shoppingList')} onPress={() => router.push('/shopping')} />
           <Button label={t('plan.regenerate')} kind="secondary" onPress={regenerate} />
-          <Button kind="link" label={t('common.back')} onPress={() => (router.canGoBack() ? router.back() : router.replace('/'))} />
+          <Button kind="link" label={t('common.back')} onPress={() => goBackOr('/')} />
         </>
       }
     >

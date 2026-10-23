@@ -6,15 +6,17 @@ import { CATALOG } from '../../../../../packages/shared/src/content';
 import { recipeAllergens, recipeClass } from '../../../../../packages/shared/src/recipes/derive';
 import { local } from '../../plan/format';
 import { IngredientList } from '../../plan/IngredientList';
+import { ProfileWarning } from '../../plan/ProfileWarning';
 import { portionsParam, visibleRecipe } from '../../plan/recipes';
 import { joinList, labelValue } from '../../onboarding/labels';
+import { goBackOr } from '../../navigation';
 import { spacing } from '../../theme/tokens';
 
 export default function RecipeScreen() {
   const { id, portions: raw } = useLocalSearchParams<{ id: string; portions?: string }>();
   const { t, i18n } = useTranslation();
   const recipe = visibleRecipe(id);
-  const back = <Button kind="link" label={t('common.back')} onPress={() => (router.canGoBack() ? router.back() : router.replace('/plan'))} />;
+  const back = <Button kind="link" label={t('common.back')} onPress={() => goBackOr('/plan')} />;
 
   if (!recipe) {
     return (
@@ -50,6 +52,7 @@ export default function RecipeScreen() {
         ])}
       </P>
 
+      <ProfileWarning recipe={recipe} />
       {allergens.length ? (
         <Card>
           <P>{labelValue(t, t('recipe.contains'), joinList(t, allergens.map((a) => t(`allergens.${a}`))))}</P>
