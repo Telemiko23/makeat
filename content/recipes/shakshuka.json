@@ -1,0 +1,118 @@
+{
+  "id": "shakshuka",
+  "status": "draft",
+  "title": {
+    "he": "שקשוקה"
+  },
+  "summary": {
+    "he": "ביצים שמתבשלות בתוך רוטב עגבניות ופלפלים, במחבת אחת."
+  },
+  "servings": 4,
+  "prepMinutes": 10,
+  "cookMinutes": 25,
+  "difficulty": "easy",
+  "meals": [
+    "breakfast",
+    "dinner"
+  ],
+  "tags": [
+    "onePot"
+  ],
+  "appliances": [
+    "stovetop"
+  ],
+  "ingredients": [
+    {
+      "id": "olive-oil",
+      "qty": 2,
+      "unit": "tbsp"
+    },
+    {
+      "id": "onion",
+      "qty": 1,
+      "unit": "pcs"
+    },
+    {
+      "id": "red-bell-pepper",
+      "qty": 1,
+      "unit": "pcs"
+    },
+    {
+      "id": "garlic",
+      "qty": 3,
+      "unit": "pcs"
+    },
+    {
+      "id": "tomato",
+      "qty": 4,
+      "unit": "pcs"
+    },
+    {
+      "id": "tomato-paste",
+      "qty": 1,
+      "unit": "tbsp"
+    },
+    {
+      "id": "sweet-paprika",
+      "qty": 1,
+      "unit": "tsp"
+    },
+    {
+      "id": "cumin",
+      "qty": 0.5,
+      "unit": "tsp"
+    },
+    {
+      "id": "salt",
+      "qty": 1,
+      "unit": "tsp"
+    },
+    {
+      "id": "eggs",
+      "qty": 6,
+      "unit": "pcs"
+    },
+    {
+      "id": "parsley",
+      "qty": 10,
+      "unit": "g",
+      "optional": true
+    }
+  ],
+  "steps": [
+    {
+      "text": {
+        "he": "חותכים את הבצל והפלפל לרצועות דקות, ופורסים את השום."
+      }
+    },
+    {
+      "text": {
+        "he": "מחממים שמן במחבת רחבה ומטגנים את הבצל והפלפל על אש בינונית עד שהם מתרככים."
+      },
+      "minutes": 8
+    },
+    {
+      "text": {
+        "he": "מוסיפים שום, פפריקה וכמון ומערבבים דקה עד שעולה ריח."
+      },
+      "minutes": 1
+    },
+    {
+      "text": {
+        "he": "מוסיפים עגבניות קצוצות, רסק ומלח. מבשלים עד שהרוטב מסמיך."
+      },
+      "minutes": 10
+    },
+    {
+      "text": {
+        "he": "עושים גומות ברוטב, שוברים לתוכן את הביצים, מכסים ומבשלים על אש נמוכה עד שהחלבון מתייצב."
+      },
+      "minutes": 6
+    },
+    {
+      "text": {
+        "he": "מפזרים פטרוזיליה קצוצה ומגישים מהמחבת."
+      }
+    }
+  ]
+}

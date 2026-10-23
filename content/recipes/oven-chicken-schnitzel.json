@@ -1,0 +1,102 @@
+{
+  "id": "oven-chicken-schnitzel",
+  "status": "draft",
+  "title": {
+    "he": "שניצל עוף בתנור"
+  },
+  "summary": {
+    "he": "שניצל פריך בלי מחבת שמן: מצפים ואופים."
+  },
+  "servings": 4,
+  "prepMinutes": 20,
+  "cookMinutes": 20,
+  "difficulty": "easy",
+  "meals": [
+    "lunch",
+    "dinner"
+  ],
+  "tags": [
+    "kidFriendly",
+    "lunchbox"
+  ],
+  "appliances": [
+    "oven"
+  ],
+  "ingredients": [
+    {
+      "id": "chicken-breast",
+      "qty": 800,
+      "unit": "g"
+    },
+    {
+      "id": "eggs",
+      "qty": 2,
+      "unit": "pcs"
+    },
+    {
+      "id": "breadcrumbs",
+      "qty": 150,
+      "unit": "g"
+    },
+    {
+      "id": "sweet-paprika",
+      "qty": 1,
+      "unit": "tsp"
+    },
+    {
+      "id": "salt",
+      "qty": 1,
+      "unit": "tsp"
+    },
+    {
+      "id": "black-pepper",
+      "qty": 0.5,
+      "unit": "tsp"
+    },
+    {
+      "id": "canola-oil",
+      "qty": 3,
+      "unit": "tbsp"
+    },
+    {
+      "id": "lemon",
+      "qty": 1,
+      "unit": "pcs",
+      "optional": true
+    }
+  ],
+  "steps": [
+    {
+      "text": {
+        "he": "מחממים תנור ל-220 מעלות ומרפדים תבנית בנייר אפייה."
+      }
+    },
+    {
+      "text": {
+        "he": "פורסים את החזה לפרוסות דקות בעובי אחיד."
+      }
+    },
+    {
+      "text": {
+        "he": "טורפים ביצים עם מלח ופלפל בצלחת אחת, ומערבבים פירורי לחם עם פפריקה ושמן בצלחת שנייה."
+      }
+    },
+    {
+      "text": {
+        "he": "טובלים כל פרוסה בביצה ואחר כך בפירורים, ולוחצים שיידבקו."
+      },
+      "minutes": 10
+    },
+    {
+      "text": {
+        "he": "מסדרים בתבנית ואופים, הופכים באמצע, עד שהשניצלים זהובים."
+      },
+      "minutes": 20
+    },
+    {
+      "text": {
+        "he": "מגישים עם פלחי לימון."
+      }
+    }
+  ]
+}

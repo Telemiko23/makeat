@@ -1,0 +1,93 @@
+{
+  "id": "ptitim-vegetables",
+  "status": "draft",
+  "title": {
+    "he": "פתיתים עם ירקות"
+  },
+  "summary": {
+    "he": "פתיתים מוקפצים עם ירקות, מנה שילדים אוהבים."
+  },
+  "servings": 4,
+  "prepMinutes": 10,
+  "cookMinutes": 20,
+  "difficulty": "easy",
+  "meals": [
+    "lunch",
+    "dinner"
+  ],
+  "tags": [
+    "kidFriendly",
+    "lunchbox",
+    "onePot"
+  ],
+  "appliances": [
+    "stovetop"
+  ],
+  "ingredients": [
+    {
+      "id": "ptitim",
+      "qty": 400,
+      "unit": "g"
+    },
+    {
+      "id": "onion",
+      "qty": 1,
+      "unit": "pcs"
+    },
+    {
+      "id": "carrot",
+      "qty": 1,
+      "unit": "pcs"
+    },
+    {
+      "id": "zucchini",
+      "qty": 1,
+      "unit": "pcs"
+    },
+    {
+      "id": "canola-oil",
+      "qty": 2,
+      "unit": "tbsp"
+    },
+    {
+      "id": "tomato-paste",
+      "qty": 1,
+      "unit": "tbsp",
+      "optional": true
+    },
+    {
+      "id": "salt",
+      "qty": 1.5,
+      "unit": "tsp"
+    },
+    {
+      "id": "water",
+      "qty": 700,
+      "unit": "ml"
+    }
+  ],
+  "steps": [
+    {
+      "text": {
+        "he": "קוצצים את הבצל ומגררים גס את הגזר והקישוא."
+      }
+    },
+    {
+      "text": {
+        "he": "מטגנים את הבצל בשמן, מוסיפים את הפתיתים ומערבבים עד שהם משחימים קלות."
+      },
+      "minutes": 5
+    },
+    {
+      "text": {
+        "he": "מוסיפים את הירקות, הרסק אם רוצים, מלח ומים רותחים."
+      }
+    },
+    {
+      "text": {
+        "he": "מכסים ומבשלים על אש נמוכה עד שהנוזלים נספגים."
+      },
+      "minutes": 12
+    }
+  ]
+}

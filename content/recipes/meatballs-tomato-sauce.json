@@ -1,0 +1,127 @@
+{
+  "id": "meatballs-tomato-sauce",
+  "status": "draft",
+  "title": {
+    "he": "קציצות בקר ברוטב עגבניות"
+  },
+  "summary": {
+    "he": "קציצות רכות שמתבשלות ישירות ברוטב, בלי טיגון."
+  },
+  "servings": 4,
+  "prepMinutes": 20,
+  "cookMinutes": 40,
+  "difficulty": "medium",
+  "meals": [
+    "lunch",
+    "dinner"
+  ],
+  "tags": [
+    "freezes",
+    "kidFriendly"
+  ],
+  "appliances": [
+    "stovetop"
+  ],
+  "ingredients": [
+    {
+      "id": "ground-beef",
+      "qty": 700,
+      "unit": "g"
+    },
+    {
+      "id": "onion",
+      "qty": 2,
+      "unit": "pcs"
+    },
+    {
+      "id": "garlic",
+      "qty": 4,
+      "unit": "pcs"
+    },
+    {
+      "id": "parsley",
+      "qty": 20,
+      "unit": "g"
+    },
+    {
+      "id": "breadcrumbs",
+      "qty": 40,
+      "unit": "g"
+    },
+    {
+      "id": "eggs",
+      "qty": 1,
+      "unit": "pcs"
+    },
+    {
+      "id": "salt",
+      "qty": 2,
+      "unit": "tsp"
+    },
+    {
+      "id": "black-pepper",
+      "qty": 0.5,
+      "unit": "tsp"
+    },
+    {
+      "id": "cumin",
+      "qty": 1,
+      "unit": "tsp"
+    },
+    {
+      "id": "crushed-tomatoes",
+      "qty": 800,
+      "unit": "g"
+    },
+    {
+      "id": "tomato-paste",
+      "qty": 2,
+      "unit": "tbsp"
+    },
+    {
+      "id": "olive-oil",
+      "qty": 2,
+      "unit": "tbsp"
+    },
+    {
+      "id": "sweet-paprika",
+      "qty": 1,
+      "unit": "tsp"
+    },
+    {
+      "id": "water",
+      "qty": 200,
+      "unit": "ml"
+    }
+  ],
+  "steps": [
+    {
+      "text": {
+        "he": "מגררים בצל אחד, קוצצים את הפטרוזיליה ומערבבים עם הבשר, פירורי הלחם, הביצה, חצי מהשום, כמון, מלח ופלפל."
+      }
+    },
+    {
+      "text": {
+        "he": "מרטיבים ידיים ומגלגלים קציצות בגודל של אגוז מלך."
+      },
+      "minutes": 10
+    },
+    {
+      "text": {
+        "he": "בסיר רחב מטגנים את הבצל השני קצוץ בשמן עד שהוא שקוף, ומוסיפים את שאר השום והפפריקה."
+      },
+      "minutes": 5
+    },
+    {
+      "text": {
+        "he": "מוסיפים עגבניות מרוסקות, רסק ומים ומביאים לרתיחה."
+      }
+    },
+    {
+      "text": {
+        "he": "מכניסים את הקציצות לרוטב בשכבה אחת, מכסים ומבשלים על אש נמוכה. לא מערבבים בהתחלה, רק מנערים את הסיר."
+      },
+      "minutes": 35
+    }
+  ]
+}

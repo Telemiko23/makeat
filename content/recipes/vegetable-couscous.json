@@ -1,0 +1,129 @@
+{
+  "id": "vegetable-couscous",
+  "status": "draft",
+  "title": {
+    "he": "קוסקוס עם ירקות"
+  },
+  "summary": {
+    "he": "מרק ירקות עשיר עם חומוס, מוגש מעל קוסקוס."
+  },
+  "servings": 4,
+  "prepMinutes": 20,
+  "cookMinutes": 50,
+  "difficulty": "medium",
+  "meals": [
+    "lunch",
+    "dinner"
+  ],
+  "tags": [
+    "festive",
+    "freezes"
+  ],
+  "appliances": [
+    "stovetop"
+  ],
+  "ingredients": [
+    {
+      "id": "couscous",
+      "qty": 400,
+      "unit": "g"
+    },
+    {
+      "id": "onion",
+      "qty": 2,
+      "unit": "pcs"
+    },
+    {
+      "id": "carrot",
+      "qty": 3,
+      "unit": "pcs"
+    },
+    {
+      "id": "zucchini",
+      "qty": 2,
+      "unit": "pcs"
+    },
+    {
+      "id": "pumpkin",
+      "qty": 400,
+      "unit": "g"
+    },
+    {
+      "id": "sweet-potato",
+      "qty": 1,
+      "unit": "pcs"
+    },
+    {
+      "id": "chickpeas-canned",
+      "qty": 400,
+      "unit": "g"
+    },
+    {
+      "id": "tomato-paste",
+      "qty": 2,
+      "unit": "tbsp"
+    },
+    {
+      "id": "turmeric",
+      "qty": 1,
+      "unit": "tsp"
+    },
+    {
+      "id": "cinnamon",
+      "qty": 0.5,
+      "unit": "tsp"
+    },
+    {
+      "id": "salt",
+      "qty": 2,
+      "unit": "tsp"
+    },
+    {
+      "id": "olive-oil",
+      "qty": 3,
+      "unit": "tbsp"
+    },
+    {
+      "id": "water",
+      "qty": 2000,
+      "unit": "ml"
+    },
+    {
+      "id": "coriander",
+      "qty": 15,
+      "unit": "g",
+      "optional": true
+    }
+  ],
+  "steps": [
+    {
+      "text": {
+        "he": "חותכים את כל הירקות לקוביות גדולות."
+      },
+      "minutes": 15
+    },
+    {
+      "text": {
+        "he": "בסיר גדול מאדים את הבצל בשמן, מוסיפים רסק, כורכום וקינמון ומערבבים."
+      },
+      "minutes": 5
+    },
+    {
+      "text": {
+        "he": "מוסיפים גזר, בטטה, דלעת ומים, ומבשלים עד שהגזר מתחיל להתרכך."
+      },
+      "minutes": 25
+    },
+    {
+      "text": {
+        "he": "מוסיפים קישואים וחומוס ומבשלים עוד עד שהכול רך. מתקנים מלח."
+      },
+      "minutes": 15
+    },
+    {
+      "text": {
+        "he": "מכינים את הקוסקוס לפי ההוראות שעל האריזה ומגישים עם הירקות והמרק מעליו."
+      }
+    }
+  ]
+}

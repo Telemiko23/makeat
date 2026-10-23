@@ -1,0 +1,93 @@
+{
+  "id": "tuna-pasta-salad",
+  "status": "draft",
+  "title": {
+    "he": "סלט פסטה עם טונה"
+  },
+  "summary": {
+    "he": "סלט קר ומשביע שמתאים לקופסת האוכל."
+  },
+  "servings": 4,
+  "prepMinutes": 15,
+  "cookMinutes": 10,
+  "difficulty": "easy",
+  "meals": [
+    "lunch"
+  ],
+  "tags": [
+    "lunchbox"
+  ],
+  "appliances": [
+    "stovetop"
+  ],
+  "ingredients": [
+    {
+      "id": "pasta",
+      "qty": 300,
+      "unit": "g"
+    },
+    {
+      "id": "tuna-canned",
+      "qty": 320,
+      "unit": "g"
+    },
+    {
+      "id": "corn-canned",
+      "qty": 200,
+      "unit": "g"
+    },
+    {
+      "id": "cucumber",
+      "qty": 2,
+      "unit": "pcs"
+    },
+    {
+      "id": "red-bell-pepper",
+      "qty": 1,
+      "unit": "pcs"
+    },
+    {
+      "id": "mayonnaise",
+      "qty": 3,
+      "unit": "tbsp"
+    },
+    {
+      "id": "lemon",
+      "qty": 0.5,
+      "unit": "pcs"
+    },
+    {
+      "id": "salt",
+      "qty": 0.5,
+      "unit": "tsp"
+    },
+    {
+      "id": "black-pepper",
+      "qty": 1,
+      "unit": "pinch"
+    }
+  ],
+  "steps": [
+    {
+      "text": {
+        "he": "מבשלים את הפסטה, מסננים ושוטפים במים קרים."
+      },
+      "minutes": 10
+    },
+    {
+      "text": {
+        "he": "קוצצים את המלפפונים והפלפל לקוביות קטנות."
+      }
+    },
+    {
+      "text": {
+        "he": "מערבבים את הפסטה עם הטונה מסוננת, התירס והירקות."
+      }
+    },
+    {
+      "text": {
+        "he": "מתבלים במיונז, מיץ לימון, מלח ופלפל, ושומרים במקרר עד ההגשה."
+      }
+    }
+  ]
+}

@@ -1,0 +1,82 @@
+{
+  "id": "baked-salmon",
+  "status": "draft",
+  "title": {
+    "he": "סלמון בתנור עם לימון"
+  },
+  "summary": {
+    "he": "פילה סלמון שנאפה במהירות, עם שום ושמיר."
+  },
+  "servings": 4,
+  "prepMinutes": 5,
+  "cookMinutes": 15,
+  "difficulty": "easy",
+  "meals": [
+    "lunch",
+    "dinner"
+  ],
+  "tags": [],
+  "appliances": [
+    "oven"
+  ],
+  "ingredients": [
+    {
+      "id": "salmon-fillet",
+      "qty": 800,
+      "unit": "g"
+    },
+    {
+      "id": "lemon",
+      "qty": 1,
+      "unit": "pcs"
+    },
+    {
+      "id": "garlic",
+      "qty": 2,
+      "unit": "pcs"
+    },
+    {
+      "id": "olive-oil",
+      "qty": 2,
+      "unit": "tbsp"
+    },
+    {
+      "id": "dill",
+      "qty": 10,
+      "unit": "g"
+    },
+    {
+      "id": "salt",
+      "qty": 1,
+      "unit": "tsp"
+    },
+    {
+      "id": "black-pepper",
+      "qty": 0.5,
+      "unit": "tsp"
+    }
+  ],
+  "steps": [
+    {
+      "text": {
+        "he": "מחממים תנור ל-200 מעלות."
+      }
+    },
+    {
+      "text": {
+        "he": "מניחים את הסלמון בתבנית ומתבלים במלח, פלפל, שום כתוש ושמן זית."
+      }
+    },
+    {
+      "text": {
+        "he": "מניחים מעל פרוסות לימון ואופים עד שהדג מתפרק בקלות במזלג."
+      },
+      "minutes": 15
+    },
+    {
+      "text": {
+        "he": "מפזרים שמיר קצוץ ומגישים."
+      }
+    }
+  ]
+}

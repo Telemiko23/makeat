@@ -1,0 +1,119 @@
+{
+  "id": "chicken-rice-one-pot",
+  "status": "draft",
+  "title": {
+    "he": "עוף ואורז בסיר אחד"
+  },
+  "summary": {
+    "he": "אורז שמתבשל יחד עם העוף וסופג את כל הטעם."
+  },
+  "servings": 4,
+  "prepMinutes": 15,
+  "cookMinutes": 50,
+  "difficulty": "medium",
+  "meals": [
+    "lunch",
+    "dinner"
+  ],
+  "tags": [
+    "onePot",
+    "shabbat"
+  ],
+  "appliances": [
+    "stovetop"
+  ],
+  "ingredients": [
+    {
+      "id": "chicken-thighs",
+      "qty": 1000,
+      "unit": "g"
+    },
+    {
+      "id": "white-rice",
+      "qty": 400,
+      "unit": "g"
+    },
+    {
+      "id": "onion",
+      "qty": 2,
+      "unit": "pcs"
+    },
+    {
+      "id": "carrot",
+      "qty": 2,
+      "unit": "pcs"
+    },
+    {
+      "id": "frozen-peas",
+      "qty": 150,
+      "unit": "g",
+      "optional": true
+    },
+    {
+      "id": "canola-oil",
+      "qty": 2,
+      "unit": "tbsp"
+    },
+    {
+      "id": "turmeric",
+      "qty": 1,
+      "unit": "tsp"
+    },
+    {
+      "id": "sweet-paprika",
+      "qty": 1,
+      "unit": "tsp"
+    },
+    {
+      "id": "salt",
+      "qty": 2,
+      "unit": "tsp"
+    },
+    {
+      "id": "black-pepper",
+      "qty": 0.5,
+      "unit": "tsp"
+    },
+    {
+      "id": "bay-leaf",
+      "qty": 2,
+      "unit": "pcs"
+    },
+    {
+      "id": "water",
+      "qty": 800,
+      "unit": "ml"
+    }
+  ],
+  "steps": [
+    {
+      "text": {
+        "he": "מתבלים את העוף במלח, פלפל ופפריקה ומשחימים אותו בסיר רחב בשמן משני הצדדים. מוציאים לצלחת."
+      },
+      "minutes": 10
+    },
+    {
+      "text": {
+        "he": "באותו סיר מאדים בצל קצוץ וגזר בקוביות."
+      },
+      "minutes": 5
+    },
+    {
+      "text": {
+        "he": "מוסיפים את האורז והכורכום ומערבבים עד שכל גרגר מצופה."
+      },
+      "minutes": 2
+    },
+    {
+      "text": {
+        "he": "מוסיפים מים ועלי דפנה, מחזירים את העוף מעל ומביאים לרתיחה."
+      }
+    },
+    {
+      "text": {
+        "he": "מכסים ומבשלים על אש נמוכה עד שהאורז רך והעוף מבושל. מוסיפים אפונה בחמש הדקות האחרונות."
+      },
+      "minutes": 30
+    }
+  ]
+}

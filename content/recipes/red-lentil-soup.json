@@ -1,0 +1,108 @@
+{
+  "id": "red-lentil-soup",
+  "status": "draft",
+  "title": {
+    "he": "מרק עדשים כתומות"
+  },
+  "summary": {
+    "he": "מרק סמיך וחם שמוכן בחצי שעה."
+  },
+  "servings": 4,
+  "prepMinutes": 10,
+  "cookMinutes": 30,
+  "difficulty": "easy",
+  "meals": [
+    "lunch",
+    "dinner"
+  ],
+  "tags": [
+    "onePot",
+    "freezes"
+  ],
+  "appliances": [
+    "stovetop"
+  ],
+  "ingredients": [
+    {
+      "id": "red-lentils",
+      "qty": 300,
+      "unit": "g"
+    },
+    {
+      "id": "onion",
+      "qty": 1,
+      "unit": "pcs"
+    },
+    {
+      "id": "carrot",
+      "qty": 2,
+      "unit": "pcs"
+    },
+    {
+      "id": "celery-stalk",
+      "qty": 1,
+      "unit": "pcs",
+      "optional": true
+    },
+    {
+      "id": "garlic",
+      "qty": 3,
+      "unit": "pcs"
+    },
+    {
+      "id": "olive-oil",
+      "qty": 2,
+      "unit": "tbsp"
+    },
+    {
+      "id": "cumin",
+      "qty": 1,
+      "unit": "tsp"
+    },
+    {
+      "id": "turmeric",
+      "qty": 0.5,
+      "unit": "tsp"
+    },
+    {
+      "id": "salt",
+      "qty": 2,
+      "unit": "tsp"
+    },
+    {
+      "id": "water",
+      "qty": 1500,
+      "unit": "ml"
+    },
+    {
+      "id": "lemon",
+      "qty": 1,
+      "unit": "pcs"
+    }
+  ],
+  "steps": [
+    {
+      "text": {
+        "he": "קוצצים בצל, גזר וסלרי ומאדים בשמן עד שהם מתרככים."
+      },
+      "minutes": 8
+    },
+    {
+      "text": {
+        "he": "מוסיפים שום, כמון וכורכום ומערבבים דקה."
+      },
+      "minutes": 1
+    },
+    {
+      "text": {
+        "he": "מוסיפים את העדשים שטופות, מים ומלח, ומבשלים עד שהעדשים מתפרקות."
+      },
+      "minutes": 25
+    },
+    {
+      "text": {
+        "he": "טוחנים חלק או חלקית, ומגישים עם סחיטת לימון."
+      }
+    }
+  ]
+}
