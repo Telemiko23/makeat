@@ -19,6 +19,7 @@ Owned by `qa`. Every item is green, or the exception is approved by Liran, befor
 - [ ] Touch targets, contrast and screen-reader labels on changed screens (Israeli Standard 5568)
 - [ ] No sensitive data (allergies, children) in logs or analytics events
 - [ ] From v0.2: APK signed with the project keystore, not the debug key (ADR 0009)
+- [ ] From v0.2: `SHOW_DRAFT_RECIPES` is false in `apps/mobile/src/config.ts`, and only reviewed recipes ship (ADR 0011)
 
 ## Release docs
 - [ ] `CONTRIBUTIONS-<version>.md` generated

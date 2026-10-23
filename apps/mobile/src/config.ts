@@ -1,0 +1,6 @@
+/**
+ * Internal alpha builds show draft recipes so the team can test the journey
+ * before nutrition review (ADR 0011). Must be false from the closed beta on;
+ * the v0.2 release checklist checks it.
+ */
+export const SHOW_DRAFT_RECIPES = true;
