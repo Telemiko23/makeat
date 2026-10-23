@@ -29,6 +29,7 @@ export default function Plan() {
     <Screen
       footer={
         <>
+          <Button label={t('plan.shoppingList')} onPress={() => router.push('/shopping')} />
           <Button label={t('plan.regenerate')} kind="secondary" onPress={regenerate} />
           <Button kind="link" label={t('common.back')} onPress={() => (router.canGoBack() ? router.back() : router.replace('/'))} />
         </>

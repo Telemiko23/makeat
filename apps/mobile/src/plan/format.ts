@@ -24,4 +24,11 @@ export function roundQty(qty: number, unit: Unit): number {
   }
 }
 
+/**
+ * Amount to buy: whole pieces (nobody buys half an onion), otherwise the
+ * same rounding as in a recipe.
+ */
+export const buyAmount = (t: TFunction, qty: number, unit: Unit) =>
+  unit === 'pcs' ? t('units.pcs', { n: Math.max(1, Math.ceil(qty - 0.01)) }) : amount(t, qty, unit);
+
 export const amount = (t: TFunction, qty: number, unit: Unit) => t(`units.${unit}`, { n: roundQty(qty, unit) });
