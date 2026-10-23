@@ -1,0 +1,43 @@
+name: Prices publish
+# Hourly price file for the app (decision 0012): rebuild the configured branches'
+# shelf prices and force-push them as the only commit on the `prices-data` branch.
+on:
+  schedule:
+    - cron: "20 * * * *"
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: prices-publish
+  cancel-in-progress: false
+jobs:
+  publish:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install -e services/prices
+      - name: Build prices.json
+        id: build
+        continue-on-error: true
+        run: python -m makeat_prices.publish --fetch --raw /tmp/raw --out /tmp/prices.json
+      - name: Publish to the prices-data branch
+        if: always()
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: |
+          test -s /tmp/prices.json || { echo "no prices.json was built"; exit 1; }
+          mkdir /tmp/pub && cd /tmp/pub
+          git init -q -b prices-data
+          cp /tmp/prices.json .
+          git add prices.json
+          git -c user.name="github-actions[bot]" -c user.email="41898282+github-actions[bot]@users.noreply.github.com" \
+            commit -q -m "Prices $(TZ=Asia/Jerusalem date '+%Y-%m-%d %H:%M') (Israel time)"
+          git push -q -f "https://x-access-token:${GITHUB_TOKEN}@github.com/${{ github.repository }}.git" prices-data
+      # A missing or stale branch fails the run after publishing, so it is visible without blocking the app.
+      - name: Fail when a branch was missing or stale
+        if: steps.build.outcome == 'failure'
+        run: exit 1

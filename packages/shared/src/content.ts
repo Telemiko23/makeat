@@ -1,6 +1,8 @@
 // Static imports so bundlers (Metro) can include the content; content.test.ts checks
 // that every file in content/recipes is listed here.
+import type { ProductMap } from './prices/quote';
 import ingredientsJson from '../../../content/ingredients.json';
+import productsJson from '../../../content/products.json';
 import bakedSalmon from '../../../content/recipes/baked-salmon.json';
 import chickenRiceOnePot from '../../../content/recipes/chicken-rice-one-pot.json';
 import chickpeaStew from '../../../content/recipes/chickpea-stew.json';
@@ -48,4 +50,6 @@ export const RECIPES = [
   zucchiniFritters,
 ] as Recipe[];
 export const CATALOG = catalogOf(INGREDIENTS);
+/** Shelf products for each ingredient, by barcode (decision 0012). */
+export const PRODUCTS = productsJson.products as unknown as ProductMap;
 export const RECIPES_BY_ID: ReadonlyMap<string, Recipe> = new Map(RECIPES.map((r) => [r.id, r]));

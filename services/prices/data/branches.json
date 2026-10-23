@@ -1,0 +1,7 @@
+{
+  "about": "Branches whose prices are published hourly for the app (decision 0012): Liran's stores from the 2026-10-22 probe. Store ids as in the chains' Stores files.",
+  "branches": {
+    "RAMI_LEVY": ["34", "712", "724", "725", "726"],
+    "OSHER_AD": ["32", "10"]
+  }
+}
