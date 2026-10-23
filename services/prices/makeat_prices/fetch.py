@@ -5,7 +5,8 @@ after them.
     python -m makeat_prices.fetch --chain RAMI_LEVY --match פתח --out raw/
 
 Stores are picked when a --match substring appears in their city, name or
-address, plus every store the chain marks as online (StoreType 2 or 3).
+address, plus every store the chain marks as online (StoreType 2 or 3). With
+--store, exactly the listed store ids are fetched instead.
 
 Chains on the shared Cerberus server (url.retail.publishedprices.co.il) are read
 directly over FTP-TLS. `il-supermarket-scraper` was tried first, but with
@@ -65,8 +66,11 @@ def is_online(store) -> bool:
     return store.store_type in ONLINE_STORE_TYPES or any(h in text for h in ONLINE_NAME_HINTS)
 
 
-def pick_stores(stores, matches: list[str], max_stores: int):
-    """Every online store, then up to `max_stores` physical stores that match."""
+def pick_stores(stores, matches: list[str], max_stores: int, store_ids: list[str] | None = None):
+    """Every online store, then up to `max_stores` physical stores that match;
+    or, when `store_ids` is given, exactly those stores."""
+    if store_ids:
+        return [s for s in stores if s.store_id in store_ids]
     online = [s for s in stores if is_online(s)]
     local = [s for s in stores if not is_online(s) and any(m in f"{s.city or ''} {s.name} {s.address or ''}" for m in matches)]
     return online + local[:max_stores]
@@ -89,7 +93,7 @@ class Cerberus:
         self.ftp.close()
 
 
-def run(chain: str, out: Path, matches: list[str], max_stores: int) -> int:
+def run(chain: str, out: Path, matches: list[str], max_stores: int, store_ids: list[str] | None = None) -> int:
     if chain not in CERBERUS_USERS:
         print(f"{chain}: only Cerberus chains are supported so far ({', '.join(CERBERUS_USERS)})", file=sys.stderr)
         return 2
@@ -104,7 +108,7 @@ def run(chain: str, out: Path, matches: list[str], max_stores: int) -> int:
         (out / "stores.json").write_text(
             json.dumps([s.__dict__ for s in stores], ensure_ascii=False, indent=1), encoding="utf-8"
         )
-        picked = pick_stores(stores, matches, max_stores)
+        picked = pick_stores(stores, matches, max_stores, store_ids)
         print(f"{chain}: {len(server.names)} files, {len(stores)} stores, picked "
               f"{[(s.store_id, s.name, s.city) for s in picked]}")
         for s in picked:
@@ -127,10 +131,11 @@ def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     parser.add_argument("--chain", required=True, choices=sorted(CERBERUS_USERS))
     parser.add_argument("--match", action="append", default=[], help="substring of city/name/address")
+    parser.add_argument("--store", action="append", default=[], help="exact store id; replaces --match")
     parser.add_argument("--out", type=Path, required=True)
     parser.add_argument("--max-stores", type=int, default=8, help="physical stores; online stores are always added")
     args = parser.parse_args(argv)
-    return run(args.chain, args.out / args.chain, args.match, args.max_stores)
+    return run(args.chain, args.out / args.chain, args.match, args.max_stores, args.store)
 
 
 if __name__ == "__main__":

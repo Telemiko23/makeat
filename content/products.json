@@ -1,0 +1,893 @@
+{
+  "about": "Shelf products that can stand in for each recipe ingredient, by barcode (decision 0012). Curated by the price-data role from the product-candidates report on 2026-10-23 (Rami Levy 34, Osher Ad 32). size/unit is the pack; perKg marks weighed produce priced per kilogram. Ingredients not listed here (or not found at a branch) show as missing, never guessed.",
+  "products": {
+    "eggs": [
+      {
+        "code": "7290001201619",
+        "size": 18,
+        "unit": "pcs"
+      },
+      {
+        "code": "742259241925",
+        "size": 18,
+        "unit": "pcs"
+      },
+      {
+        "code": "723098308352",
+        "size": 12,
+        "unit": "pcs"
+      },
+      {
+        "code": "742259241895",
+        "size": 12,
+        "unit": "pcs"
+      }
+    ],
+    "tomato": [
+      {
+        "code": "7290009000122",
+        "perKg": true
+      },
+      {
+        "code": "7290000000100",
+        "perKg": true
+      }
+    ],
+    "crushed-tomatoes": [
+      {
+        "code": "710069312104",
+        "size": 500,
+        "unit": "g"
+      },
+      {
+        "code": "7290016087475",
+        "size": 400,
+        "unit": "g"
+      },
+      {
+        "code": "7290020498021",
+        "size": 800,
+        "unit": "g"
+      }
+    ],
+    "tomato-paste": [
+      {
+        "code": "7290020431172",
+        "size": 240,
+        "unit": "g"
+      },
+      {
+        "code": "7290018989333",
+        "size": 100,
+        "unit": "g"
+      }
+    ],
+    "onion": [
+      {
+        "code": "7290009000900",
+        "perKg": true
+      },
+      {
+        "code": "7290000000108",
+        "perKg": true
+      }
+    ],
+    "garlic": [
+      {
+        "code": "7290009002850",
+        "perKg": true
+      },
+      {
+        "code": "7290000000612",
+        "perKg": true
+      },
+      {
+        "code": "7290011725693",
+        "size": 500,
+        "unit": "g"
+      },
+      {
+        "code": "7290011725662",
+        "size": 500,
+        "unit": "g"
+      },
+      {
+        "code": "7290118669203",
+        "size": 500,
+        "unit": "g"
+      }
+    ],
+    "red-bell-pepper": [
+      {
+        "code": "7290009001501",
+        "perKg": true
+      },
+      {
+        "code": "7290000000104",
+        "perKg": true
+      }
+    ],
+    "olive-oil": [
+      {
+        "code": "7290112194220",
+        "size": 750,
+        "unit": "ml"
+      },
+      {
+        "code": "7290020396297",
+        "size": 750,
+        "unit": "ml"
+      },
+      {
+        "code": "7290018023617",
+        "size": 750,
+        "unit": "ml"
+      },
+      {
+        "code": "7290117263389",
+        "size": 750,
+        "unit": "ml"
+      }
+    ],
+    "canola-oil": [
+      {
+        "code": "7290112128362",
+        "size": 1000,
+        "unit": "ml"
+      },
+      {
+        "code": "7290019245506",
+        "size": 1000,
+        "unit": "ml"
+      },
+      {
+        "code": "7290019035237",
+        "size": 1000,
+        "unit": "ml"
+      },
+      {
+        "code": "7290119672318",
+        "size": 1000,
+        "unit": "ml"
+      },
+      {
+        "code": "7290119673124",
+        "size": 1000,
+        "unit": "ml"
+      }
+    ],
+    "salt": [
+      {
+        "code": "7290008423243",
+        "size": 650,
+        "unit": "g"
+      },
+      {
+        "code": "7290000523224",
+        "size": 500,
+        "unit": "g"
+      },
+      {
+        "code": "7290000523521",
+        "size": 250,
+        "unit": "g"
+      }
+    ],
+    "black-pepper": [
+      {
+        "code": "7290002319436",
+        "size": 70,
+        "unit": "g"
+      },
+      {
+        "code": "7290010153862",
+        "size": 70,
+        "unit": "g"
+      },
+      {
+        "code": "7290018711361",
+        "size": 200,
+        "unit": "g"
+      },
+      {
+        "code": "7290119421824",
+        "size": 120,
+        "unit": "g"
+      }
+    ],
+    "sweet-paprika": [
+      {
+        "code": "7290002319429",
+        "size": 80,
+        "unit": "g"
+      },
+      {
+        "code": "7290020238511",
+        "size": 150,
+        "unit": "g"
+      },
+      {
+        "code": "7290018711330",
+        "size": 200,
+        "unit": "g"
+      }
+    ],
+    "cumin": [
+      {
+        "code": "7290019603351",
+        "size": 80,
+        "unit": "g"
+      },
+      {
+        "code": "7290020238276",
+        "size": 150,
+        "unit": "g"
+      },
+      {
+        "code": "7290011065331",
+        "size": 50,
+        "unit": "g"
+      },
+      {
+        "code": "7290022005210",
+        "size": 100,
+        "unit": "g"
+      }
+    ],
+    "turmeric": [
+      {
+        "code": "7290002319450",
+        "size": 80,
+        "unit": "g"
+      },
+      {
+        "code": "7290011065348",
+        "size": 80,
+        "unit": "g"
+      },
+      {
+        "code": "7290020238719",
+        "size": 150,
+        "unit": "g"
+      },
+      {
+        "code": "7290018711354",
+        "size": 200,
+        "unit": "g"
+      }
+    ],
+    "cinnamon": [
+      {
+        "code": "7290002319405",
+        "size": 80,
+        "unit": "g"
+      },
+      {
+        "code": "7290020238764",
+        "size": 150,
+        "unit": "g"
+      },
+      {
+        "code": "7290119421763",
+        "size": 150,
+        "unit": "g"
+      },
+      {
+        "code": "7290022005258",
+        "size": 100,
+        "unit": "g"
+      }
+    ],
+    "pasta": [
+      {
+        "code": "7290117768822",
+        "size": 500,
+        "unit": "g"
+      },
+      {
+        "code": "7290117768761",
+        "size": 500,
+        "unit": "g"
+      },
+      {
+        "code": "7290000060248",
+        "size": 500,
+        "unit": "g"
+      },
+      {
+        "code": "7290020661135",
+        "size": 500,
+        "unit": "g"
+      },
+      {
+        "code": "7290117769683",
+        "size": 500,
+        "unit": "g"
+      }
+    ],
+    "gluten-free-pasta": [
+      {
+        "code": "7290108508161",
+        "size": 400,
+        "unit": "g"
+      },
+      {
+        "code": "7290108508178",
+        "size": 400,
+        "unit": "g"
+      }
+    ],
+    "basil": [
+      {
+        "code": "7290016823004",
+        "size": 50,
+        "unit": "g",
+        "note": "a bunch, about 50 g"
+      },
+      {
+        "code": "7290122182194",
+        "size": 50,
+        "unit": "g",
+        "note": "a bunch, about 50 g"
+      }
+    ],
+    "parsley": [
+      {
+        "code": "7290016334579",
+        "size": 50,
+        "unit": "g",
+        "note": "a bunch, about 50 g"
+      },
+      {
+        "code": "7290000000125",
+        "size": 50,
+        "unit": "g",
+        "note": "a bunch, about 50 g"
+      }
+    ],
+    "dill": [
+      {
+        "code": "7290016334593",
+        "size": 50,
+        "unit": "g",
+        "note": "a bunch, about 50 g"
+      },
+      {
+        "code": "7290000000129",
+        "size": 50,
+        "unit": "g",
+        "note": "a bunch, about 50 g"
+      }
+    ],
+    "coriander": [
+      {
+        "code": "7290016334586",
+        "size": 50,
+        "unit": "g",
+        "note": "a bunch, about 50 g"
+      },
+      {
+        "code": "7290000000126",
+        "size": 50,
+        "unit": "g",
+        "note": "a bunch, about 50 g"
+      }
+    ],
+    "chicken-thighs": [
+      {
+        "code": "7290004093051",
+        "perKg": true
+      },
+      {
+        "code": "7290002684190",
+        "perKg": true
+      }
+    ],
+    "chicken-breast": [
+      {
+        "code": "7290004093020",
+        "perKg": true
+      },
+      {
+        "code": "7290002069041",
+        "perKg": true
+      },
+      {
+        "code": "7290002684213",
+        "perKg": true
+      },
+      {
+        "code": "7290002680161",
+        "perKg": true
+      }
+    ],
+    "ground-beef": [
+      {
+        "code": "7290001004746",
+        "perKg": true
+      }
+    ],
+    "potato": [
+      {
+        "code": "7290009002997",
+        "perKg": true
+      },
+      {
+        "code": "7290000000422",
+        "perKg": true
+      },
+      {
+        "code": "7290000000111",
+        "perKg": true
+      }
+    ],
+    "sweet-potato": [
+      {
+        "code": "7290009001105",
+        "perKg": true
+      },
+      {
+        "code": "7290000000138",
+        "perKg": true
+      }
+    ],
+    "lemon": [
+      {
+        "code": "7290009005301",
+        "perKg": true
+      },
+      {
+        "code": "7290000000117",
+        "perKg": true
+      }
+    ],
+    "brown-lentils": [
+      {
+        "code": "7290019603993",
+        "size": 900,
+        "unit": "g",
+        "note": "green lentils, a common stand-in for brown"
+      },
+      {
+        "code": "7290014325401",
+        "size": 1400,
+        "unit": "g",
+        "note": "green lentils, a common stand-in for brown"
+      }
+    ],
+    "red-lentils": [
+      {
+        "code": "7290019603986",
+        "size": 900,
+        "unit": "g"
+      },
+      {
+        "code": "7290014325395",
+        "size": 1400,
+        "unit": "g"
+      },
+      {
+        "code": "835811000099",
+        "size": 1200,
+        "unit": "g"
+      },
+      {
+        "code": "7290019431558",
+        "size": 400,
+        "unit": "g"
+      }
+    ],
+    "white-rice": [
+      {
+        "code": "7290000211442",
+        "size": 1000,
+        "unit": "g"
+      },
+      {
+        "code": "835811004714",
+        "size": 1000,
+        "unit": "g"
+      },
+      {
+        "code": "7290117907733",
+        "size": 1000,
+        "unit": "g"
+      },
+      {
+        "code": "7290014325258",
+        "size": 1400,
+        "unit": "g"
+      }
+    ],
+    "breadcrumbs": [
+      {
+        "code": "7290002007760",
+        "size": 1000,
+        "unit": "g"
+      },
+      {
+        "code": "7290018711675",
+        "size": 1000,
+        "unit": "g"
+      },
+      {
+        "code": "835811004189",
+        "size": 800,
+        "unit": "g"
+      },
+      {
+        "code": "7290008493413",
+        "size": 200,
+        "unit": "g"
+      }
+    ],
+    "cornflake-crumbs": [
+      {
+        "code": "7290018724347",
+        "size": 250,
+        "unit": "g",
+        "note": "gluten-free breadcrumbs"
+      }
+    ],
+    "cucumber": [
+      {
+        "code": "7290009000207",
+        "perKg": true
+      },
+      {
+        "code": "7290000000101",
+        "perKg": true
+      }
+    ],
+    "carrot": [
+      {
+        "code": "7290009000313",
+        "perKg": true
+      },
+      {
+        "code": "7290000000102",
+        "perKg": true
+      }
+    ],
+    "celery-stalk": [
+      {
+        "code": "7290016334463",
+        "size": 400,
+        "unit": "g",
+        "note": "a whole head, about 8 stalks"
+      },
+      {
+        "code": "7290000000534",
+        "size": 400,
+        "unit": "g",
+        "note": "a whole head, about 8 stalks"
+      }
+    ],
+    "zucchini": [
+      {
+        "code": "7290009001808",
+        "perKg": true
+      },
+      {
+        "code": "7290000000107",
+        "perKg": true
+      }
+    ],
+    "pumpkin": [
+      {
+        "code": "7290009001341",
+        "perKg": true
+      },
+      {
+        "code": "7290000000166",
+        "perKg": true
+      }
+    ],
+    "milk": [
+      {
+        "code": "7290004131074",
+        "size": 1000,
+        "unit": "ml"
+      },
+      {
+        "code": "7290000522319",
+        "size": 1000,
+        "unit": "ml"
+      }
+    ],
+    "soy-drink": [
+      {
+        "code": "7290004125578",
+        "size": 1000,
+        "unit": "ml"
+      },
+      {
+        "code": "7290116936116",
+        "size": 1000,
+        "unit": "ml"
+      }
+    ],
+    "feta-cheese": [
+      {
+        "code": "7290117268667",
+        "size": 200,
+        "unit": "g"
+      },
+      {
+        "code": "7290117268704",
+        "size": 350,
+        "unit": "g"
+      },
+      {
+        "code": "7290108509113",
+        "size": 250,
+        "unit": "g"
+      },
+      {
+        "code": "7290108509120",
+        "size": 500,
+        "unit": "g"
+      }
+    ],
+    "cooking-cream": [
+      {
+        "code": "7290105362339",
+        "size": 250,
+        "unit": "ml"
+      },
+      {
+        "code": "7290000522340",
+        "size": 250,
+        "unit": "ml"
+      },
+      {
+        "code": "7290019790006",
+        "size": 250,
+        "unit": "ml"
+      }
+    ],
+    "butter": [
+      {
+        "code": "7290116932033",
+        "size": 200,
+        "unit": "g"
+      }
+    ],
+    "mushrooms": [
+      {
+        "code": "7290006265500",
+        "size": 250,
+        "unit": "g"
+      },
+      {
+        "code": "7290006511157",
+        "size": 230,
+        "unit": "g"
+      },
+      {
+        "code": "7290013625458",
+        "size": 230,
+        "unit": "g"
+      }
+    ],
+    "salmon-fillet": [
+      {
+        "code": "7290002603047",
+        "perKg": true
+      },
+      {
+        "code": "7290003069156",
+        "perKg": true
+      }
+    ],
+    "couscous": [
+      {
+        "code": "7290002040064",
+        "size": 350,
+        "unit": "g"
+      },
+      {
+        "code": "7290100702260",
+        "size": 350,
+        "unit": "g"
+      },
+      {
+        "code": "7290015834230",
+        "size": 350,
+        "unit": "g"
+      }
+    ],
+    "ptitim": [
+      {
+        "code": "7290000060200",
+        "size": 500,
+        "unit": "g"
+      },
+      {
+        "code": "7290015834292",
+        "size": 500,
+        "unit": "g"
+      }
+    ],
+    "chickpeas-canned": [
+      {
+        "code": "7290000208428",
+        "size": 550,
+        "unit": "g"
+      },
+      {
+        "code": "7290017105895",
+        "size": 335,
+        "unit": "g"
+      }
+    ],
+    "tuna-canned": [
+      {
+        "code": "7290016106657",
+        "size": 560,
+        "unit": "g"
+      },
+      {
+        "code": "7290015039246",
+        "size": 448,
+        "unit": "g"
+      },
+      {
+        "code": "7290008352499",
+        "size": 392,
+        "unit": "g"
+      }
+    ],
+    "mayonnaise": [
+      {
+        "code": "7290000111186",
+        "size": 500,
+        "unit": "g"
+      },
+      {
+        "code": "7290018711071",
+        "size": 500,
+        "unit": "g"
+      }
+    ],
+    "corn-canned": [
+      {
+        "code": "7290108500707",
+        "size": 320,
+        "unit": "g"
+      },
+      {
+        "code": "7290000208329",
+        "size": 550,
+        "unit": "g"
+      }
+    ],
+    "vermicelli": [
+      {
+        "code": "7290000060163",
+        "size": 400,
+        "unit": "g"
+      },
+      {
+        "code": "7290119673452",
+        "size": 500,
+        "unit": "g"
+      },
+      {
+        "code": "7290013625922",
+        "size": 360,
+        "unit": "g"
+      }
+    ],
+    "rolled-oats": [
+      {
+        "code": "7290015347952",
+        "size": 750,
+        "unit": "g"
+      },
+      {
+        "code": "7290119670819",
+        "size": 500,
+        "unit": "g"
+      }
+    ],
+    "honey": [
+      {
+        "code": "7290112128348",
+        "size": 680,
+        "unit": "g"
+      },
+      {
+        "code": "7290015834339",
+        "size": 350,
+        "unit": "g"
+      },
+      {
+        "code": "7290002130567",
+        "size": 350,
+        "unit": "g"
+      }
+    ],
+    "date-syrup": [
+      {
+        "code": "7290011154134",
+        "size": 900,
+        "unit": "g"
+      },
+      {
+        "code": "7290012983276",
+        "size": 900,
+        "unit": "g"
+      }
+    ],
+    "apple": [
+      {
+        "code": "7290009007022",
+        "perKg": true
+      },
+      {
+        "code": "7290009001631",
+        "perKg": true
+      },
+      {
+        "code": "7290000002013",
+        "perKg": true
+      },
+      {
+        "code": "7290000000115",
+        "perKg": true
+      }
+    ],
+    "green-onion": [
+      {
+        "code": "7290006704573",
+        "size": 100,
+        "unit": "g",
+        "note": "a bunch, about 100 g"
+      },
+      {
+        "code": "7290016334616",
+        "size": 100,
+        "unit": "g",
+        "note": "a bunch, about 100 g"
+      },
+      {
+        "code": "7290122182040",
+        "size": 100,
+        "unit": "g",
+        "note": "a bunch, about 100 g"
+      }
+    ],
+    "frozen-peas": [
+      {
+        "code": "7290019981695",
+        "size": 800,
+        "unit": "g"
+      },
+      {
+        "code": "7290020431035",
+        "size": 700,
+        "unit": "g"
+      }
+    ],
+    "sugar": [
+      {
+        "code": "9007829022023",
+        "size": 1000,
+        "unit": "g"
+      }
+    ],
+    "baking-powder": [
+      {
+        "code": "7290002319016",
+        "size": 100,
+        "unit": "g"
+      },
+      {
+        "code": "7290018710234",
+        "size": 100,
+        "unit": "g"
+      }
+    ]
+  }
+}
