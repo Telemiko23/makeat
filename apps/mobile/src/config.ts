@@ -7,3 +7,6 @@ export const SHOW_DRAFT_RECIPES = true;
 
 /** What the recipe gate lets through in this build. */
 export const GATE = { includeDrafts: SHOW_DRAFT_RECIPES };
+
+/** The hourly shelf-price file (decision 0012). */
+export const PRICES_URL = 'https://raw.githubusercontent.com/Telemiko23/makeat/prices-data/prices.json';

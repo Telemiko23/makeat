@@ -6,6 +6,7 @@ import { StatusBar } from 'expo-status-bar';
 import { View } from 'react-native';
 import { HouseholdProvider } from '../state/household';
 import { PlanProvider } from '../state/plan';
+import { PricesProvider } from '../state/prices';
 import { ShoppingProvider } from '../state/shopping';
 import { useBrandFonts } from '../theme/fonts';
 import { useTheme } from '../theme/useTheme';
@@ -24,12 +25,14 @@ export default function RootLayout() {
     <HouseholdProvider>
       <PlanProvider>
       <ShoppingProvider>
+      <PricesProvider>
       <View style={{ flex: 1, direction: rtl ? 'rtl' : 'ltr', backgroundColor: c.background }}>
         <StatusBar style="auto" />
         {fontsReady ? (
           <Stack screenOptions={{ headerShown: false, contentStyle: { backgroundColor: c.background } }} />
         ) : null}
       </View>
+      </PricesProvider>
       </ShoppingProvider>
       </PlanProvider>
     </HouseholdProvider>

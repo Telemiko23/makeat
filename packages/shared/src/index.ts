@@ -5,3 +5,4 @@ export * from './recipes/validate';
 export * from './recipes/filter';
 export * from './plan/plan';
 export * from './plan/shopping';
+export * from './prices/quote';

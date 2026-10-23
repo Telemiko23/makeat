@@ -6,6 +6,7 @@ import { CATALOG, RECIPES_BY_ID } from '../../../../packages/shared/src/content'
 import type { ShoppingItem } from '../../../../packages/shared/src/plan/shopping';
 import { joinList, labelValue } from '../onboarding/labels';
 import { buyAmount, local } from '../plan/format';
+import { PriceComparison } from '../plan/PriceComparison';
 import { useShopping } from '../state/shopping';
 import { goBackOr } from '../navigation';
 import { spacing } from '../theme/tokens';
@@ -78,6 +79,7 @@ export default function Shopping() {
       <H1>{t('shopping.title')}</H1>
       <P muted>{t('shopping.hint')}</P>
       <P>{left ? t('shopping.left', { count: left }) : t('shopping.done')}</P>
+      <PriceComparison items={list} marks={marks} />
 
       {toBuy.length ? (
         <View style={{ gap: spacing.md }}>

@@ -5,8 +5,6 @@ on:
   schedule:
     - cron: "20 * * * *"
   workflow_dispatch:
-  push:
-    branches: [claude/price-matching]  # TEMP: verify before merge; removed in the same PR
 permissions:
   contents: write
 concurrency:
