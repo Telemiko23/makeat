@@ -5,9 +5,11 @@
 
 For every configured branch (data/branches.json) it rebuilds the current shelf
 prices (newest full file plus later updates) and keeps only the products in
-content/products.json. It exits non-zero, after writing the file, when a
-branch has no data or its newest file is older than MAX_AGE, so a stale feed
-shows as a failed run while the app still gets what there is.
+content/products.json. A branch with no data, or whose newest file is older
+than MAX_AGE, is left out of the file and makes the run exit non-zero, so a
+stale feed shows as a failed run while the app still gets the fresh branches.
+With no fresh branch at all no file is written, so the last good one stays
+published.
 """
 from __future__ import annotations
 
@@ -50,7 +52,10 @@ def build(raw: Path, branches: dict[str, list[str]], codes: set[str], now: datet
             published = prices.published_at
             if published is None or now - published > MAX_AGE:
                 problems.append(f"{chain}/{store_id}: newest file is from {published}, older than {MAX_AGE}")
+                continue
             info = names.get(store_id, {})
+            if not info.get("name"):
+                problems.append(f"{chain}/{store_id}: not in the chain's store list")
             stores.append({
                 "chain": chain,
                 "storeId": store_id,
@@ -78,12 +83,21 @@ def main(argv: list[str] | None = None) -> int:
         from .fetch import run
 
         for chain, ids in branches.items():
-            if run(chain, args.raw / chain, [], 0, ids) != 0:
+            # One chain's server failing must not cost the other chains their prices.
+            try:
+                failed = run(chain, args.raw / chain, [], 0, ids, promotions=False) != 0
+            except Exception as e:  # noqa: BLE001 - network and FTP errors of every kind
+                print(f"{chain}: {e!r}", file=sys.stderr)
+                failed = True
+            if failed:
                 print(f"{chain}: download failed", file=sys.stderr)
 
     codes = product_codes(json.loads(args.products.read_text(encoding="utf-8")))
     doc, problems = build(args.raw, branches, codes, datetime.now(ISRAEL).replace(tzinfo=None))
-    args.out.write_text(json.dumps(doc, ensure_ascii=False, separators=(",", ":")), encoding="utf-8")
+    if doc["stores"]:
+        args.out.write_text(json.dumps(doc, ensure_ascii=False, separators=(",", ":")), encoding="utf-8")
+    else:
+        problems.append("no fresh branch; no file written")
     for s in doc["stores"]:
         print(f"{s['chain']}/{s['storeId']} {s['name']}: {len(s['prices'])} of {len(codes)} products, data from {s['publishedAt']}")
     for p in problems:

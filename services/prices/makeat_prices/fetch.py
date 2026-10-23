@@ -93,7 +93,9 @@ class Cerberus:
         self.ftp.close()
 
 
-def run(chain: str, out: Path, matches: list[str], max_stores: int, store_ids: list[str] | None = None) -> int:
+def run(
+    chain: str, out: Path, matches: list[str], max_stores: int, store_ids: list[str] | None = None, promotions: bool = True
+) -> int:
     if chain not in CERBERUS_USERS:
         print(f"{chain}: only Cerberus chains are supported so far ({', '.join(CERBERUS_USERS)})", file=sys.stderr)
         return 2
@@ -112,7 +114,8 @@ def run(chain: str, out: Path, matches: list[str], max_stores: int, store_ids: l
         print(f"{chain}: {len(server.names)} files, {len(stores)} stores, picked "
               f"{[(s.store_id, s.name, s.city) for s in picked]}")
         for s in picked:
-            for full, delta in (("pricefull", "price"), ("promofull", "promo")):
+            kinds = (("pricefull", "price"), ("promofull", "promo")) if promotions else (("pricefull", "price"),)
+            for full, delta in kinds:
                 name = newest(server.names, full, s.store_id)
                 if name is None:
                     print(f"  store {s.store_id}: no {full} file")

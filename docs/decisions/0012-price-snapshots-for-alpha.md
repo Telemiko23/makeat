@@ -27,7 +27,8 @@ The repository is public, so GitHub Actions minutes cost nothing.
   It force-pushes that file as the only commit on an orphan branch, `prices-data`. The app downloads it from `raw.githubusercontent.com` (which allows cross-origin reads, so the web build used by the tests works too) and keeps the last copy on the device.
 - **Quote on the device:** the app prices the shopping list itself, at every branch of the household's chains. It skips items marked "have it", rounds up to whole packs, and leaves weighed items as weights. It shows the total, the number of items priced, what is missing, and the data time. In-store quotes use shelf prices with no fee (0008). Promotions come in a later change, with the club rules from 0002.
 - **Re-price before checkout:** there is no checkout in the alpha. When there is one, the app fetches the file again first.
-- **Health:** the job fails if a configured branch has no data or its newest file is more than 12 hours old, so a stale feed shows as a red run.
+- **Health:** a configured branch with no data, or whose newest file is more than 12 hours old, is left out of the file, so old prices are never ranked with fresh ones, and the run fails so the stale feed shows as red. With no fresh branch at all nothing is published and the last good file stays.
+- **Online shoppers:** a household that shops only online sees no shelf totals, because its quotes must include the delivery fee (0008). Those quotes come in a later change; until then the section says so.
 
 ## Alternatives rejected
 - **Supabase tables now:** these need an account and keys from Liran, and send the basket to a server. That is more moving parts than one household needs. We revisit at the closed beta, when more chains, areas and server-side checks make a database worth it.

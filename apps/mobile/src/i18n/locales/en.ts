@@ -203,8 +203,8 @@ export const en: Strings = {
   },
   prices: {
     title: 'What the basket costs',
-    hint: "Shelf prices at the branches, without promotions, pantry staples, or what you marked as at home.",
-    hintOnline: 'Shelf prices at the branches for now. Online orders with the delivery fee come later.',
+    hint: 'Shelf prices at the branches, without promotions, pantry staples, or what you marked as at home.',
+    hintOnline: 'Price comparison for online orders, delivery fee included, is coming soon.',
     store: '{{chain}}, {{name}}',
     total: '₪{{amount}}',
     coverage: 'Priced {{priced}} of {{total}} items',

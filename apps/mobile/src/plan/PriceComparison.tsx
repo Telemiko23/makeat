@@ -23,8 +23,10 @@ function feedTime(at: string): { date: string; time: string } | null {
 
 /**
  * The shopping list priced at every branch of the household's chains we have
- * data for (decision 0012). Pantry staples and items marked "have it" are left
- * out. Shelf prices only, with each branch's data time.
+ * data for (decision 0012). Pantry staples, optional items and items marked
+ * "have it" are left out. Shelf prices only, with each branch's data time;
+ * online-only households get no shelf totals, since their quotes must include
+ * the delivery fee (CLAUDE.md).
  */
 export function PriceComparison({ items, marks }: { items: readonly ShoppingItem[]; marks: Record<string, Mark> }) {
   const { t, i18n } = useTranslation();
@@ -32,7 +34,7 @@ export function PriceComparison({ items, marks }: { items: readonly ShoppingItem
   const { file, status, refresh } = usePrices();
   const [all, setAll] = useState(false);
 
-  const basket = useMemo(() => items.filter((i) => !i.pantry && marks[i.id] !== 'have'), [items, marks]);
+  const basket = useMemo(() => items.filter((i) => !i.pantry && !i.optional && marks[i.id] !== 'have'), [items, marks]);
   const feeds = useMemo(() => (saved?.chains ?? []).map((c) => FEED_CHAIN[c]).filter((c) => !!c), [saved]);
   const quotes = useMemo(() => {
     const stores = file?.stores.filter((s) => feeds.includes(s.chain)) ?? [];
@@ -45,7 +47,8 @@ export function PriceComparison({ items, marks }: { items: readonly ShoppingItem
   };
 
   let body;
-  if (!feeds.length) body = <P muted>{t('prices.noChains', { chains: joinList(t, Object.keys(FEED_CHAIN).map((c) => t(`chains.${c}`))) })}</P>;
+  if (saved?.shoppingMode === 'online') body = null;
+  else if (!feeds.length) body = <P muted>{t('prices.noChains', { chains: joinList(t, Object.keys(FEED_CHAIN).map((c) => t(`chains.${c}`))) })}</P>;
   else if (!basket.length) body = <P muted>{t('prices.nothingToPrice')}</P>;
   else if (!file) body = <P muted>{status === 'loading' ? t('prices.loading') : t('prices.offline')}</P>;
   else if (!quotes.length) body = <P muted>{t('prices.noStores')}</P>;
@@ -58,7 +61,7 @@ export function PriceComparison({ items, marks }: { items: readonly ShoppingItem
           return (
             <Card key={`${q.store.chain}/${q.store.storeId}`}>
               <View style={{ gap: spacing.xs }}>
-                <P>{t('prices.store', { chain: chainName(q.store.chain), name: q.store.name })}</P>
+                <P>{t('prices.store', { chain: chainName(q.store.chain), name: q.store.name || q.store.storeId })}</P>
                 <H2>{t('prices.total', { amount: q.total.toFixed(2) })}</H2>
                 <P muted>{t('prices.coverage', { priced: q.lines.length, total: basket.length })}</P>
                 {missing.length ? <P muted>{t('prices.missing', { items: joinList(t, missing) })}</P> : null}
@@ -80,7 +83,7 @@ export function PriceComparison({ items, marks }: { items: readonly ShoppingItem
       <H2>{t('prices.title')}</H2>
       <P muted>{saved?.shoppingMode === 'online' ? t('prices.hintOnline') : t('prices.hint')}</P>
       {body}
-      {status === 'offline' ? <Button kind="secondary" label={t('prices.retry')} onPress={refresh} /> : null}
+      {status === 'offline' && body ? <Button kind="secondary" label={t('prices.retry')} onPress={refresh} /> : null}
     </View>
   );
 }

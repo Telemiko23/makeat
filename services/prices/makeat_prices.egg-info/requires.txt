@@ -1,6 +1,0 @@
-
-[dev]
-pytest>=8
-
-[fetch]
-il-supermarket-scraper==1.0.8

@@ -1,9 +1,0 @@
-Metadata-Version: 2.4
-Name: makeat-prices
-Version: 0.1.0
-Summary: Price ingestion from Israeli Food Price Transparency law feeds
-Requires-Python: >=3.11
-Provides-Extra: fetch
-Requires-Dist: il-supermarket-scraper==1.0.8; extra == "fetch"
-Provides-Extra: dev
-Requires-Dist: pytest>=8; extra == "dev"

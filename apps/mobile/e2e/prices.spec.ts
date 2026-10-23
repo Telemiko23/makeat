@@ -1,7 +1,6 @@
-import { expect, test, type Page, type Route } from '@playwright/test';
+import { expect, test, type Page, type Request, type Route } from '@playwright/test';
 import products from '../../../content/products.json';
-
-const PRICES_URL = 'https://raw.githubusercontent.com/Telemiko23/makeat/prices-data/prices.json';
+import { PRICES_URL } from '../src/config';
 
 const profile = {
   members: [{ id: 'a', kind: 'adult' }, { id: 'b', kind: 'adult' }],
@@ -38,12 +37,19 @@ const file = {
 
 const serve = (route: Route) => route.fulfill({ json: file, headers: { 'access-control-allow-origin': '*' } });
 
-async function openList(page: Page) {
+async function openWith(page: Page, changes: Partial<typeof profile>) {
   await page.goto('/');
-  await page.evaluate((s) => localStorage.setItem('makeat.household.v1', JSON.stringify({ version: 1, saved: s, draft: s })), profile);
+  const s = { ...profile, ...changes };
+  await page.evaluate((x) => localStorage.setItem('makeat.household.v1', JSON.stringify({ version: 1, saved: x, draft: x })), s);
+  // Waits for the price download (mocked or failed) so a test sees its outcome.
+  const ours = (r: Request) => r.url() === PRICES_URL;
+  const fetched = Promise.race([page.waitForEvent('requestfinished', ours), page.waitForEvent('requestfailed', ours)]).catch(() => undefined);
   await page.goto('/shopping');
+  await fetched;
   await expect(page.getByRole('heading', { name: 'כמה יעלה הסל' })).toBeVisible();
 }
+
+const openList = (page: Page) => openWith(page, {});
 
 const stores = (page: Page) => page.getByText(/^רמי לוי, |^אושר עד, /).allTextContents();
 const coverage = async (page: Page) => {
@@ -97,9 +103,13 @@ test('offline, the last saved prices are still shown', async ({ page }) => {
 
 test('chains without price data are named', async ({ page }) => {
   await page.route(PRICES_URL, serve);
-  await page.goto('/');
-  const s = { ...profile, chains: ['shufersal'] };
-  await page.evaluate((x) => localStorage.setItem('makeat.household.v1', JSON.stringify({ version: 1, saved: x, draft: x })), s);
-  await page.goto('/shopping');
+  await openWith(page, { chains: ['shufersal'] });
   await expect(page.getByText(/^עדיין אין לנו מחירים מהרשתות שבחרתם. כרגע יש: רמי לוי, אושר עד\.$/)).toBeVisible();
+});
+
+test('online-only shoppers get no shelf totals, since their quote needs the delivery fee', async ({ page }) => {
+  await page.route(PRICES_URL, serve);
+  await openWith(page, { shoppingMode: 'online' });
+  await expect(page.getByText(/^השוואת מחירים להזמנה אונליין/)).toBeVisible();
+  await expect(page.getByText(/ ₪$/)).toHaveCount(0);
 });
