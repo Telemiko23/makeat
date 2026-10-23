@@ -12,7 +12,7 @@ export const FOOD_CLASSES = ['meat', 'dairy', 'fish', 'parve'] as const;
 export type FoodClass = (typeof FOOD_CLASSES)[number];
 
 /** What an animal-derived ingredient comes from; drives the vegetarian and vegan rules. */
-export const ANIMAL_SOURCES = ['meat', 'poultry', 'fish', 'dairy', 'egg', 'honey'] as const;
+export const ANIMAL_SOURCES = ['meat', 'poultry', 'fish', 'shellfish', 'dairy', 'egg', 'honey'] as const;
 export type AnimalSource = (typeof ANIMAL_SOURCES)[number];
 
 export const SUBSTITUTE_REASONS = ['glutenFree', 'dairyFree', 'eggFree', 'vegan', 'parve', 'budget', 'availability'] as const;

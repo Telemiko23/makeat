@@ -10,6 +10,7 @@ import {
   type Ingredient,
   type Localized,
   type Recipe,
+  type SubstituteReason,
 } from './types';
 
 const ID = /^[a-z0-9]+(-[a-z0-9]+)*$/;
@@ -19,11 +20,29 @@ const hasHebrew = (l: Localized | undefined) => !!l && typeof l.he === 'string' 
 const within = <T>(allowed: readonly T[], values: readonly T[]) => values.every((v) => allowed.includes(v));
 const unique = (values: readonly unknown[]) => new Set(values).size === values.length;
 
+/** Whether a substitute really has the property it is offered for. */
+function satisfies(sub: Ingredient, reason: SubstituteReason): boolean {
+  switch (reason) {
+    case 'glutenFree':
+      return !sub.allergens.includes('gluten');
+    case 'dairyFree':
+      return !sub.allergens.includes('milk') && !sub.animal.includes('dairy');
+    case 'eggFree':
+      return !sub.allergens.includes('eggs') && !sub.animal.includes('egg');
+    case 'vegan':
+      return sub.animal.length === 0;
+    case 'parve':
+      return sub.class === 'parve';
+    default:
+      return true; // budget and availability state no fact to check
+  }
+}
+
 /** Problems in the ingredient catalog, as readable messages; empty when valid. */
 export function validateCatalog(ingredients: readonly Ingredient[]): string[] {
   const errors: string[] = [];
-  const ids = new Set(ingredients.map((i) => i.id));
-  if (ids.size !== ingredients.length) errors.push('catalog: duplicate ingredient ids');
+  const byId = new Map(ingredients.map((i) => [i.id, i]));
+  if (byId.size !== ingredients.length) errors.push('catalog: duplicate ingredient ids');
   for (const i of ingredients) {
     const e = (msg: string) => errors.push(`ingredient ${i.id}: ${msg}`);
     if (!ID.test(i.id)) e('id must be kebab-case');
@@ -41,8 +60,13 @@ export function validateCatalog(ingredients: readonly Ingredient[]): string[] {
     if (a.has('dairy') && !i.allergens.includes('milk')) e('dairy must carry the milk allergen');
     if (a.has('egg') && !i.allergens.includes('eggs')) e('egg must carry the eggs allergen');
     if (a.has('fish') && !i.allergens.includes('fish')) e('fish must carry the fish allergen');
+    const shellfishAllergen = i.allergens.includes('crustaceans') || i.allergens.includes('molluscs');
+    if (shellfishAllergen !== a.has('shellfish')) e('shellfish source exactly when carrying a crustaceans or molluscs allergen');
+    if (a.has('shellfish') && i.kosherSpecies !== false) e('shellfish is never a kosher species');
     for (const s of i.substitutes ?? []) {
-      if (!ids.has(s.id)) e(`substitute "${s.id}" is not in the catalog`);
+      const sub = byId.get(s.id);
+      if (!sub) e(`substitute "${s.id}" is not in the catalog`);
+      else for (const reason of s.reasons) if (!satisfies(sub, reason)) e(`substitute "${s.id}" is not ${reason}`);
       if (s.id === i.id) e('cannot substitute itself');
       if (!(s.ratio > 0)) e(`substitute "${s.id}" needs a positive ratio`);
       if (!s.reasons.length || !within(SUBSTITUTE_REASONS, s.reasons)) e(`substitute "${s.id}" has invalid reasons`);

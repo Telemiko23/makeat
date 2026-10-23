@@ -17,13 +17,15 @@ const items: Ingredient[] = [
   ing('beef', 'בקר', { class: 'meat', animal: ['meat'] }),
   ing('salmon', 'סלמון', { class: 'fish', animal: ['fish'], allergens: ['fish'] }),
   ing('honey', 'דבש', { animal: ['honey'] }),
-  ing('shrimp', 'שרימפס', { allergens: ['crustaceans'], kosherSpecies: false }),
+  ing('shrimp', 'שרימפס', { animal: ['shellfish'], allergens: ['crustaceans'], kosherSpecies: false }),
+  ing('onion', 'בצל'),
+  ing('green-onion', 'בצל ירוק'),
   ing('sesame', 'טחינה', { allergens: ['sesame'] }),
 ];
 const catalog = catalogOf(items);
 
 const recipe = (ids: string[], patch: Partial<Recipe> = {}): Recipe => ({
-  id: 'r', status: 'draft', title: { he: 'מתכון' }, summary: { he: 'תיאור' }, servings: 4,
+  id: 'r', status: 'reviewed', title: { he: 'מתכון' }, summary: { he: 'תיאור' }, servings: 4,
   prepMinutes: 5, cookMinutes: 5, difficulty: 'easy', meals: ['dinner'], tags: [], appliances: [],
   ingredients: ids.map((id) => ({ id, qty: 1, unit: 'g' as const })),
   steps: [{ text: { he: 'מבשלים' } }],
@@ -51,6 +53,10 @@ describe('derived facts', () => {
     expect(isVegetarian(recipe(['salmon']), catalog)).toBe(false);
     expect(isVegan(recipe(['tomato', 'flour']), catalog)).toBe(true);
   });
+  it('shellfish is neither vegetarian nor vegan', () => {
+    expect(isVegetarian(recipe(['shrimp']), catalog)).toBe(false);
+    expect(isVegan(recipe(['shrimp']), catalog)).toBe(false);
+  });
   it('throws on an unknown ingredient instead of guessing', () => {
     expect(() => recipeAllergens(recipe(['mystery']), catalog)).toThrow(/unknown ingredient/);
   });
@@ -70,9 +76,27 @@ describe('filter', () => {
     const r = recipe(['shrimp']);
     expect(isAllowed(r, catalog, open)).toBe(true);
     for (const kashrut of ['style', 'certified', 'mehadrin'] as const) {
-      expect(exclusions(r, catalog, { ...open, kashrut })).toEqual([{ rule: 'kashrut' }]);
+      expect(exclusions(r, catalog, { ...open, kashrut })).toEqual([{ rule: 'kashrut', reason: 'species' }]);
     }
     expect(isAllowed(recipe(['beef']), catalog, { ...open, kashrut: 'mehadrin' })).toBe(true);
+  });
+
+  it('re-checks meat with dairy or fish, since model output is never pre-validated', () => {
+    for (const ids of [['beef', 'milk'], ['beef', 'salmon']]) {
+      expect(exclusions(recipe(ids), catalog, { ...open, kashrut: 'style' })).toEqual([{ rule: 'kashrut', reason: 'mixing' }]);
+      expect(isAllowed(recipe(ids), catalog, open)).toBe(true);
+    }
+    expect(isAllowed(recipe(['salmon', 'milk']), catalog, { ...open, kashrut: 'mehadrin' })).toBe(true);
+  });
+
+  it('fails closed on an ingredient with no known facts', () => {
+    expect(exclusions(recipe(['tomato', 'mystery']), catalog, open)).toEqual([{ rule: 'unknownIngredient', ingredients: ['mystery'] }]);
+  });
+
+  it('hides drafts unless explicitly allowed for internal builds', () => {
+    const draft = recipe(['tomato'], { status: 'draft' });
+    expect(exclusions(draft, catalog, open)).toEqual([{ rule: 'draft' }]);
+    expect(isAllowed(draft, catalog, open, { includeDrafts: true })).toBe(true);
   });
 
   it('applies vegetarian and vegan', () => {
@@ -95,10 +119,17 @@ describe('filter', () => {
     expect(isAllowed(recipe(['tomato'], { difficulty: 'hard' }), catalog, { ...open, skill: 'home' })).toBe(false);
   });
 
-  it('matches dislikes either way round and ignores blanks', () => {
+  it('matches dislikes in the plural, one way only, and ignores blanks', () => {
     const r = recipe(['eggplant', 'tomato']);
     expect(exclusions(r, catalog, { ...open, dislikes: ['חצילים'] })).toEqual([{ rule: 'dislike', ingredients: ['eggplant'] }]);
     expect(isAllowed(r, catalog, { ...open, dislikes: ['  ', 'כוסברה'] })).toBe(true);
+    // Disliking green onion keeps plain onion; disliking onion drops both.
+    expect(exclusions(recipe(['onion', 'green-onion']), catalog, { ...open, dislikes: ['בצל ירוק'] })).toEqual([
+      { rule: 'dislike', ingredients: ['green-onion'] },
+    ]);
+    expect(exclusions(recipe(['onion', 'green-onion']), catalog, { ...open, dislikes: ['בצל'] })).toEqual([
+      { rule: 'dislike', ingredients: ['onion', 'green-onion'] },
+    ]);
   });
 
   it('reports every broken rule at once', () => {
@@ -124,6 +155,31 @@ describe('validation', () => {
       'ingredient tuna: fish must carry the fish allergen',
       'ingredient onion: counted in pieces but has no gramsPerPiece',
       'ingredient x: needs a Hebrew name',
+    ]);
+  });
+
+  it('ties shellfish to its allergens and to non-kosher species', () => {
+    expect(validateCatalog([ing('prawn', 'חסילון', { allergens: ['crustaceans'], kosherSpecies: false })])).toEqual([
+      'ingredient prawn: shellfish source exactly when carrying a crustaceans or molluscs allergen',
+    ]);
+    expect(validateCatalog([ing('squid', 'קלמרי', { animal: ['shellfish'], allergens: ['molluscs'] })])).toEqual([
+      'ingredient squid: shellfish is never a kosher species',
+    ]);
+  });
+
+  it('checks that a substitute really has the property it is offered for', () => {
+    const errors = validateCatalog([
+      ing('butter', 'חמאה', { class: 'dairy', animal: ['dairy'], allergens: ['milk'] }),
+      ing('flour', 'קמח', { allergens: ['gluten'] }),
+      ing('cream', 'שמנת', {
+        class: 'dairy', animal: ['dairy'], allergens: ['milk'],
+        substitutes: [{ id: 'butter', ratio: 1, reasons: ['dairyFree', 'parve'] }, { id: 'flour', ratio: 1, reasons: ['glutenFree', 'vegan'] }],
+      }),
+    ]);
+    expect(errors).toEqual([
+      'ingredient cream: substitute "butter" is not dairyFree',
+      'ingredient cream: substitute "butter" is not parve',
+      'ingredient cream: substitute "flour" is not glutenFree',
     ]);
   });
 

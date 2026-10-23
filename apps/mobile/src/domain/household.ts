@@ -1,5 +1,12 @@
 // Household profile collected in onboarding. Stored on the device only.
 
+// Vocabularies shared with recipe filtering, so profile ids and recipe rules can never drift.
+import { ALLERGENS, APPLIANCES, DIETS, KASHRUT, MEALS, SKILLS } from '../../../../packages/shared/src/vocab';
+import type { Allergen, Appliance, Diet, Kashrut, Meal, Skill } from '../../../../packages/shared/src/vocab';
+
+export { ALLERGENS, APPLIANCES, DIETS, KASHRUT, MEALS, SKILLS };
+export type { Allergen, Appliance, Diet, Kashrut, Meal, Skill };
+
 export type MemberKind = 'adult' | 'child' | 'baby';
 export type BabyStage = 'purees' | 'soft' | 'finger';
 
@@ -11,30 +18,6 @@ export type Member =
 export const DAYS = ['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat'] as const;
 export type Day = (typeof DAYS)[number];
 export const WEEKEND: readonly Day[] = ['fri', 'sat'];
-
-export const MEALS = ['breakfast', 'lunch', 'dinner'] as const;
-export type Meal = (typeof MEALS)[number];
-
-export const KASHRUT = ['none', 'style', 'certified', 'mehadrin'] as const;
-export type Kashrut = (typeof KASHRUT)[number];
-
-export const DIETS = ['vegetarian', 'vegan'] as const;
-export type Diet = (typeof DIETS)[number];
-
-export const ALLERGENS = [
-  'gluten', 'milk', 'eggs', 'peanuts', 'treeNuts', 'sesame', 'soy',
-  'fish', 'crustaceans', 'molluscs', 'mustard', 'celery', 'sulphites', 'lupin',
-] as const;
-export type Allergen = (typeof ALLERGENS)[number];
-
-export const APPLIANCES = [
-  'oven', 'stovetop', 'microwave', 'airFryer', 'blender', 'foodProcessor',
-  'standMixer', 'grill', 'taboon', 'slowCooker', 'pressureCooker', 'toasterOven',
-] as const;
-export type Appliance = (typeof APPLIANCES)[number];
-
-export const SKILLS = ['beginner', 'home', 'confident'] as const;
-export type Skill = (typeof SKILLS)[number];
 
 export const CHAINS = [
   'shufersal', 'ramiLevy', 'osherAd', 'victory', 'yochananof',

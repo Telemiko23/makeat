@@ -10,13 +10,19 @@ CLAUDE.md requires allergen and kashrut filtering to be deterministic code, with
 
 ## Decision
 - Content lives in the repo as JSON: `content/ingredients.json` (the catalog) and `content/recipes/<id>.json`. Types, derivations, validation and the filter live in `packages/shared` (0001).
-- The **catalog holds the facts**: kashrut class (meat, dairy, fish, parve), animal sources, allergens, kosher species, allowed units, grams per piece and substitutes. Validation checks those facts against each other, for example that dairy carries the milk allergen and that a class matches its animal source.
+- The **catalog holds the facts**: kashrut class (meat, dairy, fish, parve), animal sources (shellfish included), allergens, kosher species, allowed units, grams per piece and substitutes. Validation checks those facts against each other.
+  - Dairy carries the milk allergen, and a class matches its animal source.
+  - Shellfish carries its allergen and is never a kosher species.
+  - A substitute really is dairy-free, gluten-free, egg-free, vegan or parve when it is offered as one.
 - A **recipe holds no safety facts**. Its allergens, kashrut class and vegetarian or vegan status are derived from its ingredients, never typed by hand. Optional ingredients count toward allergens.
 - Validation rejects a recipe that mixes meat with dairy or meat with fish, uses an unknown ingredient or unit, or lacks Hebrew text.
-- `exclusions(recipe, catalog, constraints)` is the single gate. It covers allergens, kosher species (for any kashrut level but none), diet, appliances, skill against difficulty, and dislikes. Anything shown to a user, including model output, passes it first. Product certification (hechsher, mehadrin) is a property of products and belongs to the basket, not to recipes.
+- `exclusions(recipe, catalog, constraints)` is the single gate. Anything shown to a user, model output included, passes it first, so it re-checks everything itself and never assumes content was validated.
+  - It fails closed on unknown ingredients.
+  - It hides drafts unless an internal build opts in.
+  - It covers allergens, kashrut for any level but none (species, and meat with dairy or fish), diet, appliances, skill against difficulty, and dislikes. Product certification (hechsher, mehadrin) is a property of products and belongs to the basket, not to recipes.
 - Text is `{ he, ar?, ru?, en? }`; Hebrew is required.
 - Recipes start as `draft`. Only the nutrition role sets `reviewed`, after checking content and adding nutrition values; only reviewed recipes ship to users.
-- The app's profile vocabularies (allergens, appliances, meals, diets, kashrut, skills) must equal the shared ones; a unit test enforces it until the app imports them directly.
+- The app imports the profile vocabularies (allergens, appliances, meals, diets, kashrut, skills) from `packages/shared`, so profile ids and recipe rules cannot drift. Metro watches `packages/shared` for this.
 
 ## Alternatives rejected
 - Allergen and kashrut tags written per recipe: one forgotten tag is a safety bug; deriving them removes that class of error.
