@@ -1,12 +1,13 @@
 """List shelf products that could stand for each recipe ingredient, so the
 product map (content/products.json) can be curated from real feed data.
 
-    python -m makeat_prices.candidates /tmp/raw ../../content/ingredients.json
+    python -m makeat_prices.candidates /tmp/raw ../../content/ingredients.json [CHAIN/STORE ...]
 
 For every ingredient and every downloaded store, prints the cheapest items
 whose name contains all words of the ingredient's Hebrew name (lightly
-stemmed), with barcode, price, pack size and unit. Read the output in the
-workflow log; nothing is written.
+stemmed), with barcode, price, pack size and unit. Optional CHAIN/STORE
+arguments (e.g. RAMI_LEVY/34) limit the stores, to keep the log readable.
+Read the output in the workflow log; nothing is written.
 """
 from __future__ import annotations
 
@@ -18,7 +19,7 @@ from pathlib import Path
 from .feeds import Price
 from .snapshot import store_ids, store_prices
 
-PER_STORE = 8
+PER_STORE = 6
 # Words in ingredient names that shelf names rarely repeat.
 NOISE = {"טרי", "טרייה", "טריים", "שן", "לבן", "מתוקה", "מתוק", "קצוץ", "קצוצה"}
 
@@ -57,14 +58,17 @@ def describe(p: Price) -> str:
     return f"{p.item_code} | {p.name} | {p.manufacturer or '-'} | {p.price} | {size}{unit}{weighed}"
 
 
-def main(raw: Path, ingredients_file: Path) -> int:
+def main(raw: Path, ingredients_file: Path, only: list[str] | None = None) -> int:
     ingredients = json.loads(ingredients_file.read_text(encoding="utf-8"))
     stores: dict[str, dict[str, Price]] = {}
     for chain_dir in sorted(p for p in raw.iterdir() if p.is_dir()):
         for store_id in store_ids(chain_dir):
+            key = f"{chain_dir.name}/{store_id}"
+            if only and key not in only:
+                continue
             prices = store_prices(chain_dir, store_id)
             if prices:
-                stores[f"{chain_dir.name}/{store_id}"] = prices.items
+                stores[key] = prices.items
     for ing in ingredients:
         name = ing["name"]["he"]
         print(f"\n### {ing['id']} ({name}) terms={terms(name)}")
@@ -77,4 +81,4 @@ def main(raw: Path, ingredients_file: Path) -> int:
 
 
 if __name__ == "__main__":
-    sys.exit(main(Path(sys.argv[1]), Path(sys.argv[2])))
+    sys.exit(main(Path(sys.argv[1]), Path(sys.argv[2]), sys.argv[3:]))
