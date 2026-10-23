@@ -1,4 +1,7 @@
-import { expect, test } from '@playwright/test';
+import { expect, test, type Page } from '@playwright/test';
+
+// React Native Web renders an Image as a labelled wrapper plus an inner <img>; both carry the label.
+const logo = (page: Page) => page.getByRole('img', { name: 'Makeat' }).first();
 
 test.describe('Welcome screen', () => {
   test.beforeEach(async ({ page }) => {
@@ -6,7 +9,7 @@ test.describe('Welcome screen', () => {
   });
 
   test('shows the brand, tagline and all three steps in Hebrew', async ({ page }) => {
-    await expect(page.getByText('Makeat', { exact: true })).toBeVisible();
+    await expect(logo(page)).toBeVisible();
     await expect(page.getByText('מתכננים, משווים, חוסכים.')).toBeVisible();
     for (const step of [
       'תפריט מתכונים שמתאים בדיוק לבית שלכם',
@@ -19,11 +22,11 @@ test.describe('Welcome screen', () => {
   });
 
   test('lays out right-to-left', async ({ page }) => {
-    const brand = page.getByText('Makeat', { exact: true });
+    const brand = logo(page);
     const tagline = page.getByText('מתכננים, משווים, חוסכים.');
     expect(await tagline.evaluate((el) => getComputedStyle(el).direction)).toBe('rtl');
 
-    // Text is right-aligned: its right edge sits near the viewport's right edge.
+    // The logo is start-aligned: its right edge sits near the viewport's right edge.
     const viewport = page.viewportSize()!;
     const box = (await brand.boundingBox())!;
     expect(viewport.width - (box.x + box.width)).toBeLessThan(40);
@@ -57,7 +60,7 @@ test.describe('Welcome screen', () => {
     const errors: string[] = [];
     page.on('pageerror', (e) => errors.push(e.message));
     await page.reload();
-    await expect(page.getByText('Makeat', { exact: true })).toBeVisible();
+    await expect(logo(page)).toBeVisible();
     expect(errors).toEqual([]);
   });
 });
@@ -73,7 +76,7 @@ test('deep link to onboarding works on a fresh load, and back goes home', async 
 test('dark mode uses a dark background', async ({ page }, testInfo) => {
   test.skip(testInfo.project.name !== 'phone-dark', 'dark project only');
   await page.goto('/');
-  await expect(page.getByText('Makeat', { exact: true })).toBeVisible();
+  await expect(logo(page)).toBeVisible();
   // Background behind empty space near the bottom of the screen.
   const bg = await page.evaluate(() => {
     let el: Element | null = document.elementFromPoint(10, window.innerHeight - 10);

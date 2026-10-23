@@ -13,3 +13,4 @@ Owned by `tech-lead`. Read the accepted records before designing anything. New d
 | [0007](0007-household-profile-on-device.md) | Household profile stays on the device | accepted |
 | [0008](0008-quote-basis-follows-shopping-mode.md) | Quote basis follows how the household shops | accepted |
 | [0009](0009-debug-signing-through-alpha.md) | Debug-signed builds through the internal alpha | accepted |
+| [0010](0010-brand-fonts.md) | Brand fonts bundled in the app | accepted |

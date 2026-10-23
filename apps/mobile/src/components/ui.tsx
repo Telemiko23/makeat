@@ -2,7 +2,7 @@ import type { ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Pressable, ScrollView, StyleSheet, Text, TextInput, View, type TextInputProps } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { fontSize, radius, spacing } from '../theme/tokens';
+import { fontFamily, fontSize, lineHeight, radius, spacing, touchTarget } from '../theme/tokens';
 import { useTheme } from '../theme/useTheme';
 
 export function Screen({ children, footer }: { children: ReactNode; footer?: ReactNode }) {
@@ -116,8 +116,8 @@ export function Chip({
     >
       <View style={styles.chipRow}>
         {/* Icons, not text: the state is announced through aria-checked. */}
-        {selected && !single ? <Text aria-hidden style={{ color: c.onAccent, fontSize: fontSize.body }}>✓</Text> : null}
-        <Text style={{ color: selected ? c.onAccent : c.text, fontSize: fontSize.body, fontWeight: selected ? '700' : '400' }}>{label}</Text>
+        {selected && !single ? <Text aria-hidden style={{ color: c.onAccent, fontSize: fontSize.body, fontFamily: fontFamily.bodyBold }}>✓</Text> : null}
+        <Text style={{ color: selected ? c.onAccent : c.text, fontSize: fontSize.body, fontFamily: selected ? fontFamily.bodyBold : fontFamily.body }}>{label}</Text>
       </View>
     </Pressable>
   );
@@ -134,8 +134,8 @@ export function RemovableTag({ label, removeLabel, onRemove }: { label: string; 
       style={[styles.chip, { borderColor: c.line, backgroundColor: c.surface }]}
     >
       <View style={styles.chipRow}>
-        <Text style={{ color: c.text, fontSize: fontSize.body }}>{label}</Text>
-        <Text aria-hidden style={{ color: c.muted, fontSize: fontSize.body }}>✕</Text>
+        <Text style={{ color: c.text, fontSize: fontSize.body, fontFamily: fontFamily.body }}>{label}</Text>
+        <Text aria-hidden style={{ color: c.muted, fontSize: fontSize.body, fontFamily: fontFamily.body }}>✕</Text>
       </View>
     </Pressable>
   );
@@ -185,7 +185,7 @@ function Stepper({ sign, label, disabled, onPress }: { sign: string; label: stri
       onPress={onPress}
       style={[styles.stepper, { borderColor: c.accent, opacity: disabled ? 0.3 : 1 }]}
     >
-      <Text style={{ color: c.accent, fontSize: 22, fontWeight: '700' }}>{sign}</Text>
+      <Text style={{ color: c.accent, fontSize: fontSize.subtitle, fontFamily: fontFamily.display }}>{sign}</Text>
     </Pressable>
   );
 }
@@ -199,7 +199,7 @@ export function Progress({ step, total, label }: { step: number; total: number; 
   const { c, text } = useTheme();
   return (
     <View style={styles.progress}>
-      <Text style={[{ color: c.muted, fontSize: fontSize.caption }, text]}>{label}</Text>
+      <Text style={[{ color: c.muted, fontSize: fontSize.caption, fontFamily: fontFamily.body }, text]}>{label}</Text>
       <View
         accessibilityRole="progressbar"
         aria-valuemin={0}
@@ -240,26 +240,26 @@ const styles = StyleSheet.create({
   safe: { flex: 1 },
   content: { padding: spacing.lg, gap: spacing.lg, paddingBottom: spacing.xl },
   footer: { paddingHorizontal: spacing.lg, paddingVertical: spacing.md, gap: spacing.sm, borderTopWidth: StyleSheet.hairlineWidth },
-  h1: { fontSize: fontSize.title - 4, fontWeight: '800', marginTop: spacing.md },
-  h2: { fontSize: fontSize.subtitle, fontWeight: '700' },
-  p: { fontSize: fontSize.body, lineHeight: 26 },
+  h1: { fontFamily: fontFamily.display, fontSize: fontSize.title - 4, marginTop: spacing.md },
+  h2: { fontFamily: fontFamily.display, fontSize: fontSize.subtitle },
+  p: { fontFamily: fontFamily.body, fontSize: fontSize.body, lineHeight: lineHeight.body },
   section: { gap: spacing.sm },
-  button: { paddingVertical: spacing.md, paddingHorizontal: spacing.lg, borderRadius: radius.md, alignItems: 'center', minHeight: 48 },
-  buttonText: { fontSize: fontSize.subtitle, fontWeight: '700' },
-  link: { paddingVertical: spacing.sm, alignSelf: 'flex-start', minHeight: 48, justifyContent: 'center' },
-  linkText: { fontSize: fontSize.body, fontWeight: '700' },
+  button: { paddingVertical: spacing.md, paddingHorizontal: spacing.lg, borderRadius: radius.md, alignItems: 'center', minHeight: touchTarget },
+  buttonText: { fontFamily: fontFamily.display, fontSize: fontSize.subtitle },
+  link: { paddingVertical: spacing.sm, alignSelf: 'flex-start', minHeight: touchTarget, justifyContent: 'center' },
+  linkText: { fontFamily: fontFamily.displayMedium, fontSize: fontSize.body },
   chipRow: { flexDirection: 'row', alignItems: 'center', gap: spacing.xs },
   chips: { flexDirection: 'row', flexWrap: 'wrap', gap: spacing.sm },
-  chip: { paddingVertical: spacing.sm, paddingHorizontal: spacing.md, borderRadius: radius.pill, borderWidth: 1.5, minHeight: 48, justifyContent: 'center' },
+  chip: { paddingVertical: spacing.sm, paddingHorizontal: spacing.md, borderRadius: radius.pill, borderWidth: 1.5, minHeight: touchTarget, justifyContent: 'center' },
   counter: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: spacing.md },
-  counterLabel: { flex: 1, fontSize: fontSize.body },
+  counterLabel: { flex: 1, fontFamily: fontFamily.body, fontSize: fontSize.body },
   counterControls: { flexDirection: 'row', alignItems: 'center', gap: spacing.md },
-  counterValue: { minWidth: 72, textAlign: 'center', fontSize: fontSize.body, fontWeight: '700' },
-  stepper: { width: 48, height: 48, borderRadius: radius.pill, borderWidth: 1.5, alignItems: 'center', justifyContent: 'center' },
+  counterValue: { minWidth: 72, textAlign: 'center', fontFamily: fontFamily.bodyBold, fontSize: fontSize.body },
+  stepper: { width: touchTarget, height: touchTarget, borderRadius: radius.pill, borderWidth: 1.5, alignItems: 'center', justifyContent: 'center' },
   card: { padding: spacing.md, borderRadius: radius.md, borderWidth: StyleSheet.hairlineWidth, gap: spacing.sm },
   progress: { gap: spacing.xs },
   track: { height: 6, borderRadius: radius.pill, overflow: 'hidden' },
   fill: { height: 6, borderRadius: radius.pill },
-  error: { fontSize: fontSize.body, fontWeight: '700' },
-  input: { borderWidth: 1.5, borderRadius: radius.md, paddingHorizontal: spacing.md, paddingVertical: spacing.sm, fontSize: fontSize.body, minHeight: 48 },
+  error: { fontFamily: fontFamily.bodyBold, fontSize: fontSize.body },
+  input: { borderWidth: 1.5, borderRadius: radius.md, paddingHorizontal: spacing.md, paddingVertical: spacing.sm, fontFamily: fontFamily.body, fontSize: fontSize.body, minHeight: touchTarget },
 });
