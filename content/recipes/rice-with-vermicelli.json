@@ -1,0 +1,77 @@
+{
+  "id": "rice-with-vermicelli",
+  "status": "draft",
+  "title": {
+    "he": "אורז עם אטריות"
+  },
+  "summary": {
+    "he": "תוספת קלאסית: אטריות מושחמות עם אורז אוורירי."
+  },
+  "servings": 4,
+  "prepMinutes": 5,
+  "cookMinutes": 25,
+  "difficulty": "easy",
+  "meals": [
+    "lunch",
+    "dinner"
+  ],
+  "tags": [
+    "side",
+    "kidFriendly"
+  ],
+  "appliances": [
+    "stovetop"
+  ],
+  "ingredients": [
+    {
+      "id": "white-rice",
+      "qty": 400,
+      "unit": "g"
+    },
+    {
+      "id": "vermicelli",
+      "qty": 60,
+      "unit": "g"
+    },
+    {
+      "id": "canola-oil",
+      "qty": 2,
+      "unit": "tbsp"
+    },
+    {
+      "id": "salt",
+      "qty": 1.5,
+      "unit": "tsp"
+    },
+    {
+      "id": "water",
+      "qty": 700,
+      "unit": "ml"
+    }
+  ],
+  "steps": [
+    {
+      "text": {
+        "he": "מחממים שמן בסיר ומשחימים את האטריות עד שהן חומות-זהובות. שומרים עליהן, הן נשרפות מהר."
+      },
+      "minutes": 3
+    },
+    {
+      "text": {
+        "he": "מוסיפים את האורז ומערבבים דקה."
+      },
+      "minutes": 1
+    },
+    {
+      "text": {
+        "he": "מוסיפים מים רותחים ומלח, מביאים לרתיחה ומכסים."
+      }
+    },
+    {
+      "text": {
+        "he": "מבשלים על אש נמוכה מאוד עד שהמים נספגים, ומשאירים מכוסה עוד חמש דקות לפני ההגשה."
+      },
+      "minutes": 20
+    }
+  ]
+}

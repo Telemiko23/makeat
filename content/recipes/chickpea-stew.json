@@ -1,0 +1,103 @@
+{
+  "id": "chickpea-stew",
+  "status": "draft",
+  "title": {
+    "he": "תבשיל חומוס בעגבניות"
+  },
+  "summary": {
+    "he": "תבשיל טבעוני וזול עם חומוס ופלפלים."
+  },
+  "servings": 4,
+  "prepMinutes": 10,
+  "cookMinutes": 30,
+  "difficulty": "easy",
+  "meals": [
+    "lunch",
+    "dinner"
+  ],
+  "tags": [
+    "onePot",
+    "freezes"
+  ],
+  "appliances": [
+    "stovetop"
+  ],
+  "ingredients": [
+    {
+      "id": "chickpeas-canned",
+      "qty": 800,
+      "unit": "g"
+    },
+    {
+      "id": "onion",
+      "qty": 1,
+      "unit": "pcs"
+    },
+    {
+      "id": "red-bell-pepper",
+      "qty": 1,
+      "unit": "pcs"
+    },
+    {
+      "id": "garlic",
+      "qty": 3,
+      "unit": "pcs"
+    },
+    {
+      "id": "crushed-tomatoes",
+      "qty": 400,
+      "unit": "g"
+    },
+    {
+      "id": "cumin",
+      "qty": 1,
+      "unit": "tsp"
+    },
+    {
+      "id": "sweet-paprika",
+      "qty": 1,
+      "unit": "tsp"
+    },
+    {
+      "id": "salt",
+      "qty": 1,
+      "unit": "tsp"
+    },
+    {
+      "id": "olive-oil",
+      "qty": 2,
+      "unit": "tbsp"
+    },
+    {
+      "id": "coriander",
+      "qty": 15,
+      "unit": "g",
+      "optional": true
+    }
+  ],
+  "steps": [
+    {
+      "text": {
+        "he": "מאדים בצל ופלפל קצוצים בשמן עד שהם מתרככים."
+      },
+      "minutes": 8
+    },
+    {
+      "text": {
+        "he": "מוסיפים שום ותבלינים ומערבבים דקה."
+      },
+      "minutes": 1
+    },
+    {
+      "text": {
+        "he": "מוסיפים עגבניות מרוסקות וחומוס מסונן ומבשלים על אש נמוכה עד שהרוטב מסמיך."
+      },
+      "minutes": 20
+    },
+    {
+      "text": {
+        "he": "מפזרים כוסברה ומגישים, אפשר עם אורז או לחם."
+      }
+    }
+  ]
+}

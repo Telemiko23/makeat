@@ -1,0 +1,85 @@
+{
+  "id": "vegetable-omelette",
+  "status": "draft",
+  "title": {
+    "he": "חביתת ירקות"
+  },
+  "summary": {
+    "he": "חביתה עבה עם ירקות קצוצים, לבוקר או לארוחת ערב קלה."
+  },
+  "servings": 2,
+  "prepMinutes": 5,
+  "cookMinutes": 10,
+  "difficulty": "easy",
+  "meals": [
+    "breakfast",
+    "dinner"
+  ],
+  "tags": [
+    "kidFriendly"
+  ],
+  "appliances": [
+    "stovetop"
+  ],
+  "ingredients": [
+    {
+      "id": "eggs",
+      "qty": 6,
+      "unit": "pcs"
+    },
+    {
+      "id": "tomato",
+      "qty": 1,
+      "unit": "pcs"
+    },
+    {
+      "id": "green-onion",
+      "qty": 20,
+      "unit": "g"
+    },
+    {
+      "id": "parsley",
+      "qty": 10,
+      "unit": "g"
+    },
+    {
+      "id": "salt",
+      "qty": 0.5,
+      "unit": "tsp"
+    },
+    {
+      "id": "black-pepper",
+      "qty": 1,
+      "unit": "pinch"
+    },
+    {
+      "id": "canola-oil",
+      "qty": 1,
+      "unit": "tbsp"
+    }
+  ],
+  "steps": [
+    {
+      "text": {
+        "he": "טורפים את הביצים עם מלח ופלפל."
+      }
+    },
+    {
+      "text": {
+        "he": "קוצצים דק את העגבנייה, הבצל הירוק והפטרוזיליה ומוסיפים לביצים."
+      }
+    },
+    {
+      "text": {
+        "he": "מחממים שמן במחבת, יוצקים את התערובת ומבשלים על אש בינונית-נמוכה."
+      },
+      "minutes": 6
+    },
+    {
+      "text": {
+        "he": "כשהשוליים יציבים הופכים בעזרת צלחת ומבשלים עוד דקה."
+      },
+      "minutes": 2
+    }
+  ]
+}

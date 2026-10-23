@@ -1,0 +1,91 @@
+{
+  "id": "zucchini-fritters",
+  "status": "draft",
+  "title": {
+    "he": "לביבות קישואים"
+  },
+  "summary": {
+    "he": "לביבות פרווה מקישוא מגורר, מטוגנות במעט שמן."
+  },
+  "servings": 4,
+  "prepMinutes": 15,
+  "cookMinutes": 20,
+  "difficulty": "medium",
+  "meals": [
+    "breakfast",
+    "dinner"
+  ],
+  "tags": [
+    "kidFriendly",
+    "lunchbox"
+  ],
+  "appliances": [
+    "stovetop"
+  ],
+  "ingredients": [
+    {
+      "id": "zucchini",
+      "qty": 4,
+      "unit": "pcs"
+    },
+    {
+      "id": "eggs",
+      "qty": 2,
+      "unit": "pcs"
+    },
+    {
+      "id": "flour",
+      "qty": 80,
+      "unit": "g"
+    },
+    {
+      "id": "green-onion",
+      "qty": 30,
+      "unit": "g"
+    },
+    {
+      "id": "dill",
+      "qty": 10,
+      "unit": "g"
+    },
+    {
+      "id": "salt",
+      "qty": 1,
+      "unit": "tsp"
+    },
+    {
+      "id": "black-pepper",
+      "qty": 0.5,
+      "unit": "tsp"
+    },
+    {
+      "id": "canola-oil",
+      "qty": 4,
+      "unit": "tbsp"
+    }
+  ],
+  "steps": [
+    {
+      "text": {
+        "he": "מגררים את הקישואים, ממליחים מעט, ואחרי 10 דקות סוחטים היטב את הנוזלים."
+      },
+      "minutes": 10
+    },
+    {
+      "text": {
+        "he": "מערבבים עם ביצים, קמח, בצל ירוק ושמיר קצוצים ופלפל."
+      }
+    },
+    {
+      "text": {
+        "he": "מחממים מעט שמן במחבת ומניחים כפות מהתערובת, משטחים קלות."
+      }
+    },
+    {
+      "text": {
+        "he": "מטגנים עד שהלביבות זהובות משני הצדדים, ומניחים על נייר סופג."
+      },
+      "minutes": 15
+    }
+  ]
+}

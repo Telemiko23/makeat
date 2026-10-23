@@ -1,0 +1,78 @@
+{
+  "id": "israeli-salad",
+  "status": "draft",
+  "title": {
+    "he": "סלט ישראלי"
+  },
+  "summary": {
+    "he": "ירקות קצוצים דק עם לימון ושמן זית."
+  },
+  "servings": 4,
+  "prepMinutes": 15,
+  "cookMinutes": 0,
+  "difficulty": "easy",
+  "meals": [
+    "breakfast",
+    "lunch",
+    "dinner"
+  ],
+  "tags": [
+    "side"
+  ],
+  "appliances": [],
+  "ingredients": [
+    {
+      "id": "tomato",
+      "qty": 4,
+      "unit": "pcs"
+    },
+    {
+      "id": "cucumber",
+      "qty": 4,
+      "unit": "pcs"
+    },
+    {
+      "id": "onion",
+      "qty": 0.5,
+      "unit": "pcs"
+    },
+    {
+      "id": "parsley",
+      "qty": 15,
+      "unit": "g"
+    },
+    {
+      "id": "lemon",
+      "qty": 1,
+      "unit": "pcs"
+    },
+    {
+      "id": "olive-oil",
+      "qty": 2,
+      "unit": "tbsp"
+    },
+    {
+      "id": "salt",
+      "qty": 1,
+      "unit": "tsp"
+    }
+  ],
+  "steps": [
+    {
+      "text": {
+        "he": "קוצצים את העגבניות והמלפפונים לקוביות קטנות ואחידות."
+      },
+      "minutes": 10
+    },
+    {
+      "text": {
+        "he": "קוצצים דק בצל ופטרוזיליה ומוסיפים."
+      }
+    },
+    {
+      "text": {
+        "he": "ממש לפני ההגשה מתבלים במיץ לימון, שמן זית ומלח ומערבבים."
+      }
+    }
+  ]
+}

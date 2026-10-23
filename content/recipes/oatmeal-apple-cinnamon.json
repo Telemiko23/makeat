@@ -1,0 +1,79 @@
+{
+  "id": "oatmeal-apple-cinnamon",
+  "status": "draft",
+  "title": {
+    "he": "דייסת שיבולת שועל עם תפוח"
+  },
+  "summary": {
+    "he": "דייסה חמה ומתקתקה, מוכנה בעשר דקות."
+  },
+  "servings": 4,
+  "prepMinutes": 5,
+  "cookMinutes": 10,
+  "difficulty": "easy",
+  "meals": [
+    "breakfast"
+  ],
+  "tags": [
+    "kidFriendly"
+  ],
+  "appliances": [
+    "stovetop"
+  ],
+  "ingredients": [
+    {
+      "id": "rolled-oats",
+      "qty": 160,
+      "unit": "g"
+    },
+    {
+      "id": "milk",
+      "qty": 800,
+      "unit": "ml"
+    },
+    {
+      "id": "apple",
+      "qty": 1,
+      "unit": "pcs"
+    },
+    {
+      "id": "cinnamon",
+      "qty": 0.5,
+      "unit": "tsp"
+    },
+    {
+      "id": "honey",
+      "qty": 2,
+      "unit": "tbsp",
+      "optional": true
+    },
+    {
+      "id": "salt",
+      "qty": 1,
+      "unit": "pinch"
+    }
+  ],
+  "steps": [
+    {
+      "text": {
+        "he": "מגררים את התפוח."
+      }
+    },
+    {
+      "text": {
+        "he": "מביאים את החלב לסף רתיחה עם קורט מלח."
+      }
+    },
+    {
+      "text": {
+        "he": "מוסיפים את שיבולת השועל, התפוח והקינמון ומבשלים על אש נמוכה תוך ערבוב עד שהדייסה מסמיכה."
+      },
+      "minutes": 6
+    },
+    {
+      "text": {
+        "he": "ממתיקים בדבש לפי הטעם."
+      }
+    }
+  ]
+}

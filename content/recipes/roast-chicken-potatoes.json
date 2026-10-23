@@ -1,0 +1,100 @@
+{
+  "id": "roast-chicken-potatoes",
+  "status": "draft",
+  "title": {
+    "he": "עוף בתנור עם תפוחי אדמה"
+  },
+  "summary": {
+    "he": "ירכיים ותפוחי אדמה באותה תבנית, עם לימון ופפריקה."
+  },
+  "servings": 4,
+  "prepMinutes": 15,
+  "cookMinutes": 60,
+  "difficulty": "easy",
+  "meals": [
+    "lunch",
+    "dinner"
+  ],
+  "tags": [
+    "festive",
+    "shabbat"
+  ],
+  "appliances": [
+    "oven"
+  ],
+  "ingredients": [
+    {
+      "id": "chicken-thighs",
+      "qty": 1200,
+      "unit": "g"
+    },
+    {
+      "id": "potato",
+      "qty": 6,
+      "unit": "pcs"
+    },
+    {
+      "id": "onion",
+      "qty": 2,
+      "unit": "pcs"
+    },
+    {
+      "id": "garlic",
+      "qty": 6,
+      "unit": "pcs"
+    },
+    {
+      "id": "lemon",
+      "qty": 1,
+      "unit": "pcs"
+    },
+    {
+      "id": "olive-oil",
+      "qty": 3,
+      "unit": "tbsp"
+    },
+    {
+      "id": "sweet-paprika",
+      "qty": 2,
+      "unit": "tsp"
+    },
+    {
+      "id": "salt",
+      "qty": 2,
+      "unit": "tsp"
+    },
+    {
+      "id": "black-pepper",
+      "qty": 0.5,
+      "unit": "tsp"
+    }
+  ],
+  "steps": [
+    {
+      "text": {
+        "he": "מחממים תנור ל-200 מעלות."
+      }
+    },
+    {
+      "text": {
+        "he": "חותכים תפוחי אדמה לרבעים ובצל לפלחים, ומפזרים בתבנית."
+      }
+    },
+    {
+      "text": {
+        "he": "מערבבים שמן, פפריקה, מלח, פלפל, שום כתוש ומיץ לימון, ומורחים על הירכיים ועל הירקות."
+      }
+    },
+    {
+      "text": {
+        "he": "מניחים את הירכיים מעל הירקות, עור כלפי מעלה."
+      }
+    },
+    {
+      "text": {
+        "he": "אופים בלי כיסוי עד שהעור שחום ותפוחי האדמה רכים."
+      },
+      "minutes": 60
+    }
+  ]
+}

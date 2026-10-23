@@ -1,0 +1,102 @@
+{
+  "id": "mushroom-cream-pasta",
+  "status": "draft",
+  "title": {
+    "he": "פסטה ברוטב שמנת ופטריות"
+  },
+  "summary": {
+    "he": "רוטב שמנת מהיר עם פטריות מושחמות."
+  },
+  "servings": 4,
+  "prepMinutes": 10,
+  "cookMinutes": 20,
+  "difficulty": "easy",
+  "meals": [
+    "lunch",
+    "dinner"
+  ],
+  "tags": [
+    "kidFriendly"
+  ],
+  "appliances": [
+    "stovetop"
+  ],
+  "ingredients": [
+    {
+      "id": "pasta",
+      "qty": 500,
+      "unit": "g"
+    },
+    {
+      "id": "mushrooms",
+      "qty": 400,
+      "unit": "g"
+    },
+    {
+      "id": "onion",
+      "qty": 1,
+      "unit": "pcs"
+    },
+    {
+      "id": "garlic",
+      "qty": 3,
+      "unit": "pcs"
+    },
+    {
+      "id": "butter",
+      "qty": 30,
+      "unit": "g"
+    },
+    {
+      "id": "cooking-cream",
+      "qty": 250,
+      "unit": "ml"
+    },
+    {
+      "id": "grated-cheese",
+      "qty": 60,
+      "unit": "g",
+      "optional": true
+    },
+    {
+      "id": "salt",
+      "qty": 1,
+      "unit": "tsp"
+    },
+    {
+      "id": "black-pepper",
+      "qty": 0.5,
+      "unit": "tsp"
+    }
+  ],
+  "steps": [
+    {
+      "text": {
+        "he": "מבשלים את הפסטה במים רותחים עם מלח, ושומרים כוס ממי הבישול."
+      }
+    },
+    {
+      "text": {
+        "he": "ממיסים חמאה במחבת רחבה ומשחימים את הפטריות הפרוסות על אש גבוהה, בלי לערבב יותר מדי."
+      },
+      "minutes": 7
+    },
+    {
+      "text": {
+        "he": "מוסיפים בצל ושום קצוצים ומטגנים עד שהם מתרככים."
+      },
+      "minutes": 3
+    },
+    {
+      "text": {
+        "he": "מוסיפים שמנת, מלח ופלפל ומבשלים עד שהרוטב מסמיך מעט."
+      },
+      "minutes": 4
+    },
+    {
+      "text": {
+        "he": "מוסיפים את הפסטה ומעט ממי הבישול עד שהרוטב מבריק. מגישים עם גבינה מגוררת."
+      }
+    }
+  ]
+}

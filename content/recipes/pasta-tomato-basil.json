@@ -1,0 +1,96 @@
+{
+  "id": "pasta-tomato-basil",
+  "status": "draft",
+  "title": {
+    "he": "פסטה ברוטב עגבניות ובזיליקום"
+  },
+  "summary": {
+    "he": "רוטב עגבניות פשוט שמתבשל בזמן שהפסטה רותחת."
+  },
+  "servings": 4,
+  "prepMinutes": 5,
+  "cookMinutes": 20,
+  "difficulty": "easy",
+  "meals": [
+    "lunch",
+    "dinner"
+  ],
+  "tags": [
+    "kidFriendly",
+    "lunchbox"
+  ],
+  "appliances": [
+    "stovetop"
+  ],
+  "ingredients": [
+    {
+      "id": "pasta",
+      "qty": 500,
+      "unit": "g"
+    },
+    {
+      "id": "olive-oil",
+      "qty": 3,
+      "unit": "tbsp"
+    },
+    {
+      "id": "garlic",
+      "qty": 4,
+      "unit": "pcs"
+    },
+    {
+      "id": "crushed-tomatoes",
+      "qty": 800,
+      "unit": "g"
+    },
+    {
+      "id": "sugar",
+      "qty": 1,
+      "unit": "tsp"
+    },
+    {
+      "id": "salt",
+      "qty": 1,
+      "unit": "tsp"
+    },
+    {
+      "id": "black-pepper",
+      "qty": 1,
+      "unit": "pinch"
+    },
+    {
+      "id": "basil",
+      "qty": 15,
+      "unit": "g"
+    }
+  ],
+  "steps": [
+    {
+      "text": {
+        "he": "מרתיחים סיר גדול של מים עם מלח."
+      }
+    },
+    {
+      "text": {
+        "he": "בסיר אחר מחממים שמן ומטגנים שום פרוס על אש נמוכה, בלי להשחים."
+      },
+      "minutes": 2
+    },
+    {
+      "text": {
+        "he": "מוסיפים עגבניות מרוסקות, סוכר, מלח ופלפל ומבשלים על אש בינונית."
+      },
+      "minutes": 15
+    },
+    {
+      "text": {
+        "he": "בינתיים מבשלים את הפסטה לפי הזמן שעל האריזה ומסננים."
+      }
+    },
+    {
+      "text": {
+        "he": "מערבבים את הפסטה ברוטב, קורעים מעל עלי בזיליקום ומגישים."
+      }
+    }
+  ]
+}

@@ -1,0 +1,1045 @@
+[
+  {
+    "id": "eggs",
+    "name": {
+      "he": "ביצים",
+      "en": "Eggs"
+    },
+    "class": "parve",
+    "animal": [
+      "egg"
+    ],
+    "allergens": [
+      "eggs"
+    ],
+    "units": [
+      "pcs"
+    ],
+    "gramsPerPiece": 55
+  },
+  {
+    "id": "tomato",
+    "name": {
+      "he": "עגבנייה",
+      "en": "Tomato"
+    },
+    "class": "parve",
+    "animal": [],
+    "allergens": [],
+    "units": [
+      "pcs",
+      "g"
+    ],
+    "gramsPerPiece": 150
+  },
+  {
+    "id": "crushed-tomatoes",
+    "name": {
+      "he": "עגבניות מרוסקות (שימורים)",
+      "en": "Crushed tomatoes (canned)"
+    },
+    "class": "parve",
+    "animal": [],
+    "allergens": [],
+    "units": [
+      "g"
+    ],
+    "substitutes": [
+      {
+        "id": "tomato",
+        "ratio": 1.0,
+        "reasons": [
+          "availability"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "tomato-paste",
+    "name": {
+      "he": "רסק עגבניות",
+      "en": "Tomato paste"
+    },
+    "class": "parve",
+    "animal": [],
+    "allergens": [],
+    "units": [
+      "tbsp",
+      "g"
+    ],
+    "pantry": true
+  },
+  {
+    "id": "onion",
+    "name": {
+      "he": "בצל",
+      "en": "Onion"
+    },
+    "class": "parve",
+    "animal": [],
+    "allergens": [],
+    "units": [
+      "pcs",
+      "g"
+    ],
+    "gramsPerPiece": 150
+  },
+  {
+    "id": "garlic",
+    "name": {
+      "he": "שן שום",
+      "en": "Garlic"
+    },
+    "class": "parve",
+    "animal": [],
+    "allergens": [],
+    "units": [
+      "pcs",
+      "g"
+    ],
+    "gramsPerPiece": 5
+  },
+  {
+    "id": "red-bell-pepper",
+    "name": {
+      "he": "פלפל אדום",
+      "en": "Red bell pepper"
+    },
+    "class": "parve",
+    "animal": [],
+    "allergens": [],
+    "units": [
+      "pcs",
+      "g"
+    ],
+    "gramsPerPiece": 180
+  },
+  {
+    "id": "olive-oil",
+    "name": {
+      "he": "שמן זית",
+      "en": "Olive oil"
+    },
+    "class": "parve",
+    "animal": [],
+    "allergens": [],
+    "units": [
+      "tbsp",
+      "ml"
+    ],
+    "pantry": true,
+    "substitutes": [
+      {
+        "id": "canola-oil",
+        "ratio": 1.0,
+        "reasons": [
+          "budget"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "canola-oil",
+    "name": {
+      "he": "שמן קנולה",
+      "en": "Canola oil"
+    },
+    "class": "parve",
+    "animal": [],
+    "allergens": [],
+    "units": [
+      "tbsp",
+      "ml"
+    ],
+    "pantry": true
+  },
+  {
+    "id": "salt",
+    "name": {
+      "he": "מלח",
+      "en": "Salt"
+    },
+    "class": "parve",
+    "animal": [],
+    "allergens": [],
+    "units": [
+      "tsp",
+      "pinch"
+    ],
+    "pantry": true
+  },
+  {
+    "id": "black-pepper",
+    "name": {
+      "he": "פלפל שחור",
+      "en": "Black pepper"
+    },
+    "class": "parve",
+    "animal": [],
+    "allergens": [],
+    "units": [
+      "tsp",
+      "pinch"
+    ],
+    "pantry": true
+  },
+  {
+    "id": "sweet-paprika",
+    "name": {
+      "he": "פפריקה מתוקה",
+      "en": "Sweet paprika"
+    },
+    "class": "parve",
+    "animal": [],
+    "allergens": [],
+    "units": [
+      "tsp",
+      "tbsp"
+    ],
+    "pantry": true
+  },
+  {
+    "id": "cumin",
+    "name": {
+      "he": "כמון",
+      "en": "Cumin"
+    },
+    "class": "parve",
+    "animal": [],
+    "allergens": [],
+    "units": [
+      "tsp"
+    ],
+    "pantry": true
+  },
+  {
+    "id": "turmeric",
+    "name": {
+      "he": "כורכום",
+      "en": "Turmeric"
+    },
+    "class": "parve",
+    "animal": [],
+    "allergens": [],
+    "units": [
+      "tsp"
+    ],
+    "pantry": true
+  },
+  {
+    "id": "cinnamon",
+    "name": {
+      "he": "קינמון",
+      "en": "Cinnamon"
+    },
+    "class": "parve",
+    "animal": [],
+    "allergens": [],
+    "units": [
+      "tsp",
+      "pinch"
+    ],
+    "pantry": true
+  },
+  {
+    "id": "bay-leaf",
+    "name": {
+      "he": "עלה דפנה",
+      "en": "Bay leaf"
+    },
+    "class": "parve",
+    "animal": [],
+    "allergens": [],
+    "units": [
+      "pcs"
+    ],
+    "gramsPerPiece": 1,
+    "pantry": true
+  },
+  {
+    "id": "pasta",
+    "name": {
+      "he": "פסטה",
+      "en": "Pasta"
+    },
+    "class": "parve",
+    "animal": [],
+    "allergens": [
+      "gluten"
+    ],
+    "units": [
+      "g"
+    ],
+    "substitutes": [
+      {
+        "id": "gluten-free-pasta",
+        "ratio": 1.0,
+        "reasons": [
+          "glutenFree"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "gluten-free-pasta",
+    "name": {
+      "he": "פסטה ללא גלוטן",
+      "en": "Gluten-free pasta"
+    },
+    "class": "parve",
+    "animal": [],
+    "allergens": [],
+    "units": [
+      "g"
+    ]
+  },
+  {
+    "id": "basil",
+    "name": {
+      "he": "בזיליקום טרי",
+      "en": "Fresh basil"
+    },
+    "class": "parve",
+    "animal": [],
+    "allergens": [],
+    "units": [
+      "g"
+    ]
+  },
+  {
+    "id": "parsley",
+    "name": {
+      "he": "פטרוזיליה",
+      "en": "Parsley"
+    },
+    "class": "parve",
+    "animal": [],
+    "allergens": [],
+    "units": [
+      "g"
+    ]
+  },
+  {
+    "id": "dill",
+    "name": {
+      "he": "שמיר",
+      "en": "Dill"
+    },
+    "class": "parve",
+    "animal": [],
+    "allergens": [],
+    "units": [
+      "g"
+    ]
+  },
+  {
+    "id": "coriander",
+    "name": {
+      "he": "כוסברה",
+      "en": "Coriander"
+    },
+    "class": "parve",
+    "animal": [],
+    "allergens": [],
+    "units": [
+      "g"
+    ],
+    "substitutes": [
+      {
+        "id": "parsley",
+        "ratio": 1.0,
+        "reasons": [
+          "availability"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "chicken-thighs",
+    "name": {
+      "he": "ירכיים עוף",
+      "en": "Chicken thighs"
+    },
+    "class": "meat",
+    "animal": [
+      "poultry"
+    ],
+    "allergens": [],
+    "units": [
+      "g"
+    ]
+  },
+  {
+    "id": "chicken-breast",
+    "name": {
+      "he": "חזה עוף",
+      "en": "Chicken breast"
+    },
+    "class": "meat",
+    "animal": [
+      "poultry"
+    ],
+    "allergens": [],
+    "units": [
+      "g"
+    ]
+  },
+  {
+    "id": "ground-beef",
+    "name": {
+      "he": "בשר בקר טחון",
+      "en": "Ground beef"
+    },
+    "class": "meat",
+    "animal": [
+      "meat"
+    ],
+    "allergens": [],
+    "units": [
+      "g"
+    ]
+  },
+  {
+    "id": "potato",
+    "name": {
+      "he": "תפוח אדמה",
+      "en": "Potato"
+    },
+    "class": "parve",
+    "animal": [],
+    "allergens": [],
+    "units": [
+      "pcs",
+      "g"
+    ],
+    "gramsPerPiece": 200
+  },
+  {
+    "id": "sweet-potato",
+    "name": {
+      "he": "בטטה",
+      "en": "Sweet potato"
+    },
+    "class": "parve",
+    "animal": [],
+    "allergens": [],
+    "units": [
+      "pcs",
+      "g"
+    ],
+    "gramsPerPiece": 300
+  },
+  {
+    "id": "lemon",
+    "name": {
+      "he": "לימון",
+      "en": "Lemon"
+    },
+    "class": "parve",
+    "animal": [],
+    "allergens": [],
+    "units": [
+      "pcs"
+    ],
+    "gramsPerPiece": 120
+  },
+  {
+    "id": "brown-lentils",
+    "name": {
+      "he": "עדשים חומות",
+      "en": "Brown lentils"
+    },
+    "class": "parve",
+    "animal": [],
+    "allergens": [],
+    "units": [
+      "g"
+    ]
+  },
+  {
+    "id": "red-lentils",
+    "name": {
+      "he": "עדשים כתומות",
+      "en": "Red lentils"
+    },
+    "class": "parve",
+    "animal": [],
+    "allergens": [],
+    "units": [
+      "g"
+    ]
+  },
+  {
+    "id": "white-rice",
+    "name": {
+      "he": "אורז לבן",
+      "en": "White rice"
+    },
+    "class": "parve",
+    "animal": [],
+    "allergens": [],
+    "units": [
+      "g"
+    ]
+  },
+  {
+    "id": "breadcrumbs",
+    "name": {
+      "he": "פירורי לחם",
+      "en": "Breadcrumbs"
+    },
+    "class": "parve",
+    "animal": [],
+    "allergens": [
+      "gluten"
+    ],
+    "units": [
+      "g"
+    ],
+    "substitutes": [
+      {
+        "id": "cornflake-crumbs",
+        "ratio": 1.0,
+        "reasons": [
+          "glutenFree"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "cornflake-crumbs",
+    "name": {
+      "he": "פירורי קורנפלקס ללא גלוטן",
+      "en": "Gluten-free cornflake crumbs"
+    },
+    "class": "parve",
+    "animal": [],
+    "allergens": [],
+    "units": [
+      "g"
+    ]
+  },
+  {
+    "id": "cucumber",
+    "name": {
+      "he": "מלפפון",
+      "en": "Cucumber"
+    },
+    "class": "parve",
+    "animal": [],
+    "allergens": [],
+    "units": [
+      "pcs",
+      "g"
+    ],
+    "gramsPerPiece": 120
+  },
+  {
+    "id": "carrot",
+    "name": {
+      "he": "גזר",
+      "en": "Carrot"
+    },
+    "class": "parve",
+    "animal": [],
+    "allergens": [],
+    "units": [
+      "pcs",
+      "g"
+    ],
+    "gramsPerPiece": 100
+  },
+  {
+    "id": "celery-stalk",
+    "name": {
+      "he": "סלרי (גבעול)",
+      "en": "Celery stalk"
+    },
+    "class": "parve",
+    "animal": [],
+    "allergens": [
+      "celery"
+    ],
+    "units": [
+      "pcs",
+      "g"
+    ],
+    "gramsPerPiece": 50
+  },
+  {
+    "id": "zucchini",
+    "name": {
+      "he": "קישוא",
+      "en": "Zucchini"
+    },
+    "class": "parve",
+    "animal": [],
+    "allergens": [],
+    "units": [
+      "pcs",
+      "g"
+    ],
+    "gramsPerPiece": 200
+  },
+  {
+    "id": "pumpkin",
+    "name": {
+      "he": "דלעת",
+      "en": "Pumpkin"
+    },
+    "class": "parve",
+    "animal": [],
+    "allergens": [],
+    "units": [
+      "g"
+    ],
+    "substitutes": [
+      {
+        "id": "sweet-potato",
+        "ratio": 1.0,
+        "reasons": [
+          "availability"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "flour",
+    "name": {
+      "he": "קמח לבן",
+      "en": "White flour"
+    },
+    "class": "parve",
+    "animal": [],
+    "allergens": [
+      "gluten"
+    ],
+    "units": [
+      "g",
+      "tbsp"
+    ],
+    "pantry": true
+  },
+  {
+    "id": "milk",
+    "name": {
+      "he": "חלב",
+      "en": "Milk"
+    },
+    "class": "dairy",
+    "animal": [
+      "dairy"
+    ],
+    "allergens": [
+      "milk"
+    ],
+    "units": [
+      "ml"
+    ],
+    "substitutes": [
+      {
+        "id": "soy-drink",
+        "ratio": 1.0,
+        "reasons": [
+          "dairyFree",
+          "vegan",
+          "parve"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "soy-drink",
+    "name": {
+      "he": "משקה סויה",
+      "en": "Soy drink"
+    },
+    "class": "parve",
+    "animal": [],
+    "allergens": [
+      "soy"
+    ],
+    "units": [
+      "ml"
+    ]
+  },
+  {
+    "id": "grated-cheese",
+    "name": {
+      "he": "גבינה צהובה מגוררת",
+      "en": "Grated yellow cheese"
+    },
+    "class": "dairy",
+    "animal": [
+      "dairy"
+    ],
+    "allergens": [
+      "milk"
+    ],
+    "units": [
+      "g"
+    ]
+  },
+  {
+    "id": "feta-cheese",
+    "name": {
+      "he": "גבינה בולגרית",
+      "en": "Bulgarian (feta-style) cheese"
+    },
+    "class": "dairy",
+    "animal": [
+      "dairy"
+    ],
+    "allergens": [
+      "milk"
+    ],
+    "units": [
+      "g"
+    ]
+  },
+  {
+    "id": "cooking-cream",
+    "name": {
+      "he": "שמנת לבישול",
+      "en": "Cooking cream"
+    },
+    "class": "dairy",
+    "animal": [
+      "dairy"
+    ],
+    "allergens": [
+      "milk"
+    ],
+    "units": [
+      "ml"
+    ],
+    "substitutes": [
+      {
+        "id": "parve-cooking-cream",
+        "ratio": 1.0,
+        "reasons": [
+          "dairyFree",
+          "parve"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "parve-cooking-cream",
+    "name": {
+      "he": "שמנת צמחית לבישול",
+      "en": "Parve cooking cream"
+    },
+    "class": "parve",
+    "animal": [],
+    "allergens": [
+      "soy"
+    ],
+    "units": [
+      "ml"
+    ]
+  },
+  {
+    "id": "butter",
+    "name": {
+      "he": "חמאה",
+      "en": "Butter"
+    },
+    "class": "dairy",
+    "animal": [
+      "dairy"
+    ],
+    "allergens": [
+      "milk"
+    ],
+    "units": [
+      "g"
+    ],
+    "substitutes": [
+      {
+        "id": "canola-oil",
+        "ratio": 0.8,
+        "reasons": [
+          "dairyFree",
+          "vegan",
+          "parve"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "mushrooms",
+    "name": {
+      "he": "פטריות שמפיניון",
+      "en": "Button mushrooms"
+    },
+    "class": "parve",
+    "animal": [],
+    "allergens": [],
+    "units": [
+      "g"
+    ]
+  },
+  {
+    "id": "salmon-fillet",
+    "name": {
+      "he": "פילה סלמון",
+      "en": "Salmon fillet"
+    },
+    "class": "fish",
+    "animal": [
+      "fish"
+    ],
+    "allergens": [
+      "fish"
+    ],
+    "units": [
+      "g"
+    ]
+  },
+  {
+    "id": "couscous",
+    "name": {
+      "he": "קוסקוס",
+      "en": "Couscous"
+    },
+    "class": "parve",
+    "animal": [],
+    "allergens": [
+      "gluten"
+    ],
+    "units": [
+      "g"
+    ]
+  },
+  {
+    "id": "ptitim",
+    "name": {
+      "he": "פתיתים",
+      "en": "Ptitim (Israeli couscous)"
+    },
+    "class": "parve",
+    "animal": [],
+    "allergens": [
+      "gluten"
+    ],
+    "units": [
+      "g"
+    ]
+  },
+  {
+    "id": "chickpeas-canned",
+    "name": {
+      "he": "גרגרי חומוס (שימורים)",
+      "en": "Chickpeas (canned)"
+    },
+    "class": "parve",
+    "animal": [],
+    "allergens": [],
+    "units": [
+      "g"
+    ]
+  },
+  {
+    "id": "tuna-canned",
+    "name": {
+      "he": "טונה בשמן (שימורים)",
+      "en": "Tuna in oil (canned)"
+    },
+    "class": "fish",
+    "animal": [
+      "fish"
+    ],
+    "allergens": [
+      "fish"
+    ],
+    "units": [
+      "g"
+    ]
+  },
+  {
+    "id": "mayonnaise",
+    "name": {
+      "he": "מיונז",
+      "en": "Mayonnaise"
+    },
+    "class": "parve",
+    "animal": [
+      "egg"
+    ],
+    "allergens": [
+      "eggs"
+    ],
+    "units": [
+      "tbsp",
+      "g"
+    ]
+  },
+  {
+    "id": "corn-canned",
+    "name": {
+      "he": "תירס (שימורים)",
+      "en": "Sweetcorn (canned)"
+    },
+    "class": "parve",
+    "animal": [],
+    "allergens": [],
+    "units": [
+      "g"
+    ]
+  },
+  {
+    "id": "vermicelli",
+    "name": {
+      "he": "אטריות דקות",
+      "en": "Vermicelli"
+    },
+    "class": "parve",
+    "animal": [],
+    "allergens": [
+      "gluten"
+    ],
+    "units": [
+      "g"
+    ]
+  },
+  {
+    "id": "rolled-oats",
+    "name": {
+      "he": "שיבולת שועל",
+      "en": "Rolled oats"
+    },
+    "class": "parve",
+    "animal": [],
+    "allergens": [
+      "gluten"
+    ],
+    "units": [
+      "g"
+    ]
+  },
+  {
+    "id": "honey",
+    "name": {
+      "he": "דבש",
+      "en": "Honey"
+    },
+    "class": "parve",
+    "animal": [
+      "honey"
+    ],
+    "allergens": [],
+    "units": [
+      "tbsp",
+      "tsp"
+    ],
+    "substitutes": [
+      {
+        "id": "date-syrup",
+        "ratio": 1.0,
+        "reasons": [
+          "vegan"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "date-syrup",
+    "name": {
+      "he": "סילאן",
+      "en": "Date syrup"
+    },
+    "class": "parve",
+    "animal": [],
+    "allergens": [],
+    "units": [
+      "tbsp",
+      "tsp"
+    ]
+  },
+  {
+    "id": "apple",
+    "name": {
+      "he": "תפוח עץ",
+      "en": "Apple"
+    },
+    "class": "parve",
+    "animal": [],
+    "allergens": [],
+    "units": [
+      "pcs",
+      "g"
+    ],
+    "gramsPerPiece": 180
+  },
+  {
+    "id": "green-onion",
+    "name": {
+      "he": "בצל ירוק",
+      "en": "Green onion"
+    },
+    "class": "parve",
+    "animal": [],
+    "allergens": [],
+    "units": [
+      "g"
+    ]
+  },
+  {
+    "id": "frozen-peas",
+    "name": {
+      "he": "אפונה קפואה",
+      "en": "Frozen peas"
+    },
+    "class": "parve",
+    "animal": [],
+    "allergens": [],
+    "units": [
+      "g"
+    ]
+  },
+  {
+    "id": "sugar",
+    "name": {
+      "he": "סוכר",
+      "en": "Sugar"
+    },
+    "class": "parve",
+    "animal": [],
+    "allergens": [],
+    "units": [
+      "g",
+      "tbsp",
+      "tsp"
+    ],
+    "pantry": true
+  },
+  {
+    "id": "water",
+    "name": {
+      "he": "מים",
+      "en": "Water"
+    },
+    "class": "parve",
+    "animal": [],
+    "allergens": [],
+    "units": [
+      "ml"
+    ],
+    "pantry": true
+  },
+  {
+    "id": "baking-powder",
+    "name": {
+      "he": "אבקת אפייה",
+      "en": "Baking powder"
+    },
+    "class": "parve",
+    "animal": [],
+    "allergens": [],
+    "units": [
+      "tsp"
+    ],
+    "pantry": true
+  }
+]

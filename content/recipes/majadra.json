@@ -1,0 +1,103 @@
+{
+  "id": "majadra",
+  "status": "draft",
+  "title": {
+    "he": "מג'דרה"
+  },
+  "summary": {
+    "he": "אורז ועדשים חומות עם בצל מטוגן עד שהוא מתקרמל."
+  },
+  "servings": 4,
+  "prepMinutes": 10,
+  "cookMinutes": 40,
+  "difficulty": "easy",
+  "meals": [
+    "lunch",
+    "dinner"
+  ],
+  "tags": [
+    "onePot",
+    "freezes"
+  ],
+  "appliances": [
+    "stovetop"
+  ],
+  "ingredients": [
+    {
+      "id": "brown-lentils",
+      "qty": 200,
+      "unit": "g"
+    },
+    {
+      "id": "white-rice",
+      "qty": 300,
+      "unit": "g"
+    },
+    {
+      "id": "onion",
+      "qty": 3,
+      "unit": "pcs"
+    },
+    {
+      "id": "canola-oil",
+      "qty": 4,
+      "unit": "tbsp"
+    },
+    {
+      "id": "cumin",
+      "qty": 1,
+      "unit": "tsp"
+    },
+    {
+      "id": "salt",
+      "qty": 2,
+      "unit": "tsp"
+    },
+    {
+      "id": "black-pepper",
+      "qty": 0.5,
+      "unit": "tsp"
+    },
+    {
+      "id": "water",
+      "qty": 900,
+      "unit": "ml"
+    }
+  ],
+  "steps": [
+    {
+      "text": {
+        "he": "מבשלים את העדשים במים בלי מלח עד שהן כמעט רכות, ושומרים את מי הבישול."
+      },
+      "minutes": 20
+    },
+    {
+      "text": {
+        "he": "בינתיים פורסים את הבצל דק ומטגנים בשמן על אש בינונית עד שהוא חום וקריספי. מוציאים חצי לקישוט."
+      },
+      "minutes": 15
+    },
+    {
+      "text": {
+        "he": "מוסיפים לסיר הבצל את האורז והכמון ומערבבים דקה."
+      },
+      "minutes": 1
+    },
+    {
+      "text": {
+        "he": "מוסיפים את העדשים עם 600 מ\"ל מנוזל הבישול (משלימים במים), מלח ופלפל. מביאים לרתיחה."
+      }
+    },
+    {
+      "text": {
+        "he": "מכסים ומבשלים על אש נמוכה מאוד עד שהנוזלים נספגים."
+      },
+      "minutes": 18
+    },
+    {
+      "text": {
+        "he": "מפזרים מעל את הבצל ששמרנו."
+      }
+    }
+  ]
+}

@@ -1,0 +1,106 @@
+{
+  "id": "vegetable-pashtida",
+  "status": "draft",
+  "title": {
+    "he": "פשטידת ירקות"
+  },
+  "summary": {
+    "he": "פשטידה חלבית עם קישואים וגבינות, טובה גם קרה."
+  },
+  "servings": 4,
+  "prepMinutes": 15,
+  "cookMinutes": 45,
+  "difficulty": "easy",
+  "meals": [
+    "breakfast",
+    "dinner"
+  ],
+  "tags": [
+    "lunchbox",
+    "freezes"
+  ],
+  "appliances": [
+    "oven"
+  ],
+  "ingredients": [
+    {
+      "id": "zucchini",
+      "qty": 3,
+      "unit": "pcs"
+    },
+    {
+      "id": "onion",
+      "qty": 1,
+      "unit": "pcs"
+    },
+    {
+      "id": "eggs",
+      "qty": 4,
+      "unit": "pcs"
+    },
+    {
+      "id": "feta-cheese",
+      "qty": 150,
+      "unit": "g"
+    },
+    {
+      "id": "grated-cheese",
+      "qty": 150,
+      "unit": "g"
+    },
+    {
+      "id": "flour",
+      "qty": 3,
+      "unit": "tbsp"
+    },
+    {
+      "id": "milk",
+      "qty": 100,
+      "unit": "ml"
+    },
+    {
+      "id": "salt",
+      "qty": 0.5,
+      "unit": "tsp"
+    },
+    {
+      "id": "black-pepper",
+      "qty": 0.5,
+      "unit": "tsp"
+    },
+    {
+      "id": "canola-oil",
+      "qty": 1,
+      "unit": "tbsp"
+    }
+  ],
+  "steps": [
+    {
+      "text": {
+        "he": "מחממים תנור ל-180 מעלות ומשמנים תבנית."
+      }
+    },
+    {
+      "text": {
+        "he": "מגררים את הקישואים, סוחטים מהם את הנוזלים, וקוצצים את הבצל."
+      },
+      "minutes": 10
+    },
+    {
+      "text": {
+        "he": "טורפים ביצים עם חלב, קמח, מלח ופלפל, ומוסיפים את הבולגרית מפוררת ואת רוב הגבינה הצהובה."
+      }
+    },
+    {
+      "text": {
+        "he": "מערבבים פנימה את הירקות, יוצקים לתבנית ומפזרים מעל את שארית הגבינה."
+      }
+    },
+    {
+      "text": {
+        "he": "אופים עד שהפשטידה זהובה ויציבה במרכז."
+      },
+      "minutes": 45
+    }
+  ]
+}
