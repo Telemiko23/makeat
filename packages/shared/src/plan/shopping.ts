@@ -23,9 +23,9 @@ const round2 = (n: number) => Math.round(n * 100) / 100;
 
 /**
  * Merges every planned recipe's ingredients, scaled to each slot's portions,
- * into one list. Teaspoons fold into tablespoons, and grams of a counted
- * ingredient fold into pieces, so each ingredient reads as one amount where
- * possible. Unknown recipes and ingredients are skipped (the plan already
+ * into one list. Teaspoons fold into tablespoons, and grams of produce
+ * sold by the piece fold into pieces, so each ingredient reads as one amount
+ * where possible. Unknown recipes and ingredients are skipped (the plan already
  * passed the gate, which fails closed on them).
  */
 export function shoppingList(plan: WeekPlan, recipes: readonly Recipe[], catalog: Catalog): ShoppingItem[] {
@@ -56,8 +56,8 @@ export function shoppingList(plan: WeekPlan, recipes: readonly Recipe[], catalog
       q.set('tbsp', q.get('tbsp')! + q.get('tsp')! / 3);
       q.delete('tsp');
     }
-    if (q.has('pcs') && q.has('g') && ing.gramsPerPiece) {
-      q.set('pcs', q.get('pcs')! + q.get('g')! / ing.gramsPerPiece);
+    if (q.has('g') && ing.units.includes('pcs') && ing.gramsPerPiece) {
+      q.set('pcs', (q.get('pcs') ?? 0) + q.get('g')! / ing.gramsPerPiece);
       q.delete('g');
     }
     if (q.has('pinch') && q.size > 1) q.delete('pinch');

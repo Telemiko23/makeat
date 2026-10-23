@@ -2,14 +2,12 @@ import { router } from 'expo-router';
 import { useTranslation } from 'react-i18next';
 import { View } from 'react-native';
 import { Button, Card, H1, H2, P, Screen } from '../components/ui';
-import { RECIPES } from '../../../../packages/shared/src/content';
+import { RECIPES_BY_ID as byId } from '../../../../packages/shared/src/content';
 import { DAYS } from '../../../../packages/shared/src/vocab';
 import { SHOW_DRAFT_RECIPES } from '../config';
 import { local } from '../plan/format';
 import { usePlan } from '../state/plan';
 import { spacing } from '../theme/tokens';
-
-const byId = new Map(RECIPES.map((r) => [r.id, r]));
 
 export default function Plan() {
   const { t, i18n } = useTranslation();

@@ -3,29 +3,28 @@ import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { View } from 'react-native';
 import { Button, Chip, Chips, H1, H2, P, Screen } from '../components/ui';
-import { CATALOG, RECIPES } from '../../../../packages/shared/src/content';
-import { shoppingList, type ShoppingItem } from '../../../../packages/shared/src/plan/shopping';
+import { CATALOG, RECIPES_BY_ID } from '../../../../packages/shared/src/content';
+import type { ShoppingItem } from '../../../../packages/shared/src/plan/shopping';
 import { joinList, labelValue } from '../onboarding/labels';
 import { buyAmount, local } from '../plan/format';
-import { usePlan } from '../state/plan';
 import { useShopping } from '../state/shopping';
 import { spacing } from '../theme/tokens';
-
-const recipeById = new Map(RECIPES.map((r) => [r.id, r]));
 
 export default function Shopping() {
   const { t, i18n } = useTranslation();
   const lang = i18n.language;
-  const { ready: planReady, plan } = usePlan();
-  const { ready: marksReady, marks, toggle, clear } = useShopping();
+  const { ready, items: list, marks, toggle, clear } = useShopping();
 
-  const items = useMemo(() => {
-    if (!plan) return [];
-    const name = (i: ShoppingItem) => local(CATALOG.get(i.id)!.name, lang);
-    return shoppingList(plan, RECIPES, CATALOG).sort((a, b) => name(a).localeCompare(name(b), lang));
-  }, [plan, lang]);
+  // Names resolved once, then sorted alphabetically in the active language.
+  const items = useMemo(
+    () =>
+      list
+        .map((item) => ({ item, name: local(CATALOG.get(item.id)!.name, lang) }))
+        .sort((a, b) => a.name.localeCompare(b.name, lang)),
+    [list, lang],
+  );
 
-  if (!planReady || !marksReady) return null;
+  if (!ready) return null;
   const back = <Button kind="link" label={t('common.back')} onPress={() => (router.canGoBack() ? router.back() : router.replace('/plan'))} />;
 
   if (!items.length) {
@@ -37,15 +36,14 @@ export default function Shopping() {
     );
   }
 
-  const toBuy = items.filter((i) => !i.pantry);
-  const pantry = items.filter((i) => i.pantry);
-  const left = toBuy.filter((i) => !marks[i.id]).length;
+  const toBuy = items.filter(({ item }) => !item.pantry);
+  const pantry = items.filter(({ item }) => item.pantry);
+  const left = items.filter(({ item }) => !marks[item.id]).length;
 
-  const row = (item: ShoppingItem) => {
-    const name = local(CATALOG.get(item.id)!.name, lang);
-    const label = item.optional ? `${name} (${t('recipe.optional')})` : name;
+  const row = ({ item, name }: { item: ShoppingItem; name: string }) => {
+    const label = item.optional ? t('recipe.optionalItem', { name }) : name;
     const amount = joinList(t, item.amounts.map((a) => buyAmount(t, a.qty, a.unit)));
-    const usedIn = joinList(t, item.recipeIds.map((id) => recipeById.get(id)).filter((r) => !!r).map((r) => local(r.title, lang)));
+    const usedIn = joinList(t, item.recipeIds.map((id) => RECIPES_BY_ID.get(id)).filter((r) => !!r).map((r) => local(r.title, lang)));
     return (
       <View key={item.id} style={{ gap: spacing.xs }}>
         <P>{labelValue(t, label, amount)}</P>

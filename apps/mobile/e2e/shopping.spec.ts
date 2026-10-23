@@ -71,6 +71,17 @@ test('marking items counts down and survives a reload; marks can be cleared', as
   expect(await leftCount(page)).toBe(before);
 });
 
+test('a new menu starts a clean list', async ({ page }) => {
+  await openList(page);
+  await page.getByRole('checkbox', { name: /: קניתי$/ }).first().click();
+  await expect(page.getByRole('checkbox', { name: /: קניתי$/ }).first()).toHaveAttribute('aria-checked', 'true');
+  await page.getByRole('button', { name: 'חזרה' }).click();
+  await page.getByRole('button', { name: 'תפריט חדש' }).click();
+  await page.getByRole('button', { name: 'רשימת קניות' }).click();
+  await expect(page.getByRole('heading', { name: 'לקנות' })).toBeVisible();
+  await expect(page.getByRole('checkbox', { checked: true })).toHaveCount(0);
+});
+
 test('without a menu the list says so', async ({ page }) => {
   await page.goto('/shopping');
   await expect(page.getByText('אין עדיין מה לקנות. בנו קודם תפריט.')).toBeVisible();

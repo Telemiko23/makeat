@@ -17,7 +17,7 @@ const ing = (id: string, extra: Partial<Ingredient> = {}): Ingredient => ({
 });
 
 const catalog: Catalog = new Map(
-  [ing('onion'), ing('oil', { pantry: true, gramsPerPiece: undefined }), ing('salt', { pantry: true }), ing('herb'), ing('water', { pantry: true })].map((i) => [i.id, i]),
+  [ing('onion'), ing('oil', { pantry: true, gramsPerPiece: undefined }), ing('salt', { pantry: true }), ing('herb', { units: ['g'], gramsPerPiece: undefined }), ing('tomato'), ing('water', { pantry: true })].map((i) => [i.id, i]),
 );
 
 const recipe = (id: string, servings: number, ingredients: Recipe['ingredients']): Recipe =>
@@ -52,6 +52,13 @@ describe('shoppingList', () => {
     expect(get('salt').amounts).toEqual([{ unit: 'tsp', qty: 1 }]);
     expect(get('salt').pantry).toBe(true);
     expect(get('onion').recipeIds).toEqual(['a', 'b']);
+    // Grams stay grams for an ingredient not sold by the piece.
+    expect(get('herb').amounts).toEqual([{ unit: 'g', qty: 20 }]);
+  });
+
+  it('turns grams of produce sold by the piece into pieces, even with no piece amounts', () => {
+    const c = recipe('c', 1, [{ id: 'tomato', qty: 250, unit: 'g' }]);
+    expect(shoppingList({ seed: 1, slots: [slot('c', 1)] }, [c], catalog)[0].amounts).toEqual([{ unit: 'pcs', qty: 2.5 }]);
   });
 
   it('is optional only when every use is optional', () => {
