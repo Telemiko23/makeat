@@ -1,4 +1,4 @@
-import { DAYS, WEEKEND, type Day, type Meal } from '../vocab';
+import { DAYS, MEALS, WEEKEND, type Day, type Meal } from '../vocab';
 import type { Catalog } from '../recipes/derive';
 import { isAllowed, type GateOptions, type RecipeConstraints } from '../recipes/filter';
 import type { Recipe } from '../recipes/types';
@@ -60,7 +60,7 @@ export function weekSlots(input: PlanInput): Omit<Slot, 'recipeId'>[] {
   const slots: Omit<Slot, 'recipeId'>[] = [];
   for (const day of DAYS) {
     const meals = isWeekend(day) ? input.mealsAtHome.weekend : input.mealsAtHome.weekday;
-    for (const meal of ['breakfast', 'lunch', 'dinner'] as const) {
+    for (const meal of MEALS) {
       if (!meals.includes(meal)) continue;
       const festive =
         (day === 'fri' && meal === 'dinner' && input.festive.fridayDinner) ||
@@ -74,6 +74,10 @@ export function weekSlots(input: PlanInput): Omit<Slot, 'recipeId'>[] {
   return slots;
 }
 
+/** Whether a recipe suits a slot's kind: the right meal, and never a side dish alone. */
+const fitsSlot = (r: Recipe, kind: SlotKind) =>
+  !r.tags.includes('side') && (kind === 'lunchbox' ? r.tags.includes('lunchbox') : r.meals.includes(kind));
+
 /** Recipes that may fill a slot: allowed for the household, right meal, and never a side dish alone. */
 export function candidatesFor(
   slot: Pick<Slot, 'kind'>,
@@ -82,12 +86,7 @@ export function candidatesFor(
   constraints: RecipeConstraints,
   gate: GateOptions = {},
 ): Recipe[] {
-  return recipes.filter(
-    (r) =>
-      !r.tags.includes('side') &&
-      (slot.kind === 'lunchbox' ? r.tags.includes('lunchbox') : r.meals.includes(slot.kind)) &&
-      isAllowed(r, catalog, constraints, gate),
-  );
+  return recipes.filter((r) => fitsSlot(r, slot.kind) && isAllowed(r, catalog, constraints, gate));
 }
 
 const festiveScore = (r: Recipe) => (r.tags.includes('festive') || r.tags.includes('shabbat') ? 1 : 0);
@@ -115,8 +114,10 @@ export function buildWeekPlan(
 ): WeekPlan {
   const random = rng(seed);
   const used = new Map<string, number>();
+  // Run the gate once per recipe, not once per slot.
+  const allowed = recipes.filter((r) => isAllowed(r, catalog, input.constraints, gate));
   const slots = weekSlots(input).map((slot) => {
-    const chosen = pick(candidatesFor(slot, recipes, catalog, input.constraints, gate), slot, used, random);
+    const chosen = pick(allowed.filter((r) => fitsSlot(r, slot.kind)), slot, used, random);
     if (chosen) used.set(chosen.id, (used.get(chosen.id) ?? 0) + 1);
     return { ...slot, recipeId: chosen?.id ?? null };
   });
@@ -148,3 +149,43 @@ export function swapSlot(
 /** How much to multiply a recipe's quantities by to feed `portions`. */
 export const scaleFor = (recipe: Pick<Recipe, 'servings'>, portions: number) =>
   Math.round((portions / recipe.servings) * 100) / 100;
+
+/**
+ * Checks a plan kept from earlier against today's input, recipes and gate.
+ * Returns null when the week's layout no longer matches (the caller builds a
+ * new plan); otherwise the plan, with any slot whose recipe is gone or no
+ * longer allowed (or that was empty) refilled. Unchanged plans come back as
+ * the same object.
+ */
+export function refreshPlan(
+  plan: WeekPlan,
+  input: PlanInput,
+  recipes: readonly Recipe[],
+  catalog: Catalog,
+  gate: GateOptions = {},
+): WeekPlan | null {
+  const layout = weekSlots(input);
+  if (!Array.isArray(plan.slots) || plan.slots.length !== layout.length) return null;
+  const same = layout.every((l, i) => {
+    const s = plan.slots[i];
+    return !!s && s.day === l.day && s.kind === l.kind && s.portions === l.portions && s.cookDay === l.cookDay && s.festive === l.festive;
+  });
+  if (!same) return null;
+  const allowed = recipes.filter((r) => isAllowed(r, catalog, input.constraints, gate));
+  const ok = (s: Slot) => s.recipeId !== null && allowed.some((r) => r.id === s.recipeId && fitsSlot(r, s.kind));
+  const stale = plan.slots.map((s, i) => (ok(s) ? -1 : i)).filter((i) => i >= 0);
+  if (!stale.length) return plan;
+  const random = rng(plan.seed);
+  const used = new Map<string, number>();
+  plan.slots.forEach((s) => {
+    if (ok(s)) used.set(s.recipeId!, (used.get(s.recipeId!) ?? 0) + 1);
+  });
+  const slots = plan.slots.map((s, i) => {
+    if (!stale.includes(i)) return s;
+    const chosen = pick(allowed.filter((r) => fitsSlot(r, s.kind)), s, used, random);
+    if (chosen) used.set(chosen.id, (used.get(chosen.id) ?? 0) + 1);
+    return { ...s, recipeId: chosen?.id ?? null };
+  });
+  if (slots.every((s, i) => s.recipeId === plan.slots[i].recipeId)) return plan;
+  return { ...plan, slots };
+}

@@ -49,7 +49,7 @@ export default function Plan() {
               const meal = slot.kind === 'lunchbox' ? t('plan.lunchbox') : t(`meals.${slot.kind}`);
               const title = recipe ? local(recipe.title, i18n.language) : t('plan.noMatch');
               const details = [
-                t('plan.portions', { n: slot.portions }),
+                t('plan.portions', { count: slot.portions }),
                 recipe ? t('plan.minutes', { n: recipe.prepMinutes + recipe.cookMinutes }) : null,
                 slot.cookDay !== slot.day ? t('plan.cookOn', { day: t(`daysLong.${slot.cookDay}`) }) : null,
                 slot.festive ? t('plan.festive') : null,

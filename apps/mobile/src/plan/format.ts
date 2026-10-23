@@ -10,11 +10,15 @@ export function roundQty(qty: number, unit: Unit): number {
   switch (unit) {
     case 'g':
     case 'ml':
-      return qty >= 100 ? Math.round(qty / 10) * 10 : Math.max(5, Math.round(qty / 5) * 5);
+      if (qty >= 100) return Math.round(qty / 10) * 10;
+      if (qty >= 10) return Math.round(qty / 5) * 5;
+      // Small amounts (yeast, spices) stay close to the recipe.
+      return Math.max(0.5, Math.round(qty * 2) / 2);
     case 'pcs':
+      return Math.max(0.5, Math.round(qty * 2) / 2);
     case 'tbsp':
     case 'tsp':
-      return Math.max(0.5, Math.round(qty * 2) / 2);
+      return Math.max(0.25, Math.round(qty * 4) / 4);
     case 'pinch':
       return 1;
   }

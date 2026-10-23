@@ -126,3 +126,17 @@ test('plan and recipe screens do not overflow at phone width', async ({ page }) 
     expect(overflow, path).toBeLessThanOrEqual(0);
   }
 });
+
+test('profile edits the planner does not use keep the week; the plan stores no profile copy', async ({ page }) => {
+  await withProfile(page);
+  await page.getByRole('button', { name: 'החלפת ערב ביום ראשון' }).click();
+  const before = await titles(page);
+  const changed = { ...profile, chains: ['osherAd'] };
+  await page.evaluate((s) => localStorage.setItem('makeat.household.v1', JSON.stringify({ version: 1, saved: s, draft: s })), changed);
+  await page.reload();
+  await expect(swaps(page)).toHaveCount(14);
+  expect(await titles(page)).toEqual(before);
+  const record = await page.evaluate(() => localStorage.getItem('makeat.plan.v1') ?? '');
+  expect(record).not.toContain('child');
+  expect(record).not.toContain('allergens');
+});

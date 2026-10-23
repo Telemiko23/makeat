@@ -4,6 +4,7 @@ import { View } from 'react-native';
 import { Button, Card, H1, H2, P, Screen } from '../../components/ui';
 import { CATALOG, RECIPES } from '../../../../../packages/shared/src/content';
 import { recipeAllergens, recipeClass } from '../../../../../packages/shared/src/recipes/derive';
+import { GATE } from '../../config';
 import { scaleFor } from '../../../../../packages/shared/src/plan/plan';
 import { amount, local } from '../../plan/format';
 import { joinList, labelValue } from '../../onboarding/labels';
@@ -12,7 +13,8 @@ import { spacing } from '../../theme/tokens';
 export default function RecipeScreen() {
   const { id, portions: raw } = useLocalSearchParams<{ id: string; portions?: string }>();
   const { t, i18n } = useTranslation();
-  const recipe = RECIPES.find((r) => r.id === id);
+  // Drafts open only in builds that show them, even from a deep link.
+  const recipe = RECIPES.find((r) => r.id === id && (r.status === 'reviewed' || GATE.includeDrafts));
   const back = <Button kind="link" label={t('common.back')} onPress={() => (router.canGoBack() ? router.back() : router.replace('/plan'))} />;
 
   if (!recipe) {
@@ -50,7 +52,7 @@ export default function RecipeScreen() {
 
       <View style={{ gap: spacing.sm }}>
         <H2>{t('recipe.ingredients')}</H2>
-        <P muted>{t('recipe.forPortions', { n: portions })}</P>
+        <P muted>{t('recipe.forPortions', { count: portions })}</P>
         {recipe.ingredients.map((ri) => {
           const ing = CATALOG.get(ri.id);
           const name = ing ? local(ing.name, lang) : ri.id;

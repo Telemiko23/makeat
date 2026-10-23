@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { CATALOG, RECIPES } from '../content';
 import { exclusions, type RecipeConstraints } from '../recipes/filter';
-import { buildWeekPlan, candidatesFor, cookDayFor, rng, scaleFor, swapSlot, weekSlots, type PlanInput } from './plan';
+import { buildWeekPlan, candidatesFor, cookDayFor, refreshPlan, rng, scaleFor, swapSlot, weekSlots, type PlanInput } from './plan';
 
 const constraints: RecipeConstraints = {
   allergens: [],
@@ -112,6 +112,33 @@ describe('swapSlot', () => {
     expect(next.slots[i].recipeId).not.toBe(plan.slots[i].recipeId);
     expect(candidatesFor(next.slots[i], RECIPES, CATALOG, constraints, gate).map((r) => r.id)).toContain(next.slots[i].recipeId);
     expect(next.slots.filter((_, k) => k !== i)).toEqual(plan.slots.filter((_, k) => k !== i));
+  });
+});
+
+describe('refreshPlan', () => {
+  it('keeps a plan that still fits, as the same object', () => {
+    const plan = buildWeekPlan(input, RECIPES, CATALOG, 5, gate);
+    expect(refreshPlan(plan, input, RECIPES, CATALOG, gate)).toBe(plan);
+  });
+
+  it('refills slots whose recipe is gone or no longer allowed', () => {
+    const plan = buildWeekPlan(input, RECIPES, CATALOG, 5, gate);
+    const stale = { ...plan, slots: plan.slots.map((s, i) => (i === 0 ? { ...s, recipeId: 'no-such-recipe' } : s)) };
+    const fresh = refreshPlan(stale, input, RECIPES, CATALOG, gate)!;
+    expect(fresh.slots[0].recipeId).not.toBe('no-such-recipe');
+    expect(candidatesFor(fresh.slots[0], RECIPES, CATALOG, constraints, gate).map((r) => r.id)).toContain(fresh.slots[0].recipeId);
+    expect(fresh.slots.slice(1)).toEqual(plan.slots.slice(1));
+  });
+
+  it('empties every slot once drafts are no longer shown', () => {
+    const plan = buildWeekPlan(input, RECIPES, CATALOG, 5, gate);
+    expect(refreshPlan(plan, input, RECIPES, CATALOG)!.slots.every((s) => s.recipeId === null)).toBe(true);
+  });
+
+  it('rejects a plan whose layout no longer matches', () => {
+    const plan = buildWeekPlan(input, RECIPES, CATALOG, 5, gate);
+    expect(refreshPlan(plan, { ...input, lunchboxesPerWeekday: 0 }, RECIPES, CATALOG, gate)).toBeNull();
+    expect(refreshPlan({ ...plan, slots: plan.slots.map((s) => ({ ...s, kind: 'snack' as never })) }, input, RECIPES, CATALOG, gate)).toBeNull();
   });
 });
 
