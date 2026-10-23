@@ -140,3 +140,18 @@ describe('firstProblem', () => {
     expect(firstProblem(withMembers([{ id: 'a', kind: 'adult' }], { shoppingMode: 'store', chains: ['victory'] }))).toBeNull();
   });
 });
+
+describe('shared vocabularies', () => {
+  // Recipe filtering (packages/shared) matches profile ids against these lists,
+  // so a missing or renamed id would silently skip an allergen.
+  it('profile lists match the shared ones exactly', async () => {
+    const shared = await import('../../../../packages/shared/src/vocab');
+    const own = await import('./household');
+    expect(own.ALLERGENS).toEqual(shared.ALLERGENS);
+    expect(own.APPLIANCES).toEqual(shared.APPLIANCES);
+    expect(own.MEALS).toEqual(shared.MEALS);
+    expect(own.DIETS).toEqual(shared.DIETS);
+    expect(own.KASHRUT).toEqual(shared.KASHRUT);
+    expect(own.SKILLS).toEqual(shared.SKILLS);
+  });
+});

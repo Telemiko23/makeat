@@ -1,0 +1,26 @@
+name: Shared
+on:
+  pull_request:
+    paths: [packages/shared/**, content/**, .github/workflows/shared.yml]
+  push:
+    branches: [main]
+    paths: [packages/shared/**, content/**, .github/workflows/shared.yml]
+permissions:
+  contents: read
+jobs:
+  check:
+    runs-on: ubuntu-24.04
+    defaults:
+      run:
+        working-directory: packages/shared
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: packages/shared/package-lock.json
+      - run: npm ci
+      - run: npm run typecheck
+      # Rule tests plus validation of every file in content/.
+      - run: npm test
