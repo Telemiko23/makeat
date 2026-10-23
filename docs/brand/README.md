@@ -37,8 +37,8 @@ Rules:
 
 ## Typography
 - **Fredoka** (`fontFamily.display`, `displayMedium`): headings, buttons, numbers in badges. Rounded and friendly without trying too hard. Hebrew + Latin.
-- **Rubik** (`fontFamily.body`, `bodyMedium`, `bodyBold`): body text, prices, lists, forms. Covers Hebrew, Arabic, Cyrillic and Latin.
-- Fredoka has no Arabic or Cyrillic: when those languages ship (v1.5), their headings fall back to Rubik Bold. Revisit then.
+- **Rubik** (`fontFamily.body`, `bodyBold`): body text, prices, lists, forms. Covers Hebrew, Arabic, Cyrillic and Latin.
+- Fredoka has no Arabic or Cyrillic. Nothing switches fonts by script yet, so those glyphs would render in the system font. Before those languages ship (v1.5), display text must switch to Rubik Bold for them.
 - Both are open-source (SIL Open Font License), bundled through `@expo-google-fonts` and loaded by `useBrandFonts()` before the first screen. See decision 0010.
 - Set the family, not `fontWeight`: each weight is its own family name on Android.
 - Sizes come from `fontSize` and `lineHeight` tokens: caption 14/20, body 17/26, subtitle 20/28, heading 26/34, title 32/40. Never below 14. Layouts must not clip at 1.3x system font scale.

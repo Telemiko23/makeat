@@ -46,7 +46,6 @@ export const fontFamily = {
   display: 'Fredoka_600SemiBold',
   displayMedium: 'Fredoka_500Medium',
   body: 'Rubik_400Regular',
-  bodyMedium: 'Rubik_500Medium',
   bodyBold: 'Rubik_700Bold',
 } as const;
 // Minimum touch target (dp), per Android and iOS guidance.

@@ -31,7 +31,19 @@
           "supportsRTL": true
         }
       ],
-      "expo-font"
+      [
+        "expo-splash-screen",
+        {
+          "image": "./assets/splash-icon.png",
+          "imageWidth": 200,
+          "resizeMode": "contain",
+          "backgroundColor": "#FFF8F2",
+          "dark": {
+            "image": "./assets/splash-icon.png",
+            "backgroundColor": "#0F1626"
+          }
+        }
+      ]
     ],
     "scheme": "makeat"
   }

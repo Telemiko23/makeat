@@ -29,6 +29,7 @@ export default function Welcome() {
     <SafeAreaView style={styles.safe}>
       <ScrollView contentContainerStyle={styles.content}>
         <Image
+          accessible
           source={LOGO[scheme]}
           accessibilityRole="image"
           accessibilityLabel={t('brand')}
